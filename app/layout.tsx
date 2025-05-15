@@ -4,7 +4,7 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import "./globals.css"
 import { AuthProvider } from "@/context/AuthContext"
-import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+import { DotPattern } from "@/components/ui/dot-pattern";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container"
 
@@ -20,17 +20,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark antialiased">
-      <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans min-h-screen flex flex-col items-center justify-center`}>
-        <AnimatedGridPattern
-          numSquares={30}
-          maxOpacity={0.1}
-          duration={3}
-          repeatDelay={1}
+    <html lang="en" className="antialiased">
+      <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans min-h-screen flex flex-col`}>
+        <DotPattern
           className={cn(
-            "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
-            "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12 z-[-1]",
+            "[mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]",
+            "z-[-1]"
           )}
+          cr={1}
+          cx={1}
+          cy={1}
         />
         <AuthProvider>
           <Container>
