@@ -47,7 +47,7 @@
     "cmdk": "1.0.4",
     "date-fns": "^3.0.0",
     "embla-carousel-react": "8.5.1",
-    "framer-motion": "latest",
+    "framer-motion": "^12.11.4",
     "geist": "latest",
     "input-otp": "1.4.1",
     "lucide-react": "^0.400.0",
@@ -73,6 +73,7 @@
     "eslint": "^8",
     "eslint-config-next": "15.2.4",
     "postcss": "^8.4.39",
+    "shadcn-ui": "^0.9.5",
     "tailwindcss": "^3.4.4",
     "typescript": "^5"
   }
