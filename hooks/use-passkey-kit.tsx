@@ -18,7 +18,7 @@ export function usePasskeyKit() {
 
   // Removed: useEffect hook that initialized local passkeyKit and passkeyServer
 
-  const createWallet = async (username: string, appName: string = "StarBounty"): Promise<{ walletAddress: string, keyId: string }> => {
+  const createWallet = async (username: string, appName: string = "StarBounty"): Promise<{ walletAddress: string, keyId: string, accountAddress: string }> => {
     if (!passkeyKitInstance) {
       throw new Error("PasskeyKit is not initialized. Check console for errors regarding environment variables or initialization process.");
     }
@@ -57,8 +57,20 @@ export function usePasskeyKit() {
         // This check might be redundant if createWallet already guarantees these, but safe to keep
         throw new Error("PasskeyKit.createWallet did not return expected values for contractId or keyIdBase64.");
       }
-      return { walletAddress: contractId, keyId: keyIdBase64 };
 
+      // Extract the host account (Ed25519 public key) from the signed transaction
+      let accountAddress: string
+      if ('source' in signedTx && typeof signedTx.source === 'string') {
+        accountAddress = signedTx.source
+      } else {
+        // Fallback: decode raw XDR to get the source account public key
+        const raw = signedTx._tx._attributes.sourceAccount._value.data
+        const buffer = Buffer.from(raw)
+        const { StrKey } = await import('@stellar/stellar-sdk')
+        accountAddress = StrKey.encodeEd25519PublicKey(buffer)
+      }
+      
+      return { walletAddress: contractId, keyId: keyIdBase64, accountAddress }
     } catch (error: any) {
       console.error("[usePasskeyKit] Error during createWallet process.");
       if (walletResponseFromCreate?.signedTx) {

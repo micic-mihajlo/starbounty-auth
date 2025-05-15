@@ -29,17 +29,18 @@ export default function AuthenticationSection() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="gradient-border glass border-0 shadow-xl">
+            <Card className="gradient-border glass border-0 shadow-xl overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-violet-500 opacity-80"></div>
               <CardHeader className="pb-4">
-                <CardTitle className="text-2xl font-bold">Get Started</CardTitle>
-                <CardDescription className="text-zinc-300">
+                <CardTitle className="text-2xl font-bold text-gradient font-geist">Get Started</CardTitle>
+                <CardDescription className="text-zinc-300 font-geist">
                   Create or connect your secure passkey wallet
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Button
                   variant="outline"
-                  className="w-full justify-between group text-white hover:text-blue-400 hover:border-blue-500/50 transition-all duration-300 h-16"
+                  className="w-full justify-between group text-white hover:text-blue-400 hover:border-blue-500/50 transition-all duration-300 h-16 glass font-geist"
                   onClick={() => setAuthMode("create")}
                 >
                   <div className="flex items-center gap-3">
@@ -56,7 +57,7 @@ export default function AuthenticationSection() {
 
                 <Button
                   variant="outline"
-                  className="w-full justify-between group text-white hover:text-violet-400 hover:border-violet-500/50 transition-all duration-300 h-16"
+                  className="w-full justify-between group text-white hover:text-violet-400 hover:border-violet-500/50 transition-all duration-300 h-16 glass font-geist"
                   onClick={() => setAuthMode("connect")}
                 >
                   <div className="flex items-center gap-3">
@@ -72,7 +73,7 @@ export default function AuthenticationSection() {
                 </Button>
               </CardContent>
               <CardFooter className="flex justify-center border-t border-white/5 pt-4">
-                <p className="text-xs text-zinc-500 flex items-center gap-1">
+                <p className="text-xs text-zinc-500 flex items-center gap-1 font-geist">
                   <RocketIcon className="h-3 w-3" />
                   Powered by Soroban Smart Contracts
                 </p>

@@ -7,7 +7,7 @@ import { StarIcon } from "lucide-react"
 export default function Home() {
   return (
     <WalletProvider>
-      <div className="min-h-screen bg-[#06080f] bg-gradient-to-b from-[#06080f] to-[#0c1021] text-white dot-pattern">
+      <div className="min-h-screen text-white dot-pattern flex flex-col">
         {/* Background effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-600/20 rounded-full mix-blend-normal filter blur-[120px] opacity-30 pulse-slow glow"></div>
@@ -18,7 +18,7 @@ export default function Home() {
           <div className="absolute bottom-1/3 left-2/3 w-48 h-48 bg-blue-500/10 rounded-full mix-blend-normal filter blur-[60px] opacity-20"></div>
         </div>
 
-        <main className="container relative mx-auto px-4 py-20">
+        <main className="container relative mx-auto px-4 py-20 flex-grow flex flex-col items-center justify-center">
           <div className="flex flex-col items-center justify-center space-y-16">
             <div className="text-center space-y-6 max-w-2xl">
               <div className="flex items-center justify-center gap-3 mb-4">

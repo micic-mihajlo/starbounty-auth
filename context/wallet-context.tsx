@@ -17,6 +17,7 @@ interface WalletContextType {
   signAndSend: (xdr: string) => Promise<string>
   fundWalletTestnet: () => Promise<void>
   isFunding: boolean
+  accountAddress: string | null
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined)
@@ -31,6 +32,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [address, setAddress] = useState<string | null>(null)
   const [balance, setBalance] = useState<string | null>(null)
   const [username, setUsername] = useState<string | null>(null)
+  const [accountAddress, setAccountAddress] = useState<string | null>(null)
   const { toast } = useToast()
   const passkeyKit = usePasskeyKit()
 
@@ -42,6 +44,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         if (savedWallet) {
           const walletData = JSON.parse(savedWallet)
           setUsername(walletData.username)
+          setAccountAddress(walletData.accountAddress || null)
 
           // Attempt to reconnect the wallet
           const walletAddress = await passkeyKit.getWalletAddress(walletData.username)
@@ -74,25 +77,31 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       if (isSorobanContract) {
         // For Soroban contract wallets, we can't query balance directly from Horizon
         // Set a default balance until funded/activated
-        setBalance("0");
-        toast({
-          title: "New Soroban Wallet",
-          description: "Your wallet has been created but needs to be funded with XLM to be activated",
-          variant: "default",
-        });
-        return;
-      }
-      
-      // Only proceed with Horizon query for regular Stellar accounts
-      const account = await server.loadAccount(formattedAddress);
-
-      // Find XLM balance
-      const xlmBalance = account.balances.find((balance) => balance.asset_type === "native");
-
-      if (xlmBalance && "balance" in xlmBalance) {
-        setBalance(xlmBalance.balance);
+        if (accountAddress) {
+          const account = await server.loadAccount(accountAddress)
+          const xlm = account.balances.find(b => b.asset_type === 'native')
+          setBalance(xlm && 'balance' in xlm ? xlm.balance : '0')
+        } else {
+          setBalance('0')
+          toast({
+            title: "New Soroban Wallet",
+            description: "Your wallet has been created but needs to be funded with XLM to be activated",
+            variant: "default",
+          });
+          return;
+        }
       } else {
-        setBalance("0");
+        // Only proceed with Horizon query for regular Stellar accounts
+        const account = await server.loadAccount(formattedAddress);
+
+        // Find XLM balance
+        const xlmBalance = account.balances.find((balance) => balance.asset_type === "native");
+
+        if (xlmBalance && "balance" in xlmBalance) {
+          setBalance(xlmBalance.balance);
+        } else {
+          setBalance("0");
+        }
       }
     } catch (error) {
       console.error("Error fetching balance:", error);
@@ -111,12 +120,14 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       // Create a new passkey wallet
       const result = await passkeyKit.createWallet(username)
       const walletAddress = result.walletAddress
+      const hostAccount = result.accountAddress
 
       // Save wallet info to local storage
       localStorage.setItem(
         "starbounty_wallet",
         JSON.stringify({
           username,
+          accountAddress: hostAccount,
           lastConnected: new Date().toISOString(),
         }),
       )
@@ -124,6 +135,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       // Update state
       setUsername(username)
       setAddress(walletAddress)
+      setAccountAddress(hostAccount)
       await fetchBalance(walletAddress)
       setIsConnected(true)
 
@@ -156,6 +168,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       // Update state
       setUsername(connectedUsername)
       setAddress(walletAddress)
+      setAccountAddress(null)
       await fetchBalance(walletAddress)
       setIsConnected(true)
 
@@ -178,6 +191,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     setAddress(null)
     setBalance(null)
     setUsername(null)
+    setAccountAddress(null)
 
     toast({
       title: "Wallet disconnected",
@@ -252,74 +266,23 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
     setIsFunding(true);
     try {
-      // Check if this is a Soroban contract address (starts with C)
-      const isSorobanContract = address.startsWith('C');
-      
-      if (isSorobanContract) {
-        // For Soroban contracts, we need to use the Soroban RPC API 
-        // to directly interact with the contract
-        toast({
-          title: "Soroban Contract Detected",
-          description: "Currently testing this functionality for Soroban contracts. Please check back later.",
-          variant: "default",
-        });
-        
-        // Alternative approach: create a server endpoint that funds Soroban contracts
-        try {
-          // This is a placeholder - your implementation may vary
-          const response = await fetch('/api/fund-soroban', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ contractId: address }),
-          });
-          
-          if (!response.ok) {
-            const data = await response.json();
-            throw new Error(data.error || 'Failed to fund Soroban contract');
-          }
-          
-          // Wait a moment for the funding to propagate
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          
-          // Refresh the balance (though this may not show accurate results for Soroban contracts)
-          toast({
-            title: "Funding in Progress",
-            description: "Please check your wallet in a few moments",
-            variant: "default",
-          });
-        } catch (err) {
-          console.error("Error funding Soroban contract:", err);
-          toast({
-            title: "Funding Failed",
-            description: "Could not fund Soroban contract at this time",
-            variant: "destructive",
-          });
-        }
-      } else {
-        // For regular Stellar accounts, use Friendbot
-        const response = await fetch(
-          `https://friendbot.stellar.org?addr=${encodeURIComponent(address)}`
-        );
-        
-        if (!response.ok) {
-          const result = await response.json();
-          throw new Error(result.error || "Failed to fund account");
-        }
-        
-        // Wait a moment for the funding to propagate
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        // Refresh the balance
-        await fetchBalance(address);
-        
-        toast({
-          title: "Funding successful",
-          description: "Your account has been funded with test XLM",
-          variant: "default",
-        });
+      // Use Friendbot against the underlying host account if it's a contract, otherwise the address itself
+      const isSorobanContract = address.startsWith('C')
+      const fundingAddress = isSorobanContract ? accountAddress : address
+      if (!fundingAddress) {
+        toast({ title: "Funding failed", description: "Unable to determine host account for funding", variant: "destructive" })
+        return
       }
+      const response = await fetch(`https://friendbot.stellar.org?addr=${encodeURIComponent(fundingAddress)}`)
+      if (!response.ok) {
+        const result = await response.json()
+        throw new Error(result.error || "Failed to fund account via Friendbot")
+      }
+      // Wait briefly for ledger to close
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      // Refresh balance on the correct account
+      await fetchBalance(isSorobanContract ? fundingAddress : address)
+      toast({ title: "Funding successful", description: isSorobanContract ? "Your contract's host account has been funded" : "Your account has been funded with test XLM", variant: "default" })
     } catch (error) {
       console.error("Error funding wallet:", error);
       toast({
@@ -345,6 +308,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         disconnectWallet,
         signAndSend,
         fundWalletTestnet,
+        accountAddress,
         isFunding,
       }}
     >
