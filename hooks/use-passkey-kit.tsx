@@ -83,8 +83,14 @@ export function usePasskeyKit() {
         throw new Error("Failed to connect wallet: PasskeyKit.connectWallet did not return expected values.");
       }
       return { address: contractId, keyId: keyIdBase64 };
-    } catch (error) {
-      console.error("Error in connectWallet:", error);
+    } catch (error: any) {
+      console.error("Error in connectWallet (raw):", error);
+      console.error("Error message:", error?.message);
+      console.error("Error name:", error?.name);
+      console.error("Error stack:", error?.stack);
+      if (error?.cause) {
+        console.error("Error cause:", error.cause);
+      }
       throw new Error(`Failed to connect passkey wallet: ${error instanceof Error ? error.message : JSON.stringify(error)}`);
     }
   };
