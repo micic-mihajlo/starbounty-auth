@@ -1,8 +1,9 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { Safari } from "@/components/magicui/safari"
 import { AuroraText } from "@/components/magicui/aurora-text"
+import { AnimatedSpan, Terminal, TypingAnimation } from '@/components/magicui/terminal'
+import { motion } from 'framer-motion'
 
 interface HeroSectionProps {
   onStartClick: () => void
@@ -32,13 +33,27 @@ export function HeroSection({ onStartClick }: HeroSectionProps) {
           </Button>
         </div>
 
-        <div className="relative mt-16 max-w-4xl mx-auto">
-          <Safari
-            url="app.starbounty.io"
-            imageSrc="https://firecrawl.dev/_next/image?url=%2F_static%2Fscreenshot-1.png&w=1080&q=75"
-            className="w-full h-auto"
-          />
-        </div>
+        <motion.div
+          className="relative mt-16 max-w-4xl mx-auto flex flex-col items-center space-y-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Terminal className='max-w-md w-full'>
+            <TypingAnimation>
+              &gt; starbounty_cli deploy --bounty issue-42
+            </TypingAnimation>
+            <AnimatedSpan delay={2500} className='text-green-500'>
+              <span>🚀 Deploying bounty to Soroban network...</span>
+            </AnimatedSpan>
+            <AnimatedSpan delay={3500} className='text-green-500'>
+              <span>✅ Bounty deployed successfully!</span>
+            </AnimatedSpan>
+            <AnimatedSpan delay={4500}>
+              <span>🔒 Secured with Passkeys. Earn crypto!</span>
+            </AnimatedSpan>
+          </Terminal>
+        </motion.div>
       </div>
     </section>
   )
