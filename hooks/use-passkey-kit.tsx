@@ -1,110 +1,165 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { SorobanPasskeyKit } from "soroban-passkey"
-import { Networks, Transaction } from "stellar-sdk"
+// Removed: import { useState, useEffect } from "react"
+// PasskeyKit and PasskeyServer imports are not needed here if only using instances
+// import { PasskeyKit, PasskeyServer } from "passkey-kit"
+// Stellar SDK imports might still be needed for type definitions if you handle XDR directly
+// import { Networks, TransactionBuilder, type xdr } from "@stellar/stellar-sdk/minimal"
+import { passkeyKitInstance } from "@/lib/passkey_service"
+
+// Helper type guard to check for toXDR method
+// function hasToXDRApi(obj: any): obj is { toXDR: () => string } {
+//   return obj !== null && typeof obj === 'object' && typeof obj.toXDR === 'function';
+// }
 
 export function usePasskeyKit() {
-  const [passkeyKit, setPasskeyKit] = useState<SorobanPasskeyKit | null>(null)
+  // Removed: const [passkeyKit, setPasskeyKit] = useState<PasskeyKit | null>(null)
+  // Removed: const [passkeyServer, setPasskeyServer] = useState<PasskeyServer | null>(null)
 
-  useEffect(() => {
-    // Initialize the Soroban Passkey Kit
-    const initPasskeyKit = async () => {
-      try {
-        // This is the actual implementation that would work with the real libraries
-        const kit = new SorobanPasskeyKit({
-          network: Networks.TESTNET,
-          rpcUrl: "https://soroban-testnet.stellar.org",
-          appName: "StarBounty",
-          appIcon: "/logo.png",
-        })
+  // Removed: useEffect hook that initialized local passkeyKit and passkeyServer
 
-        await kit.initialize()
-        setPasskeyKit(kit)
-      } catch (error) {
-        console.error("Failed to initialize PasskeyKit:", error)
+  const createWallet = async (username: string, appName: string = "StarBounty"): Promise<{ walletAddress: string, keyId: string }> => {
+    if (!passkeyKitInstance) {
+      throw new Error("PasskeyKit is not initialized. Check console for errors regarding environment variables or initialization process.");
+    }
+    // No longer need passkeyServerInstance check here for createWallet's send path
+
+    let walletResponseFromCreate: Awaited<ReturnType<typeof passkeyKitInstance.createWallet>> | null = null;
+
+    try {
+      console.log("[usePasskeyKit] Attempting to call passkeyKitInstance.createWallet...");
+      walletResponseFromCreate = await passkeyKitInstance.createWallet(appName, username);
+      const { contractId, keyIdBase64, signedTx } = walletResponseFromCreate;
+      console.log("[usePasskeyKit] passkeyKitInstance.createWallet SUCCEEDED. signedTx object:", JSON.stringify(signedTx, null, 2));
+
+      if (!signedTx) {
+        console.error("[usePasskeyKit] signedTx is null or undefined after createWallet.");
+        throw new Error("PasskeyKit.createWallet returned without a signed transaction object.");
       }
+
+      console.log("[usePasskeyKit] Attempting to send transaction via /api/send...");
+      const apiResponse = await fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ xdr: signedTx.toXDR() })
+      });
+
+      const submissionResult = await apiResponse.json();
+
+      if (!apiResponse.ok) {
+        console.error("[usePasskeyKit] /api/send call failed:", submissionResult);
+        throw new Error(submissionResult.error || `Failed to send transaction via API: ${apiResponse.statusText}`);
+      }
+      
+      console.log("[usePasskeyKit] /api/send SUCCEEDED. Wallet address (contractId):", contractId, "Key ID:", keyIdBase64);
+      
+      if (!contractId || !keyIdBase64) {
+        // This check might be redundant if createWallet already guarantees these, but safe to keep
+        throw new Error("PasskeyKit.createWallet did not return expected values for contractId or keyIdBase64.");
+      }
+      return { walletAddress: contractId, keyId: keyIdBase64 };
+
+    } catch (error: any) {
+      console.error("[usePasskeyKit] Error during createWallet process.");
+      if (walletResponseFromCreate?.signedTx) {
+        console.error("[usePasskeyKit] signedTx object at time of error was:", JSON.stringify(walletResponseFromCreate.signedTx, null, 2));
+      }
+      if (error && typeof error === 'object' && 'status' in error && 'error' in error && error.status !== 200 /* if it's from our API */) {
+        console.error("[usePasskeyKit] Detailed error object from failed operation:", error);
+      } else {
+        console.error("[usePasskeyKit] Raw error object:", error);
+      }
+      throw new Error(`Failed to create passkey wallet: ${error.message ? error.message : JSON.stringify(error)}`);
     }
+  };
 
-    initPasskeyKit()
-  }, [])
-
-  const createWallet = async (username: string): Promise<string> => {
-    if (!passkeyKit) {
-      throw new Error("PasskeyKit not initialized")
+  const connectWallet = async (rpId?: string): Promise<{ address: string; keyId: string }> => {
+    if (!passkeyKitInstance) {
+      throw new Error("PasskeyKit is not initialized.");
     }
-
     try {
-      // Create a new passkey wallet
-      const walletAddress = await passkeyKit.register({
-        username,
-        displayName: username,
-      })
-
-      return walletAddress
+      const { contractId, keyIdBase64 } = await passkeyKitInstance.connectWallet({ rpId });
+      if (!contractId || !keyIdBase64) {
+        throw new Error("Failed to connect wallet: PasskeyKit.connectWallet did not return expected values.");
+      }
+      return { address: contractId, keyId: keyIdBase64 };
     } catch (error) {
-      console.error("Error creating wallet:", error)
-      throw new Error("Failed to create passkey wallet")
+      console.error("Error in connectWallet:", error);
+      throw new Error(`Failed to connect passkey wallet: ${error instanceof Error ? error.message : JSON.stringify(error)}`);
     }
-  }
+  };
 
-  const connectWallet = async (): Promise<{ username: string; address: string }> => {
-    if (!passkeyKit) {
-      throw new Error("PasskeyKit not initialized")
+  const getWalletAddress = async (keyId: string, rpId?: string): Promise<string | null> => {
+    if (!passkeyKitInstance) {
+      console.warn("getWalletAddress called when PasskeyKit is not initialized.");
+      return null;
     }
-
     try {
-      // Authenticate with existing passkey
-      const { username, address } = await passkeyKit.authenticate()
-
-      return { username, address }
+      const { contractId } = await passkeyKitInstance.connectWallet({
+        keyId,
+        rpId,
+        getContractId: async (kId: string) => {
+          console.log("getContractId callback invoked for keyId:", kId);
+          return undefined; 
+        }
+      });
+      return contractId || null;
     } catch (error) {
-      console.error("Error connecting wallet:", error)
-      throw new Error("Failed to connect passkey wallet")
+      console.error("Error in getWalletAddress:", error);
+      return null;
     }
-  }
+  };
 
-  const getWalletAddress = async (username: string): Promise<string | null> => {
-    if (!passkeyKit) {
-      return null
+  const signAndSubmitTransaction = async (userKeyId: string, transactionXDR: string, rpId?: string): Promise<any> => {
+    if (!passkeyKitInstance) {
+      throw new Error("PasskeyKit is not initialized.");
     }
+    // No longer need passkeyServerInstance check here
 
+    let signedArtefactForLogging: any = null;
     try {
-      const address = await passkeyKit.getAddressByUsername(username)
-      return address
-    } catch (error) {
-      console.error("Error getting wallet address:", error)
-      return null
+      console.log("[usePasskeyKit] Attempting to call passkeyKitInstance.sign for signAndSubmitTransaction with XDR:", transactionXDR);
+      const signedTransactionArtefact = await passkeyKitInstance.sign(transactionXDR, { keyId: userKeyId, rpId });
+      signedArtefactForLogging = signedTransactionArtefact;
+      console.log("[usePasskeyKit] passkeyKitInstance.sign SUCCEEDED. signedTransactionArtefact:", JSON.stringify(signedTransactionArtefact, null, 2));
+      
+      console.log("[usePasskeyKit] Attempting to send signed transaction artefact via /api/send...");
+      // The 'send' method of PasskeyServer expects a Transaction object or its XDR string.
+      // passkeyKitInstance.sign() returns a StellarSdk.Transaction object.
+      const xdrToSend = typeof signedTransactionArtefact === 'string' ? signedTransactionArtefact : signedTransactionArtefact.toXDR();
+
+      const apiResponse = await fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ xdr: xdrToSend })
+      });
+
+      const submissionResult = await apiResponse.json();
+
+      if (!apiResponse.ok) {
+        console.error("[usePasskeyKit] /api/send call failed (signAndSubmitTransaction):", submissionResult);
+        throw new Error(submissionResult.error || `Failed to send transaction via API: ${apiResponse.statusText}`);
+      }
+
+      console.log("[usePasskeyKit] /api/send SUCCEEDED for signAndSubmitTransaction.");
+      return submissionResult;
+    } catch (error: any) {
+      console.error("[usePasskeyKit] Error during signAndSubmitTransaction.");
+      console.error("[usePasskeyKit] Original XDR for .sign() was:", transactionXDR);
+      console.error("[usePasskeyKit] signedArtefact from .sign() at time of error was:", JSON.stringify(signedArtefactForLogging, null, 2));
+      if (error && typeof error === 'object' && 'status' in error && 'error' in error && error.status !== 200) {
+        console.error("[usePasskeyKit] Detailed error object from failed operation (signAndSubmitTransaction):", error);
+      } else {
+        console.error("[usePasskeyKit] Raw error object (signAndSubmitTransaction):", error);
+      }
+      throw new Error(`Failed to sign and submit transaction: ${error.message ? error.message : JSON.stringify(error)}`);
     }
-  }
-
-  const signTransaction = async (username: string, xdr: string): Promise<string> => {
-    if (!passkeyKit) {
-      throw new Error("PasskeyKit not initialized")
-    }
-
-    try {
-      // Parse the XDR into a Transaction object
-      const transaction = Transaction.fromXDR(xdr, Networks.TESTNET)
-
-      // Sign the transaction with the passkey
-      const signedTransaction = await passkeyKit.signTransaction({
-        username,
-        transaction,
-      })
-
-      // Convert the signed transaction back to XDR
-      return signedTransaction.toXDR()
-    } catch (error) {
-      console.error("Error signing transaction:", error)
-      throw new Error("Failed to sign transaction with passkey")
-    }
-  }
+  };
 
   return {
     createWallet,
     connectWallet,
     getWalletAddress,
-    signTransaction,
-  }
+    signAndSubmitTransaction,
+  };
 }

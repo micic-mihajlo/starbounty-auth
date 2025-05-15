@@ -9,6 +9,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  reactStrictMode: true,
+  transpilePackages: [
+    'passkey-kit',
+    'passkey-kit-sdk',
+    'passkey-factory-sdk',
+    'sac-sdk',
+  ],
+  output: "standalone",
 }
 
 export default nextConfig

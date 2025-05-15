@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import { usePasskeyKit } from "@/hooks/use-passkey-kit"
-import { Server } from "stellar-sdk"
+import { Horizon } from "@stellar/stellar-sdk"
 
 interface WalletContextType {
   isConnected: boolean
@@ -20,7 +20,7 @@ interface WalletContextType {
 const WalletContext = createContext<WalletContextType | undefined>(undefined)
 
 // Initialize Stellar server for testnet
-const server = new Server("https://horizon-testnet.stellar.org")
+const server = new Horizon.Server("https://horizon-testnet.stellar.org")
 
 export function WalletProvider({ children }: { children: ReactNode }) {
   const [isConnected, setIsConnected] = useState(false)
