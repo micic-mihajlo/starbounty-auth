@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from "@/components/ui/button"
-import { StarIcon, MenuIcon, UserCircleIcon, BriefcaseIcon } from "lucide-react"
+import { MenuIcon, UserCircleIcon, BriefcaseIcon } from "lucide-react"
 import { useAuth } from '@/context/AuthContext'
 import { useWallet } from '@/context/wallet-context'
 
@@ -21,8 +22,8 @@ export function Navbar({ onAuthClick }: NavbarProps) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center">
-            <StarIcon className="h-8 w-8 text-orange-500" />
-            <span className="ml-2 text-2xl font-bold gradient-text">StarBounty</span>
+            <Image src="/bounty-logo.png" alt="StarBounty Logo" width={32} height={32} className="h-8 w-8" />
+            <span className="ml-2 text-2xl font-bold">StarBounty</span>
           </Link>
           <div className="hidden md:flex items-center space-x-6">
             {isAuthenticated && (
