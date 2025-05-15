@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useWallet } from "@/context/wallet-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeftIcon, LoaderIcon, CheckCircleIcon, AlertCircleIcon, KeyIcon } from "lucide-react"
+import { useRouter } from 'next/navigation'
 
 type Step = "init" | "connecting" | "success" | "error"
 
@@ -14,9 +15,19 @@ interface PasskeyConnectFlowProps {
 }
 
 export default function PasskeyConnectFlow({ onBack }: PasskeyConnectFlowProps) {
-  const { connectPasskeyWallet } = useWallet()
+  const { connectPasskeyWallet, isConnected } = useWallet()
   const [step, setStep] = useState<Step>("init")
   const [error, setError] = useState("")
+  const router = useRouter()
+
+  useEffect(() => {
+    if (step === "success" && isConnected) {
+      const timer = setTimeout(() => {
+        router.push('/bounties')
+      }, 1500)
+      return () => clearTimeout(timer)
+    }
+  }, [step, isConnected, router])
 
   const handleConnectWallet = async () => {
     try {

@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import "./globals.css"
 import { AuthProvider } from "@/context/AuthContext"
+import { WalletProvider } from "@/context/wallet-context"
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container"
@@ -32,9 +33,11 @@ export default function RootLayout({
           cy={1}
         />
         <AuthProvider>
-          <Container>
-            {children}
-          </Container>
+          <WalletProvider>
+            <Container>
+              {children}
+            </Container>
+          </WalletProvider>
         </AuthProvider>
       </body>
     </html>
