@@ -143,7 +143,21 @@ export default function BountiesPage() {
   if (selectedBounty) {
     return (
       <div className="container mx-auto px-4 py-8 pt-24 min-h-screen">
-        <Button onClick={() => setSelectedBounty(null)} variant="outline" className="mb-6">
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <Link href="/" className="flex items-center">
+                <span className="ml-2 text-2xl font-bold gradient-text">StarBounty</span>
+              </Link>
+              <div>
+                <Link href="/" className="text-zinc-600 hover:text-orange-500 transition-colors">
+                  Back to Home
+                </Link>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <Button onClick={() => setSelectedBounty(null)} variant="outline" className="mb-6 mt-16">
           <XIcon className="h-4 w-4 mr-2" /> Back to List
         </Button>
         <Card className="shadow-lg">
@@ -198,7 +212,21 @@ export default function BountiesPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 pt-24 min-h-screen">
-      <header className="mb-8 text-center">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <Link href="/" className="flex items-center">
+              <span className="ml-2 text-2xl font-bold gradient-text">StarBounty</span>
+            </Link>
+            <div>
+              <Link href="/" className="text-zinc-600 hover:text-orange-500 transition-colors">
+                Back to Home
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <header className="mb-8 text-center mt-16">
         <h1 className="text-5xl font-bold tracking-tight gradient-text">Available Bounties</h1>
         <p className="text-xl text-zinc-600 mt-2">Find exciting tasks and contribute to StarBounty!</p>
       </header>
