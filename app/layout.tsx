@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className="antialiased">
-        <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans min-h-screen flex flex-col`}>
+        <body className={`${dmSans.variable} ${GeistMono.variable} font-sans min-h-screen flex flex-col`}>
           <DotPattern
             className={cn(
               "[mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]",
