@@ -3,7 +3,7 @@ import {
 } from '@clerk/nextjs'
 import type React from "react"
 import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
+import { DM_Sans } from "next/font/google"
 import { GeistMono } from "geist/font/mono"
 import "./globals.css"
 import { AuthProvider } from "@/context/AuthContext"
@@ -11,6 +11,13 @@ import { WalletProvider } from "@/context/wallet-context"
 import { DotPattern } from "@/components/ui/dot-pattern"
 import { cn } from "@/lib/utils"
 import { Container } from "@/components/ui/container"
+
+// Initialize DM Sans font
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "StarBounty",
