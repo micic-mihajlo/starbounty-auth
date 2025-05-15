@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useWallet } from "@/context/wallet-context"
 import { Button } from "@/components/ui/button"
@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ArrowLeftIcon, FingerprintIcon, LoaderIcon, CheckCircleIcon, AlertCircleIcon } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from 'next/navigation'
 
 type Step = "info" | "creating" | "success" | "error"
 
@@ -17,11 +18,21 @@ interface PasskeyCreationFlowProps {
 }
 
 export default function PasskeyCreationFlow({ onBack }: PasskeyCreationFlowProps) {
-  const { createPasskeyWallet } = useWallet()
+  const { createPasskeyWallet, isConnected } = useWallet()
   const { toast } = useToast()
   const [step, setStep] = useState<Step>("info")
   const [username, setUsername] = useState("")
   const [error, setError] = useState("")
+  const router = useRouter()
+
+  useEffect(() => {
+    if (step === "success" && isConnected) {
+      const timer = setTimeout(() => {
+        router.push('/bounties')
+      }, 1500)
+      return () => clearTimeout(timer)
+    }
+  }, [step, isConnected, router])
 
   const handleCreateWallet = async () => {
     if (!username.trim()) {

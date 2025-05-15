@@ -2,14 +2,15 @@
 
 import { Suspense } from 'react'
 import AuthenticationSection from "@/components/auth/authentication-section"
-import { WalletProvider } from "@/context/wallet-context"
+// import { WalletProvider } from "@/context/wallet-context" // Removed WalletProvider
 import { Toaster } from "@/components/ui/toaster"
 import { Navbar } from "@/components/layout/navbar" // Assuming Navbar might be needed here or in a layout
 import Link from 'next/link'
 
 export default function AuthPage() {
   return (
-    <WalletProvider> {/* WalletProvider might be needed here for auth components */}
+    // <WalletProvider> {/* WalletProvider might be needed here for auth components */} // Removed WalletProvider wrapper
+    <>
       {/* 
         A more robust layout strategy would be to have a RootLayout in app/layout.tsx 
         that includes Navbar for all pages, and then specific layouts for sub-routes if needed.
@@ -53,6 +54,7 @@ export default function AuthPage() {
           &copy; {new Date().getFullYear()} StarBounty. All rights reserved.
         </div>
       </footer>
-    </WalletProvider>
+    </>
+    // </WalletProvider> // Removed WalletProvider wrapper
   )
 } 

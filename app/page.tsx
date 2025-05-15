@@ -1,6 +1,6 @@
 'use client'
 
-import { WalletProvider } from "@/context/wallet-context"
+// import { WalletProvider } from "@/context/wallet-context" // Removed WalletProvider
 import { Toaster } from "@/components/ui/toaster"
 import { Navbar } from "@/components/layout/navbar"
 import { HeroSection } from "@/components/landing/hero-section"
@@ -14,7 +14,7 @@ export default function Home() {
   }
 
   return (
-    <WalletProvider>
+    // <WalletProvider> // Removed WalletProvider wrapper
       <div className="min-h-screen text-zinc-900 flex flex-col bg-white">
         <Navbar onAuthClick={handleAuthNavigation} />
         
@@ -28,6 +28,6 @@ export default function Home() {
           </div>
         </footer>
       </div>
-    </WalletProvider>
+    // </WalletProvider> // Removed WalletProvider wrapper
   )
 }
