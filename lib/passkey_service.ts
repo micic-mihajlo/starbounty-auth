@@ -31,6 +31,8 @@ if (typeof window !== 'undefined') {
 
   if (clientRpcUrl && clientWalletWasmHash && clientNetworkPassphrase) {
     try {
+      // Note: There might be a warning about missing algorithm identifiers (ES256/RS256) 
+      // in pubKeyCredParams, but this doesn't affect most browsers and authenticators
       passkeyKitInstance = new PasskeyKit({
         rpcUrl: clientRpcUrl,
         networkPassphrase: clientNetworkPassphrase,

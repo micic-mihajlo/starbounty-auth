@@ -29,39 +29,49 @@ export default function AuthenticationSection() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="gradient-border bg-[#111827]/80 backdrop-blur-sm border-0">
-              <CardHeader>
-                <CardTitle className="text-2xl">Get Started</CardTitle>
-                <CardDescription className="text-zinc-400">
+            <Card className="gradient-border glass border-0 shadow-xl">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-2xl font-bold">Get Started</CardTitle>
+                <CardDescription className="text-zinc-300">
                   Create or connect your secure passkey wallet
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Button
                   variant="outline"
-                  className="w-full justify-between group hover:border-blue-500 hover:text-blue-400 transition-all"
+                  className="w-full justify-between group text-white hover:text-blue-400 hover:border-blue-500/50 transition-all duration-300 h-16"
                   onClick={() => setAuthMode("create")}
                 >
-                  <div className="flex items-center gap-2">
-                    <KeyIcon className="h-5 w-5" />
-                    <span>Create New Wallet</span>
+                  <div className="flex items-center gap-3">
+                    <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/10">
+                      <KeyIcon className="h-4 w-4 text-blue-400" />
+                    </div>
+                    <div className="text-left">
+                      <span className="block font-medium">Create New Wallet</span>
+                      <span className="text-xs text-zinc-400 group-hover:text-blue-300/70">Get started with a new account</span>
+                    </div>
                   </div>
-                  <ArrowRightIcon className="h-5 w-5 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all" />
+                  <ArrowRightIcon className="h-5 w-5 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-300" />
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="w-full justify-between group hover:border-violet-500 hover:text-violet-400 transition-all"
+                  className="w-full justify-between group text-white hover:text-violet-400 hover:border-violet-500/50 transition-all duration-300 h-16"
                   onClick={() => setAuthMode("connect")}
                 >
-                  <div className="flex items-center gap-2">
-                    <WalletIcon className="h-5 w-5" />
-                    <span>Connect Existing Wallet</span>
+                  <div className="flex items-center gap-3">
+                    <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-violet-500/10">
+                      <WalletIcon className="h-4 w-4 text-violet-400" />
+                    </div>
+                    <div className="text-left">
+                      <span className="block font-medium">Connect Existing Wallet</span>
+                      <span className="text-xs text-zinc-400 group-hover:text-violet-300/70">Sign in with your passkey</span>
+                    </div>
                   </div>
-                  <ArrowRightIcon className="h-5 w-5 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all" />
+                  <ArrowRightIcon className="h-5 w-5 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-300" />
                 </Button>
               </CardContent>
-              <CardFooter className="flex justify-center border-t border-zinc-800 pt-4">
+              <CardFooter className="flex justify-center border-t border-white/5 pt-4">
                 <p className="text-xs text-zinc-500 flex items-center gap-1">
                   <RocketIcon className="h-3 w-3" />
                   Powered by Soroban Smart Contracts

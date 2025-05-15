@@ -45,15 +45,16 @@ export default function PasskeyCreationFlow({ onBack }: PasskeyCreationFlowProps
   }
 
   return (
-    <Card className="gradient-border bg-[#111827]/80 backdrop-blur-sm border-0">
+    <Card className="gradient-border glass border-0 shadow-xl overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-violet-500 opacity-80"></div>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon" onClick={onBack} className="h-8 w-8">
+          <Button variant="ghost" size="icon" onClick={onBack} className="h-8 w-8 text-zinc-400 hover:text-white">
             <ArrowLeftIcon className="h-4 w-4" />
           </Button>
           <div className="flex-1 text-center">
-            <CardTitle className="text-2xl">Create Wallet</CardTitle>
-            <CardDescription className="text-zinc-400">Secure your account with a passkey</CardDescription>
+            <CardTitle className="text-2xl font-bold">Create Wallet</CardTitle>
+            <CardDescription className="text-zinc-300">Secure your account with a passkey</CardDescription>
           </div>
           <div className="w-8"></div>
         </div>
@@ -63,28 +64,30 @@ export default function PasskeyCreationFlow({ onBack }: PasskeyCreationFlowProps
         {step === "info" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="username" className="text-zinc-300">Username</Label>
               <Input
                 id="username"
                 placeholder="Enter a username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="bg-[#0a101f]/50 border-zinc-800"
+                className="bg-white/5 border-white/10 focus:border-blue-500/50 focus:ring-blue-500/20"
               />
             </div>
 
-            <div className="rounded-lg bg-[#0a101f]/50 p-4 border border-zinc-800">
+            <div className="rounded-lg glass p-4">
               <h4 className="font-medium mb-2 flex items-center gap-2">
-                <FingerprintIcon className="h-4 w-4 text-blue-400" />
-                <span>What is a passkey?</span>
+                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-500/10">
+                  <FingerprintIcon className="h-3.5 w-3.5 text-blue-400" />
+                </div>
+                <span className="text-white">What is a passkey?</span>
               </h4>
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-zinc-300 leading-relaxed">
                 Passkeys are a secure alternative to passwords. They use biometric authentication (like your fingerprint
                 or face) to create a cryptographic key that's unique to your device.
               </p>
             </div>
 
-            <Button className="w-full gradient-bg" onClick={handleCreateWallet}>
+            <Button className="w-full gradient-bg text-white font-medium h-12" onClick={handleCreateWallet}>
               Create Passkey Wallet
             </Button>
           </motion.div>
@@ -94,11 +97,14 @@ export default function PasskeyCreationFlow({ onBack }: PasskeyCreationFlowProps
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="py-8 flex flex-col items-center justify-center space-y-4"
+            className="py-12 flex flex-col items-center justify-center space-y-4"
           >
-            <LoaderIcon className="h-12 w-12 text-blue-400 animate-spin" />
-            <p className="text-center text-zinc-300">Creating your secure wallet...</p>
-            <p className="text-xs text-zinc-500 text-center max-w-xs">
+            <div className="relative">
+              <LoaderIcon className="h-12 w-12 text-blue-400 animate-spin" />
+              <div className="absolute -inset-2 bg-blue-500/10 rounded-full blur-md -z-10"></div>
+            </div>
+            <p className="text-center text-zinc-200 font-medium">Creating your secure wallet...</p>
+            <p className="text-xs text-zinc-400 text-center max-w-xs">
               Follow the prompts from your browser or device to create your passkey
             </p>
           </motion.div>
@@ -108,14 +114,17 @@ export default function PasskeyCreationFlow({ onBack }: PasskeyCreationFlowProps
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="py-8 flex flex-col items-center justify-center space-y-4"
+            className="py-12 flex flex-col items-center justify-center space-y-4"
           >
-            <div className="rounded-full bg-green-900/20 p-3">
-              <CheckCircleIcon className="h-12 w-12 text-green-500" />
+            <div className="relative">
+              <div className="rounded-full bg-green-500/10 p-4">
+                <CheckCircleIcon className="h-12 w-12 text-green-500" />
+              </div>
+              <div className="absolute -inset-2 bg-green-500/5 rounded-full blur-md -z-10"></div>
             </div>
             <div className="text-center">
-              <h3 className="text-xl font-medium text-white mb-1">Wallet Created!</h3>
-              <p className="text-zinc-400">Your passkey wallet has been successfully created</p>
+              <h3 className="text-xl font-bold text-white mb-1">Wallet Created!</h3>
+              <p className="text-zinc-300">Your passkey wallet has been successfully created</p>
             </div>
           </motion.div>
         )}
@@ -124,16 +133,23 @@ export default function PasskeyCreationFlow({ onBack }: PasskeyCreationFlowProps
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="py-8 flex flex-col items-center justify-center space-y-4"
+            className="py-12 flex flex-col items-center justify-center space-y-4"
           >
-            <div className="rounded-full bg-red-900/20 p-3">
-              <AlertCircleIcon className="h-12 w-12 text-red-500" />
+            <div className="relative">
+              <div className="rounded-full bg-red-500/10 p-4">
+                <AlertCircleIcon className="h-12 w-12 text-red-500" />
+              </div>
+              <div className="absolute -inset-2 bg-red-500/5 rounded-full blur-md -z-10"></div>
             </div>
             <div className="text-center">
-              <h3 className="text-xl font-medium text-white mb-1">Creation Failed</h3>
-              <p className="text-zinc-400">{error}</p>
+              <h3 className="text-xl font-bold text-white mb-1">Creation Failed</h3>
+              <p className="text-zinc-300">{error}</p>
             </div>
-            <Button variant="outline" onClick={() => setStep("info")} className="mt-2">
+            <Button 
+              variant="outline" 
+              onClick={() => setStep("info")} 
+              className="mt-2 border-white/10 hover:bg-white/5 hover:border-red-500/30 text-white"
+            >
               Try Again
             </Button>
           </motion.div>

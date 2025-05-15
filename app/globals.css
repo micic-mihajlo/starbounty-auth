@@ -36,13 +36,13 @@
   }
 
   .dark {
-    --background: 222 47% 11%;
+    --background: 223 47% 7%;
     --foreground: 210 40% 98%;
 
-    --card: 222 47% 11%;
+    --card: 224 47% 8%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 47% 11%;
+    --popover: 224 47% 8%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 217 91% 60%;
@@ -80,12 +80,12 @@
 }
 
 .gradient-bg {
-  @apply bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700;
+  @apply bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 transition-all duration-300;
 }
 
 .gradient-border {
   position: relative;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   overflow: hidden;
 }
 
@@ -93,11 +93,46 @@
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   padding: 1px;
   background: linear-gradient(to right, #3b82f6, #8b5cf6);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
+}
+
+/* Enhanced glass effect */
+.glass {
+  @apply bg-white/5 backdrop-blur-lg border border-white/10;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Background patterns */
+.dot-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Enhanced animation */
+.pulse-slow {
+  animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Glow effect */
+.glow {
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+}
+
+.glow-purple {
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
 }
