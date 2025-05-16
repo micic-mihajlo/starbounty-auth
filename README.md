@@ -5,8 +5,9 @@
   
 BOSS is a platform that allows developers to create and manage bounties for coding tasks, secured by passkeys and Soroban smart contracts on the Stellar blockchain.  
   
-![BOSS Banner]  
-  
+## DEPLOYMENT TRANSACTION
+https://stellar.expert/explorer/testnet/tx/564eb8f7fbaf79660cbc79af6fd79f392c1063a571e20f93399cf6047db30f9e
+
 ## Overview  
   
 BOSS powers decentralized projects with on-chain bounties, secured by passkeys and Soroban smart contracts. Focus on building, not on payout complexities. [1](#0-0)   
