@@ -2,13 +2,16 @@
 
 import { useState, useMemo } from 'react'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import Link from 'next/link'
-import { ExternalLinkIcon, SearchIcon, XIcon } from 'lucide-react' // Assuming lucide-react for icons
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { SearchIcon } from 'lucide-react'
+import { MainLayout } from '@/components/layout/main-layout'
 
-// Data Structure
+// New Component Imports
+import { BountyCardItem } from '@/components/bounties/bounty-card-item'
+import { SelectedBountyDetails } from '@/components/bounties/selected-bounty-details'
+import { AttachBountyFlow } from '@/components/bounties/attach-bounty-flow'
+
+// Shared types (assuming these would be moved to a shared file eventually)
 interface Bounty {
   id: string
   title: string
@@ -22,8 +25,19 @@ interface Bounty {
   status: 'open' | 'in progress' | 'closed'
 }
 
-// Mock Data
-const mockBounties: Bounty[] = [
+interface BountyFormData {
+  title: string
+  repository: string
+  issueNumber: string
+  description: string
+  keywords: string
+  githubLink: string
+  requirements: string
+  reward: string
+}
+
+// Mock Data - Keep it in the page for now, or move to a service/API call
+const mockBounties_DATA: Bounty[] = [
   {
     id: '1',
     title: 'Implement User Authentication Flow',
@@ -113,23 +127,12 @@ const mockBounties: Bounty[] = [
   }
 ]
 
-// Helper to get status badge color
-function getStatusColor(status: Bounty['status']): string {
-  switch (status) {
-    case 'open':
-      return 'bg-green-500 hover:bg-green-600'
-    case 'in progress':
-      return 'bg-yellow-500 hover:bg-yellow-600'
-    case 'closed':
-      return 'bg-red-500 hover:bg-red-600'
-    default:
-      return 'bg-gray-500 hover:bg-gray-600'
-  }
-}
-
 export default function BountiesPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedBounty, setSelectedBounty] = useState<Bounty | null>(null)
+  const [activeTab, setActiveTab] = useState('browse')
+  // mockBounties state allows adding new bounties for demo purposes
+  const [mockBounties, setMockBounties] = useState<Bounty[]>(mockBounties_DATA)
 
   const filteredBounties = useMemo(() => {
     return mockBounties.filter(bounty =>
@@ -138,152 +141,83 @@ export default function BountiesPage() {
       bounty.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) ||
       bounty.repository.toLowerCase().includes(searchTerm.toLowerCase())
     )
-  }, [searchTerm])
+  }, [searchTerm, mockBounties])
+
+  const handleBountySubmitFromFlow = (formData: BountyFormData) => {
+    const newBounty: Bounty = {
+      id: Date.now().toString(),
+      title: formData.title,
+      repository: formData.repository,
+      issueNumber: parseInt(formData.issueNumber) || 0,
+      description: formData.description,
+      keywords: formData.keywords.split(',').map(k => k.trim()).filter(Boolean),
+      githubLink: formData.githubLink,
+      requirements: formData.requirements.split('\n').map(r => r.trim()).filter(Boolean),
+      reward: formData.reward,
+      status: 'open'
+    }
+    setMockBounties(prev => [newBounty, ...prev])
+    setSelectedBounty(newBounty) 
+    setActiveTab('browse')
+  }
+
+  const handleCancelAttach = () => {
+    setActiveTab('browse')
+  }
 
   if (selectedBounty) {
     return (
-      <div className="container mx-auto px-4 py-8 pt-24 min-h-screen">
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <Link href="/" className="flex items-center">
-                <span className="ml-2 text-2xl font-bold gradient-text">StarBounty</span>
-              </Link>
-              <div>
-                <Link href="/" className="text-zinc-600 hover:text-orange-500 transition-colors">
-                  Back to Home
-                </Link>
-              </div>
-            </div>
-          </div>
-        </nav>
-        <Button onClick={() => setSelectedBounty(null)} variant="outline" className="mb-6 mt-16">
-          <XIcon className="h-4 w-4 mr-2" /> Back to List
-        </Button>
-        <Card className="shadow-lg">
-          <CardHeader>
-            <div className="flex justify-between items-start">
-              <div>
-                <CardTitle className="text-3xl font-bold gradient-text">{selectedBounty.title}</CardTitle>
-                <CardDescription className="text-lg text-zinc-600">
-                  {selectedBounty.repository} #{selectedBounty.issueNumber}
-                </CardDescription>
-              </div>
-              <Badge className={`text-sm text-white ${getStatusColor(selectedBounty.status)}`}>{selectedBounty.status.toUpperCase()}</Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div>
-              <h3 className="text-xl font-semibold mb-2 text-zinc-800">Description</h3>
-              <p className="text-zinc-700 leading-relaxed whitespace-pre-wrap">{selectedBounty.description}</p>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-2 text-zinc-800">Reward</h3>
-              <p className="text-zinc-700 font-semibold text-lg">{selectedBounty.reward}</p>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-2 text-zinc-800">Keywords</h3>
-              <div className="flex flex-wrap gap-2">
-                {selectedBounty.keywords.map(keyword => (
-                  <Badge key={keyword} variant="secondary" className="text-sm">{keyword}</Badge>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-2 text-zinc-800">Requirements</h3>
-              <ul className="list-disc list-inside space-y-1 text-zinc-700 pl-2">
-                {selectedBounty.requirements.map((req, index) => (
-                  <li key={index}>{req}</li>
-                ))}
-              </ul>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Link href={selectedBounty.githubLink} target="_blank" rel="noopener noreferrer">
-              <Button className="gradient-bg text-white">
-                View on GitHub <ExternalLinkIcon className="h-4 w-4 ml-2" />
-              </Button>
-            </Link>
-          </CardFooter>
-        </Card>
-      </div>
+      <MainLayout>
+        <SelectedBountyDetails bounty={selectedBounty} onClose={() => setSelectedBounty(null)} />
+      </MainLayout>
     )
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 pt-24 min-h-screen">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center">
-              <span className="ml-2 text-2xl font-bold gradient-text">StarBounty</span>
-            </Link>
-            <div>
-              <Link href="/" className="text-zinc-600 hover:text-orange-500 transition-colors">
-                Back to Home
-              </Link>
+    <MainLayout>
+      <div className="pt-12 pb-16 md:pt-16 md:pb-24 bg-gradient-to-b from-white via-orange-50/50 to-transparent">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-2">Bounties</h1>
+          <p className="text-muted-foreground">Find existing bounties or create your own by linking a GitHub issue.</p>
+        </div>
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full max-w-4xl mx-auto">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="browse">Browse Bounties</TabsTrigger>
+            <TabsTrigger value="attach">Attach Bounty</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="browse">
+            <div className="relative mb-6">
+              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search by title, description, keywords, repository..."
+                className="pl-10 py-3 text-base border-border focus:ring-orange-500 focus:border-orange-500"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
-          </div>
-        </div>
-      </nav>
-      <header className="mb-8 text-center mt-16">
-        <h1 className="text-5xl font-bold tracking-tight gradient-text">Available Bounties</h1>
-        <p className="text-xl text-zinc-600 mt-2">Find exciting tasks and contribute to StarBounty!</p>
-      </header>
 
-      <div className="mb-8 max-w-xl mx-auto">
-        <div className="relative">
-          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400" />
-          <Input
-            type="text"
-            placeholder="Search bounties by title, keyword, repository..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 text-base rounded-lg border-zinc-300 focus:ring-orange-500 focus:border-orange-500 shadow-sm"
-          />
-        </div>
+            {filteredBounties.length > 0 ? (
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+                {filteredBounties.map((bounty) => (
+                  <BountyCardItem key={bounty.id} bounty={bounty} onViewDetails={setSelectedBounty} />
+                ))}
+              </div>
+            ) : (
+              <p className='text-center text-muted-foreground py-8'>No bounties match your search.</p>
+            )}
+          </TabsContent>
+
+          <TabsContent value="attach">
+            <AttachBountyFlow 
+              onBountySubmit={handleBountySubmitFromFlow} 
+              onCancel={handleCancelAttach} 
+            />
+          </TabsContent>
+        </Tabs>
       </div>
-
-      {filteredBounties.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredBounties.map(bounty => (
-            <Card key={bounty.id} className="flex flex-col hover:shadow-xl transition-shadow duration-300 cursor-pointer rounded-lg overflow-hidden border border-zinc-200">
-              <CardHeader className="pb-4">
-                <div className="flex justify-between items-start">
-                  <CardTitle className="text-xl font-semibold text-zinc-800 hover:text-orange-600 transition-colors">
-                    {bounty.title}
-                  </CardTitle>
-                  <Badge className={`text-xs text-white ${getStatusColor(bounty.status)}`}>{bounty.status.toUpperCase()}</Badge>
-                </div>
-                <CardDescription className="text-sm text-zinc-500">
-                  {bounty.repository} #{bounty.issueNumber}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow pb-4">
-                <p className="text-sm text-zinc-600 line-clamp-3 mb-3 leading-relaxed">{bounty.description}</p>
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {bounty.keywords.slice(0, 3).map(keyword => (
-                    <Badge key={keyword} variant="outline" className="text-xs px-2 py-0.5">{keyword}</Badge>
-                  ))}
-                  {bounty.keywords.length > 3 && <Badge variant="outline" className="text-xs">+{bounty.keywords.length - 3}</Badge>}
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-between items-center pt-2 pb-4 px-6 bg-zinc-50">
-                <span className="text-lg font-semibold text-orange-600">{bounty.reward}</span>
-                <Button size="sm" variant="ghost" onClick={() => setSelectedBounty(bounty)} className="text-orange-600 hover:text-orange-700 hover:bg-orange-50">
-                  View Details
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12">
-          <SearchIcon className="h-16 w-16 text-zinc-300 mx-auto mb-4" />
-          <h2 className="text-2xl font-semibold text-zinc-700 mb-2">No Bounties Found</h2>
-          <p className="text-zinc-500">Try adjusting your search terms or check back later!</p>
-        </div>
-      )}
-    </div>
+    </MainLayout>
   )
 } 
