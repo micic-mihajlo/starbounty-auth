@@ -6,11 +6,8 @@ import { Navbar } from "@/components/layout/navbar"
 import { HeroSection } from "@/components/landing/hero-section"
 import { useRouter } from 'next/navigation'
 import {
-  SignInButton,
-  SignUpButton,
   SignedIn,
   SignedOut,
-  UserButton,
 } from '@clerk/nextjs'
 
 export default function Home() {
@@ -27,11 +24,10 @@ export default function Home() {
       <main className="flex-grow">
         <div className="flex flex-col mt-10">
           <SignedOut>
-            <SignInButton />
-            <SignUpButton />
+            {/* SignInButton and SignUpButton were here, but are handled by Navbar */}
           </SignedOut>
           <SignedIn>
-            <UserButton />
+            {/* UserButton was here, but is handled by Navbar */}
           </SignedIn>
         </div>
 
