@@ -125,7 +125,7 @@ export async function POST(req: Request) {
                     clerkId: id,
                     username: event.data.username || '',
                     githubStats: githubStats || {},
-                    // Don't include walletAddress if it's optional in schema
+                    imageUrl: event.data.profile_image_url || '',
                 }
             });
             console.log("User created in DB:", user);

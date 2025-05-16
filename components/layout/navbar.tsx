@@ -6,9 +6,30 @@ import { Button } from "@/components/ui/button"
 import { MenuIcon, BriefcaseIcon, Wallet as WalletIcon } from "lucide-react"
 import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs"
 import WalletDisplay from '@/components/auth/wallet-display'
-import { WalletProvider } from '@/context/wallet-context'
+import { useWallet, WalletProvider } from '@/context/wallet-context'
+import { useEffect } from 'react'
 
 export function Navbar() {
+  const { address } = useWallet();
+
+  const updateAddress = async () => {
+    const response = await fetch('/api/wallet-binding', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ address }),
+    })
+
+    const data = await response.json()
+    console.log(data)
+  }
+
+  useEffect(() => {
+    if (address) {
+      updateAddress()
+    }
+  }, [address])
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
