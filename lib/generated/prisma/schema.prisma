@@ -16,10 +16,11 @@ datasource db {
 
 model User {
   id            String   @id @default(cuid())
-  clerkId       String   @unique
+  clerkId       String
   username      String?
   githubStats   Json
   createdAt     DateTime @default(now())
   walletAddress String?  @unique
   updatedAt     DateTime @updatedAt
+  imageUrl      String?
 }
