@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
-import { MenuIcon, BriefcaseIcon, Wallet as WalletIcon, Loader2Icon } from "lucide-react"
+import { MenuIcon, BriefcaseIcon, Wallet as WalletIcon, User as UserIcon } from "lucide-react"
 import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut, useUser } from "@clerk/nextjs"
+
 import WalletDisplay from '@/components/auth/wallet-display'
 import { useWallet, WalletProvider } from '@/context/wallet-context'
 import { useEffect, useState } from 'react'
@@ -79,8 +80,10 @@ export function Navbar() {
           <div className="hidden md:flex items-center space-x-6">
             <SignedIn>
               <Link href="/bounties" className="text-zinc-600 hover:text-orange-500 transition-colors font-medium">
-                <BriefcaseIcon className="h-5 w-5 mr-1 inline-block" />
                 Bounties
+              </Link>
+              <Link href="/profile" className="text-zinc-600 hover:text-orange-500 transition-colors font-medium">
+                Profile
               </Link>
             </SignedIn>
           </div>

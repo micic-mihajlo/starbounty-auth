@@ -76,11 +76,36 @@ const config = {
           "from": { "background-position": "0% 50%" },
           "to": { "background-position": "200% 50%" },
         },
+        "shiny-text": {
+          "0%": { "background-position": "0% 50%" },
+          "100%": { "background-position": "200% 50%" },
+        },
+        "shimmer-slide": {
+          "0%": { transform: "translateX(-100%) translateY(-100%) rotate(0deg)" },
+          "100%": { transform: "translateX(100%) translateY(100%) rotate(0deg)" },
+        },
+        "spin-around": {
+          "0%": {
+            transform: "translateZ(0) rotate(0)",
+          },
+          "15%, 35%": {
+            transform: "translateZ(0) rotate(90deg)",
+          },
+          "65%, 85%": {
+            transform: "translateZ(0) rotate(270deg)",
+          },
+          "100%": {
+            transform: "translateZ(0) rotate(360deg)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "aurora": "aurora 10s linear infinite",
+        "shiny-text": "shiny-text 5s ease-in-out infinite alternate",
+        "shimmer-slide": "shimmer-slide var(--speed) infinite linear",
+        "spin-around": "spin-around calc(var(--speed) * 2) infinite linear",
       },
     },
   },
