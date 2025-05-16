@@ -3,20 +3,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
-import { MenuIcon, UserCircleIcon, BriefcaseIcon } from "lucide-react"
-import { useAuth } from '@/context/AuthContext'
-import { useWallet } from '@/context/wallet-context'
+import { MenuIcon, BriefcaseIcon, Wallet as WalletIcon } from "lucide-react"
+import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs"
+import WalletDisplay from '@/components/auth/wallet-display'
+import { WalletProvider } from '@/context/wallet-context'
 
-interface NavbarProps {
-  onAuthClick?: () => void
-}
-
-export function Navbar({ onAuthClick }: NavbarProps) {
-  const { user } = useAuth()
-  const { isConnected } = useWallet()
-
-  const isAuthenticated = user || isConnected
-
+export function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,35 +18,38 @@ export function Navbar({ onAuthClick }: NavbarProps) {
             <span className="ml-2 text-2xl font-bold">StarBounty</span>
           </Link>
           <div className="hidden md:flex items-center space-x-6">
-            {isAuthenticated && (
+            <SignedIn>
               <Link href="/bounties" className="text-zinc-600 hover:text-orange-500 transition-colors font-medium">
                 <BriefcaseIcon className="h-5 w-5 mr-1 inline-block" />
                 Bounties
               </Link>
-            )}
+            </SignedIn>
           </div>
           <div className="flex items-center">
-            {isAuthenticated ? (
-              <Link href="/profile">
-                <Button variant="ghost" className="text-zinc-700 hover:text-orange-600">
-                  <UserCircleIcon className="h-6 w-6 mr-2" />
-                  Profile
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button asChild variant="outline" className="mr-2 hidden md:inline-flex">
+                  <a>Sign In</a>
                 </Button>
-              </Link>
-            ) : (
-              <>
-                {onAuthClick && (
-                  <>
-                    <Button onClick={onAuthClick} variant="outline" className="mr-2 hidden md:inline-flex">
-                      Sign In
-                    </Button>
-                    <Button onClick={onAuthClick} className="gradient-bg text-white hidden md:inline-flex">
-                      Sign Up
-                    </Button>
-                  </>
-                )}
-              </>
-            )}
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <Button asChild className="gradient-bg text-white hidden md:inline-flex">
+                  <a>Sign Up</a>
+                </Button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/">
+                {/* Custom Wallet Page for the UserProfile Modal */}
+                <UserButton.UserProfilePage label="Wallet" url="wallet" labelIcon={<WalletIcon className="h-4 w-4" />}>
+                  <WalletProvider>
+                    <div className="p-4 flex justify-center w-full">
+                      <WalletDisplay />
+                    </div>
+                  </WalletProvider>
+                </UserButton.UserProfilePage>
+              </UserButton>
+            </SignedIn>
             <Button variant="ghost" className="md:hidden">
               <MenuIcon className="h-6 w-6" />
             </Button>

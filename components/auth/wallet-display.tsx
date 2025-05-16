@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useWallet } from "@/context/wallet-context"
 import { Button } from "@/components/ui/button"
@@ -10,8 +10,39 @@ import { CopyIcon, ExternalLinkIcon, LogOutIcon, CheckCircleIcon, ShieldIcon, Co
 import { truncateAddress } from "@/lib/utils"
 
 export default function WalletDisplay() {
-  const { address, balance, username, disconnectWallet, fundWalletTestnet, isFunding } = useWallet()
+  const { address, balance, username, disconnectWallet, fundWalletTestnet, isFunding, isLoading, connectPasskeyWallet, isConnected } = useWallet()
   const [copied, setCopied] = useState(false)
+  const [localLoading, setLocalLoading] = useState(true)
+
+  // Try to initialize wallet connection when in modal context
+  useEffect(() => {
+    // Only initialize in a client environment
+    if (typeof window === 'undefined') return
+    
+    // Wait for the component to be fully mounted
+    const timer = setTimeout(() => {
+      const attemptConnection = async () => {
+        setLocalLoading(true)
+        try {
+          // Check if there's wallet data but not connected
+          const savedWallet = localStorage.getItem("starbounty_wallet")
+          
+          if (savedWallet && !isConnected && !isLoading) {
+            console.log("Attempting to reconnect wallet in modal context")
+            await connectPasskeyWallet()
+          }
+        } catch (error) {
+          console.error("Error connecting wallet in modal:", error)
+        } finally {
+          setLocalLoading(false)
+        }
+      }
+      
+      attemptConnection()
+    }, 500) // Short delay to ensure component is mounted
+    
+    return () => clearTimeout(timer)
+  }, [isConnected, isLoading, connectPasskeyWallet])
 
   const copyAddress = () => {
     if (address) {
@@ -20,6 +51,40 @@ export default function WalletDisplay() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
+  }
+
+  // Show loading state
+  if (isLoading || localLoading) {
+    return (
+      <div className="w-full max-w-md flex justify-center items-center py-12">
+        <div className="flex flex-col items-center">
+          <div className="animate-spin h-8 w-8 border-3 border-orange-500 rounded-full border-t-transparent mb-4"></div>
+          <p className="text-zinc-600">Loading wallet information...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show connection state if not connected
+  if (!isConnected) {
+    return (
+      <div className="w-full max-w-md">
+        <Card className="gradient-border glass border-0 shadow-xl overflow-hidden bg-white">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-2xl font-bold text-zinc-900">Wallet Not Connected</CardTitle>
+            <CardDescription className="text-zinc-500">You need to connect your wallet</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button 
+              className="w-full gradient-bg text-white"
+              onClick={connectPasskeyWallet}
+            >
+              Connect Wallet
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -61,7 +126,7 @@ export default function WalletDisplay() {
                 </Button>
               </div>
             </div>
-            <p className="font-mono text-sm break-all text-zinc-900">{address ? truncateAddress(address) : "Loading..."}</p>
+            <p className="font-mono text-sm break-all text-zinc-900">{address ? truncateAddress(address) : "No address found"}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
