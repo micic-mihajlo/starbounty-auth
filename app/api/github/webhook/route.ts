@@ -114,6 +114,17 @@ async function handlePrMerged (pr: any, payload: any) {
       where: { id: updatedPr.bountyId },
       data: { status: 'MERGED' },
     })
+
+    // Attempt automatic escrow release if contractId exists
+    try {
+      const bounty = await prisma.bounty.findUnique({ where: { id: updatedPr.bountyId } })
+      if (bounty?.escrowContractId) {
+        const { releaseEscrow } = await import('@/lib/escrow')
+        await releaseEscrow(bounty.escrowContractId, process.env.ESCROW_FUNDER_SECRET || '')
+      }
+    } catch (err) {
+      console.error('[GitHub Webhook] Error releasing escrow on merge', err)
+    }
   } catch (err) {
     console.error('[GitHub Webhook] handlePrMerged error', err)
   }

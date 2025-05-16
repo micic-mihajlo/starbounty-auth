@@ -53,6 +53,8 @@ model Bounty {
   keywords    Json
   requirements Json
   reward      String
+  escrowContractId String?
+  beneficiaryWallet String?
   status      BountyStatus     @default(OPEN)
   creator     User             @relation(fields: [creatorId], references: [id])
   creatorId   String

@@ -2317,6 +2317,8 @@ export namespace Prisma {
     issueNumber: number | null
     githubLink: string | null
     reward: string | null
+    escrowContractId: string | null
+    beneficiaryWallet: string | null
     status: $Enums.BountyStatus | null
     creatorId: string | null
     createdAt: Date | null
@@ -2332,6 +2334,8 @@ export namespace Prisma {
     issueNumber: number | null
     githubLink: string | null
     reward: string | null
+    escrowContractId: string | null
+    beneficiaryWallet: string | null
     status: $Enums.BountyStatus | null
     creatorId: string | null
     createdAt: Date | null
@@ -2349,6 +2353,8 @@ export namespace Prisma {
     keywords: number
     requirements: number
     reward: number
+    escrowContractId: number
+    beneficiaryWallet: number
     status: number
     creatorId: number
     createdAt: number
@@ -2374,6 +2380,8 @@ export namespace Prisma {
     issueNumber?: true
     githubLink?: true
     reward?: true
+    escrowContractId?: true
+    beneficiaryWallet?: true
     status?: true
     creatorId?: true
     createdAt?: true
@@ -2389,6 +2397,8 @@ export namespace Prisma {
     issueNumber?: true
     githubLink?: true
     reward?: true
+    escrowContractId?: true
+    beneficiaryWallet?: true
     status?: true
     creatorId?: true
     createdAt?: true
@@ -2406,6 +2416,8 @@ export namespace Prisma {
     keywords?: true
     requirements?: true
     reward?: true
+    escrowContractId?: true
+    beneficiaryWallet?: true
     status?: true
     creatorId?: true
     createdAt?: true
@@ -2510,6 +2522,8 @@ export namespace Prisma {
     keywords: JsonValue
     requirements: JsonValue
     reward: string
+    escrowContractId: string | null
+    beneficiaryWallet: string | null
     status: $Enums.BountyStatus
     creatorId: string
     createdAt: Date
@@ -2546,6 +2560,8 @@ export namespace Prisma {
     keywords?: boolean
     requirements?: boolean
     reward?: boolean
+    escrowContractId?: boolean
+    beneficiaryWallet?: boolean
     status?: boolean
     creatorId?: boolean
     createdAt?: boolean
@@ -2566,6 +2582,8 @@ export namespace Prisma {
     keywords?: boolean
     requirements?: boolean
     reward?: boolean
+    escrowContractId?: boolean
+    beneficiaryWallet?: boolean
     status?: boolean
     creatorId?: boolean
     createdAt?: boolean
@@ -2584,6 +2602,8 @@ export namespace Prisma {
     keywords?: boolean
     requirements?: boolean
     reward?: boolean
+    escrowContractId?: boolean
+    beneficiaryWallet?: boolean
     status?: boolean
     creatorId?: boolean
     createdAt?: boolean
@@ -2602,13 +2622,15 @@ export namespace Prisma {
     keywords?: boolean
     requirements?: boolean
     reward?: boolean
+    escrowContractId?: boolean
+    beneficiaryWallet?: boolean
     status?: boolean
     creatorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BountyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "issueUrl" | "title" | "description" | "repository" | "issueNumber" | "githubLink" | "keywords" | "requirements" | "reward" | "status" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["bounty"]>
+  export type BountyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "issueUrl" | "title" | "description" | "repository" | "issueNumber" | "githubLink" | "keywords" | "requirements" | "reward" | "escrowContractId" | "beneficiaryWallet" | "status" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["bounty"]>
   export type BountyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creator?: boolean | UserDefaultArgs<ExtArgs>
     pullRequests?: boolean | Bounty$pullRequestsArgs<ExtArgs>
@@ -2638,6 +2660,8 @@ export namespace Prisma {
       keywords: Prisma.JsonValue
       requirements: Prisma.JsonValue
       reward: string
+      escrowContractId: string | null
+      beneficiaryWallet: string | null
       status: $Enums.BountyStatus
       creatorId: string
       createdAt: Date
@@ -3077,6 +3101,8 @@ export namespace Prisma {
     readonly keywords: FieldRef<"Bounty", 'Json'>
     readonly requirements: FieldRef<"Bounty", 'Json'>
     readonly reward: FieldRef<"Bounty", 'String'>
+    readonly escrowContractId: FieldRef<"Bounty", 'String'>
+    readonly beneficiaryWallet: FieldRef<"Bounty", 'String'>
     readonly status: FieldRef<"Bounty", 'BountyStatus'>
     readonly creatorId: FieldRef<"Bounty", 'String'>
     readonly createdAt: FieldRef<"Bounty", 'DateTime'>
@@ -4710,6 +4736,8 @@ export namespace Prisma {
     keywords: 'keywords',
     requirements: 'requirements',
     reward: 'reward',
+    escrowContractId: 'escrowContractId',
+    beneficiaryWallet: 'beneficiaryWallet',
     status: 'status',
     creatorId: 'creatorId',
     createdAt: 'createdAt',
@@ -4967,6 +4995,8 @@ export namespace Prisma {
     keywords?: JsonFilter<"Bounty">
     requirements?: JsonFilter<"Bounty">
     reward?: StringFilter<"Bounty"> | string
+    escrowContractId?: StringNullableFilter<"Bounty"> | string | null
+    beneficiaryWallet?: StringNullableFilter<"Bounty"> | string | null
     status?: EnumBountyStatusFilter<"Bounty"> | $Enums.BountyStatus
     creatorId?: StringFilter<"Bounty"> | string
     createdAt?: DateTimeFilter<"Bounty"> | Date | string
@@ -4986,6 +5016,8 @@ export namespace Prisma {
     keywords?: SortOrder
     requirements?: SortOrder
     reward?: SortOrder
+    escrowContractId?: SortOrderInput | SortOrder
+    beneficiaryWallet?: SortOrderInput | SortOrder
     status?: SortOrder
     creatorId?: SortOrder
     createdAt?: SortOrder
@@ -5008,6 +5040,8 @@ export namespace Prisma {
     keywords?: JsonFilter<"Bounty">
     requirements?: JsonFilter<"Bounty">
     reward?: StringFilter<"Bounty"> | string
+    escrowContractId?: StringNullableFilter<"Bounty"> | string | null
+    beneficiaryWallet?: StringNullableFilter<"Bounty"> | string | null
     status?: EnumBountyStatusFilter<"Bounty"> | $Enums.BountyStatus
     creatorId?: StringFilter<"Bounty"> | string
     createdAt?: DateTimeFilter<"Bounty"> | Date | string
@@ -5027,6 +5061,8 @@ export namespace Prisma {
     keywords?: SortOrder
     requirements?: SortOrder
     reward?: SortOrder
+    escrowContractId?: SortOrderInput | SortOrder
+    beneficiaryWallet?: SortOrderInput | SortOrder
     status?: SortOrder
     creatorId?: SortOrder
     createdAt?: SortOrder
@@ -5052,6 +5088,8 @@ export namespace Prisma {
     keywords?: JsonWithAggregatesFilter<"Bounty">
     requirements?: JsonWithAggregatesFilter<"Bounty">
     reward?: StringWithAggregatesFilter<"Bounty"> | string
+    escrowContractId?: StringNullableWithAggregatesFilter<"Bounty"> | string | null
+    beneficiaryWallet?: StringNullableWithAggregatesFilter<"Bounty"> | string | null
     status?: EnumBountyStatusWithAggregatesFilter<"Bounty"> | $Enums.BountyStatus
     creatorId?: StringWithAggregatesFilter<"Bounty"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Bounty"> | Date | string
@@ -5235,6 +5273,8 @@ export namespace Prisma {
     keywords: JsonNullValueInput | InputJsonValue
     requirements: JsonNullValueInput | InputJsonValue
     reward: string
+    escrowContractId?: string | null
+    beneficiaryWallet?: string | null
     status?: $Enums.BountyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5253,6 +5293,8 @@ export namespace Prisma {
     keywords: JsonNullValueInput | InputJsonValue
     requirements: JsonNullValueInput | InputJsonValue
     reward: string
+    escrowContractId?: string | null
+    beneficiaryWallet?: string | null
     status?: $Enums.BountyStatus
     creatorId: string
     createdAt?: Date | string
@@ -5271,6 +5313,8 @@ export namespace Prisma {
     keywords?: JsonNullValueInput | InputJsonValue
     requirements?: JsonNullValueInput | InputJsonValue
     reward?: StringFieldUpdateOperationsInput | string
+    escrowContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    beneficiaryWallet?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5289,6 +5333,8 @@ export namespace Prisma {
     keywords?: JsonNullValueInput | InputJsonValue
     requirements?: JsonNullValueInput | InputJsonValue
     reward?: StringFieldUpdateOperationsInput | string
+    escrowContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    beneficiaryWallet?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
     creatorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5307,6 +5353,8 @@ export namespace Prisma {
     keywords: JsonNullValueInput | InputJsonValue
     requirements: JsonNullValueInput | InputJsonValue
     reward: string
+    escrowContractId?: string | null
+    beneficiaryWallet?: string | null
     status?: $Enums.BountyStatus
     creatorId: string
     createdAt?: Date | string
@@ -5324,6 +5372,8 @@ export namespace Prisma {
     keywords?: JsonNullValueInput | InputJsonValue
     requirements?: JsonNullValueInput | InputJsonValue
     reward?: StringFieldUpdateOperationsInput | string
+    escrowContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    beneficiaryWallet?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5340,6 +5390,8 @@ export namespace Prisma {
     keywords?: JsonNullValueInput | InputJsonValue
     requirements?: JsonNullValueInput | InputJsonValue
     reward?: StringFieldUpdateOperationsInput | string
+    escrowContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    beneficiaryWallet?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
     creatorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5658,6 +5710,8 @@ export namespace Prisma {
     keywords?: SortOrder
     requirements?: SortOrder
     reward?: SortOrder
+    escrowContractId?: SortOrder
+    beneficiaryWallet?: SortOrder
     status?: SortOrder
     creatorId?: SortOrder
     createdAt?: SortOrder
@@ -5677,6 +5731,8 @@ export namespace Prisma {
     issueNumber?: SortOrder
     githubLink?: SortOrder
     reward?: SortOrder
+    escrowContractId?: SortOrder
+    beneficiaryWallet?: SortOrder
     status?: SortOrder
     creatorId?: SortOrder
     createdAt?: SortOrder
@@ -5692,6 +5748,8 @@ export namespace Prisma {
     issueNumber?: SortOrder
     githubLink?: SortOrder
     reward?: SortOrder
+    escrowContractId?: SortOrder
+    beneficiaryWallet?: SortOrder
     status?: SortOrder
     creatorId?: SortOrder
     createdAt?: SortOrder
@@ -6199,6 +6257,8 @@ export namespace Prisma {
     keywords: JsonNullValueInput | InputJsonValue
     requirements: JsonNullValueInput | InputJsonValue
     reward: string
+    escrowContractId?: string | null
+    beneficiaryWallet?: string | null
     status?: $Enums.BountyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6216,6 +6276,8 @@ export namespace Prisma {
     keywords: JsonNullValueInput | InputJsonValue
     requirements: JsonNullValueInput | InputJsonValue
     reward: string
+    escrowContractId?: string | null
+    beneficiaryWallet?: string | null
     status?: $Enums.BountyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6294,6 +6356,8 @@ export namespace Prisma {
     keywords?: JsonFilter<"Bounty">
     requirements?: JsonFilter<"Bounty">
     reward?: StringFilter<"Bounty"> | string
+    escrowContractId?: StringNullableFilter<"Bounty"> | string | null
+    beneficiaryWallet?: StringNullableFilter<"Bounty"> | string | null
     status?: EnumBountyStatusFilter<"Bounty"> | $Enums.BountyStatus
     creatorId?: StringFilter<"Bounty"> | string
     createdAt?: DateTimeFilter<"Bounty"> | Date | string
@@ -6454,6 +6518,8 @@ export namespace Prisma {
     keywords: JsonNullValueInput | InputJsonValue
     requirements: JsonNullValueInput | InputJsonValue
     reward: string
+    escrowContractId?: string | null
+    beneficiaryWallet?: string | null
     status?: $Enums.BountyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6471,6 +6537,8 @@ export namespace Prisma {
     keywords: JsonNullValueInput | InputJsonValue
     requirements: JsonNullValueInput | InputJsonValue
     reward: string
+    escrowContractId?: string | null
+    beneficiaryWallet?: string | null
     status?: $Enums.BountyStatus
     creatorId: string
     createdAt?: Date | string
@@ -6533,6 +6601,8 @@ export namespace Prisma {
     keywords?: JsonNullValueInput | InputJsonValue
     requirements?: JsonNullValueInput | InputJsonValue
     reward?: StringFieldUpdateOperationsInput | string
+    escrowContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    beneficiaryWallet?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6550,6 +6620,8 @@ export namespace Prisma {
     keywords?: JsonNullValueInput | InputJsonValue
     requirements?: JsonNullValueInput | InputJsonValue
     reward?: StringFieldUpdateOperationsInput | string
+    escrowContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    beneficiaryWallet?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
     creatorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6602,6 +6674,8 @@ export namespace Prisma {
     keywords: JsonNullValueInput | InputJsonValue
     requirements: JsonNullValueInput | InputJsonValue
     reward: string
+    escrowContractId?: string | null
+    beneficiaryWallet?: string | null
     status?: $Enums.BountyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6629,6 +6703,8 @@ export namespace Prisma {
     keywords?: JsonNullValueInput | InputJsonValue
     requirements?: JsonNullValueInput | InputJsonValue
     reward?: StringFieldUpdateOperationsInput | string
+    escrowContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    beneficiaryWallet?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6646,6 +6722,8 @@ export namespace Prisma {
     keywords?: JsonNullValueInput | InputJsonValue
     requirements?: JsonNullValueInput | InputJsonValue
     reward?: StringFieldUpdateOperationsInput | string
+    escrowContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    beneficiaryWallet?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6663,6 +6741,8 @@ export namespace Prisma {
     keywords?: JsonNullValueInput | InputJsonValue
     requirements?: JsonNullValueInput | InputJsonValue
     reward?: StringFieldUpdateOperationsInput | string
+    escrowContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    beneficiaryWallet?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
