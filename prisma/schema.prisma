@@ -22,4 +22,5 @@ model User {
   createdAt     DateTime @default(now())
   walletAddress String?   @unique
   updatedAt     DateTime @updatedAt
+  imageUrl      String?
 }

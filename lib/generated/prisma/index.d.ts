@@ -886,6 +886,7 @@ export namespace Prisma {
     createdAt: Date | null
     walletAddress: string | null
     updatedAt: Date | null
+    imageUrl: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -895,6 +896,7 @@ export namespace Prisma {
     createdAt: Date | null
     walletAddress: string | null
     updatedAt: Date | null
+    imageUrl: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -905,6 +907,7 @@ export namespace Prisma {
     createdAt: number
     walletAddress: number
     updatedAt: number
+    imageUrl: number
     _all: number
   }
 
@@ -916,6 +919,7 @@ export namespace Prisma {
     createdAt?: true
     walletAddress?: true
     updatedAt?: true
+    imageUrl?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -925,6 +929,7 @@ export namespace Prisma {
     createdAt?: true
     walletAddress?: true
     updatedAt?: true
+    imageUrl?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -935,6 +940,7 @@ export namespace Prisma {
     createdAt?: true
     walletAddress?: true
     updatedAt?: true
+    imageUrl?: true
     _all?: true
   }
 
@@ -1018,6 +1024,7 @@ export namespace Prisma {
     createdAt: Date
     walletAddress: string | null
     updatedAt: Date
+    imageUrl: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1045,6 +1052,7 @@ export namespace Prisma {
     createdAt?: boolean
     walletAddress?: boolean
     updatedAt?: boolean
+    imageUrl?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1055,6 +1063,7 @@ export namespace Prisma {
     createdAt?: boolean
     walletAddress?: boolean
     updatedAt?: boolean
+    imageUrl?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1065,6 +1074,7 @@ export namespace Prisma {
     createdAt?: boolean
     walletAddress?: boolean
     updatedAt?: boolean
+    imageUrl?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1075,9 +1085,10 @@ export namespace Prisma {
     createdAt?: boolean
     walletAddress?: boolean
     updatedAt?: boolean
+    imageUrl?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkId" | "username" | "githubStats" | "createdAt" | "walletAddress" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkId" | "username" | "githubStats" | "createdAt" | "walletAddress" | "updatedAt" | "imageUrl", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1090,6 +1101,7 @@ export namespace Prisma {
       createdAt: Date
       walletAddress: string | null
       updatedAt: Date
+      imageUrl: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1520,6 +1532,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly walletAddress: FieldRef<"User", 'String'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly imageUrl: FieldRef<"User", 'String'>
   }
     
 
@@ -1907,7 +1920,8 @@ export namespace Prisma {
     githubStats: 'githubStats',
     createdAt: 'createdAt',
     walletAddress: 'walletAddress',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    imageUrl: 'imageUrl'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -2028,6 +2042,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     walletAddress?: StringNullableFilter<"User"> | string | null
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    imageUrl?: StringNullableFilter<"User"> | string | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -2038,20 +2053,22 @@ export namespace Prisma {
     createdAt?: SortOrder
     walletAddress?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    clerkId?: string
     walletAddress?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
+    clerkId?: StringFilter<"User"> | string
     username?: StringNullableFilter<"User"> | string | null
     githubStats?: JsonFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-  }, "id" | "clerkId" | "walletAddress">
+    imageUrl?: StringNullableFilter<"User"> | string | null
+  }, "id" | "walletAddress">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -2061,6 +2078,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     walletAddress?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -2077,6 +2095,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     walletAddress?: StringNullableWithAggregatesFilter<"User"> | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    imageUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type UserCreateInput = {
@@ -2087,6 +2106,7 @@ export namespace Prisma {
     createdAt?: Date | string
     walletAddress?: string | null
     updatedAt?: Date | string
+    imageUrl?: string | null
   }
 
   export type UserUncheckedCreateInput = {
@@ -2097,6 +2117,7 @@ export namespace Prisma {
     createdAt?: Date | string
     walletAddress?: string | null
     updatedAt?: Date | string
+    imageUrl?: string | null
   }
 
   export type UserUpdateInput = {
@@ -2107,6 +2128,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2117,6 +2139,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCreateManyInput = {
@@ -2127,6 +2150,7 @@ export namespace Prisma {
     createdAt?: Date | string
     walletAddress?: string | null
     updatedAt?: Date | string
+    imageUrl?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -2137,6 +2161,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -2147,6 +2172,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2226,6 +2252,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     walletAddress?: SortOrder
     updatedAt?: SortOrder
+    imageUrl?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -2235,6 +2262,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     walletAddress?: SortOrder
     updatedAt?: SortOrder
+    imageUrl?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -2244,6 +2272,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     walletAddress?: SortOrder
     updatedAt?: SortOrder
+    imageUrl?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
