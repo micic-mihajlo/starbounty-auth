@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { GithubIcon, WalletIcon, UserIcon, LogOutIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { Navbar } from '@/components/layout/navbar'
 
 export default function ProfilePage() {
   const { user, logout } = useAuth() // Replace with your actual auth context/hook
@@ -95,6 +96,7 @@ if (!user && !address) {
 
 return (
   <div className="container mx-auto px-4 py-8 pt-24 min-h-screen">
+    <Navbar />
     <header className="mb-10 flex justify-between items-center">
       <h1 className="text-4xl font-bold tracking-tight gradient-text">Your Profile</h1>
       <Button variant="outline" onClick={handleLogout} className="text-red-600 hover:text-red-700 border-red-500 hover:border-red-600">

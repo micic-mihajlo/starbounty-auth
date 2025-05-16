@@ -72,8 +72,6 @@ export async function POST(req: Request) {
         })
     }
 
-    console.log('Received webhook payload:', body);
-
     let evt
 
     try {
@@ -91,7 +89,6 @@ export async function POST(req: Request) {
 
     // Parse the webhook event
     const event = evt
-    const { id } = event.data
     const eventType = event.type
 
     if (eventType === 'user.created') {
@@ -101,7 +98,6 @@ export async function POST(req: Request) {
             let githubStats: any = null
 
             const username = event.data.username
-            console.log("Username:", username)
             if (username) {
                 try {
                     githubStats = await getGithubStats(username)
