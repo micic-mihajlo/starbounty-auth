@@ -23,7 +23,7 @@ interface Bounty {
   githubLink: string
   requirements: string[]
   reward: string
-  status: 'open' | 'in progress' | 'closed' | 'applied'
+  status: 'OPEN' | 'IN_PROGRESS' | 'PR_SUBMITTED' | 'MERGED' | 'PAID' | 'CLOSED'
   creatorUsername?: string
   developerStatus?: 'applied' | 'working' | 'submitted' | 'completed'
 }
@@ -57,7 +57,7 @@ const mockBounties_DATA: Bounty[] = [
       'Secure session management.'
     ],
     reward: '500 USDC',
-    status: 'open',
+    status: 'OPEN',
     creatorUsername: 'starbountyadmin'
   },
   {
@@ -76,7 +76,7 @@ const mockBounties_DATA: Bounty[] = [
       'Swagger/OpenAPI documentation.'
     ],
     reward: '800 XLM',
-    status: 'open',
+    status: 'OPEN',
     creatorUsername: 'janedev'
   },
   {
@@ -94,7 +94,7 @@ const mockBounties_DATA: Bounty[] = [
       'Ensure no regressions in functionality and improve performance.'
     ],
     reward: '350 USDC',
-    status: 'in progress',
+    status: 'IN_PROGRESS',
     creatorUsername: 'projectlead'
   },
   {
@@ -112,7 +112,7 @@ const mockBounties_DATA: Bounty[] = [
       'Notifications for build and deployment status.'
     ],
     reward: '450 XLM',
-    status: 'open',
+    status: 'OPEN',
   },
   {
     id: '5',
@@ -129,7 +129,7 @@ const mockBounties_DATA: Bounty[] = [
       'Style guide for new components introduced.'
     ],
     reward: '600 USDC',
-    status: 'open',
+    status: 'OPEN',
     creatorUsername: 'designguru'
   }
 ]
@@ -152,6 +152,24 @@ export default function BountiesPage() {
     }
   }, [searchParams, router])
 
+  const fetchActualBounties = async () => {
+    const response = await fetch('/api/bounties/get-bounties', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    const data = await response.json()
+    console.log(data)
+    if (data.bounties) {
+      setMockBounties(data.bounties)
+    }
+  }
+
+  useEffect(() => {
+    fetchActualBounties()
+  }, [])
+
   const handleTabChange = (value: string) => {
     if (selectedBounty) {
       setSelectedBounty(null) // Clear selected bounty if a tab is clicked
@@ -167,6 +185,8 @@ export default function BountiesPage() {
   }
 
   const filteredBounties = useMemo(() => {
+    if (!searchTerm) return mockBounties
+    if (!mockBounties) return []
     return mockBounties.filter(bounty =>
       bounty.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       bounty.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -221,22 +241,22 @@ export default function BountiesPage() {
   const handleCloseSelectedBounty = () => {
     setSelectedBounty(null)
     const newSearchParams = new URLSearchParams(searchParams.toString())
-    if (newSearchParams.get('tab') !== 'browse') { 
-        newSearchParams.set('tab', 'browse');
-        router.push(`${pathname}?${newSearchParams.toString()}`, { scroll: false });
+    if (newSearchParams.get('tab') !== 'browse') {
+      newSearchParams.set('tab', 'browse');
+      router.push(`${pathname}?${newSearchParams.toString()}`, { scroll: false });
     }
   }
-  
+
   // Early return for dashboard redirect to prevent flash of content
   if (searchParams.get('tab') === 'dashboard') {
-      return (
-        <MainLayout>
-            <div className="flex justify-center items-center min-h-screen">
-                <p>Redirecting to dashboard...</p>
-                {/* Consider adding a spinner here */}
-            </div>
-        </MainLayout>
-      );
+    return (
+      <MainLayout>
+        <div className="flex justify-center items-center min-h-screen">
+          <p>Redirecting to dashboard...</p>
+          {/* Consider adding a spinner here */}
+        </div>
+      </MainLayout>
+    );
   }
 
   if (selectedBounty) {
@@ -287,9 +307,9 @@ export default function BountiesPage() {
           </TabsContent>
 
           <TabsContent value="attach">
-            <AttachBountyFlow 
-              onBountySubmit={handleBountySubmitFromFlow} 
-              onCancel={handleCancelAttach} 
+            <AttachBountyFlow
+              onBountySubmit={handleBountySubmitFromFlow}
+              onCancel={handleCancelAttach}
             />
           </TabsContent>
           {/* No TabsContent for 'dashboard' as it navigates away */}

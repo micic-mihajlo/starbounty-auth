@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { XIcon, ExternalLinkIcon, RocketIcon, UserIcon } from 'lucide-react'
+import { XIcon, ExternalLinkIcon, RocketIcon, UserIcon, Text } from 'lucide-react'
 
 // Duplicating Bounty and getStatusColor for now, ideally these would be imported from a shared types/utils file
 interface Bounty {
@@ -17,15 +17,18 @@ interface Bounty {
   githubLink: string
   requirements: string[]
   reward: string
-  status: 'open' | 'in progress' | 'closed'
+  status: 'OPEN' | 'IN_PROGRESS' | 'PR_SUBMITTED' | 'MERGED' | 'PAID' | 'CLOSED'
   creatorUsername?: string
 }
 
 function getStatusColor(status: Bounty['status']): string {
   switch (status) {
-    case 'open': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-    case 'in progress': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
-    case 'closed': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+    case 'OPEN': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+    case 'IN_PROGRESS': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
+    case 'PR_SUBMITTED': return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
+    case 'MERGED': return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300'
+    case 'PAID': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+    case 'CLOSED': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
     default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
   }
 }
@@ -39,6 +42,22 @@ export function SelectedBountyDetails({ bounty, onClose }: SelectedBountyDetails
   const handleApplyClick = () => {
     console.log(`Applying for bounty: ${bounty.title} (ID: ${bounty.id})`);
     // Future: Implement application logic (e.g., open a modal, call an API)
+  };
+
+  const handleCheckProgressClick = async () => {
+    console.log(bounty);
+    console.log(`Checking progress for bounty: ${bounty.title} (ID: ${bounty.id})`);
+    // call the api to check the progress
+
+    const response = await fetch(`/api/bounties/${bounty.id}/progress`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: bounty.id }),
+    });
+    const data = await response.json();
+    console.log(data);
   };
 
   return (
@@ -106,12 +125,20 @@ export function SelectedBountyDetails({ bounty, onClose }: SelectedBountyDetails
               View Issue on GitHub
             </Link>
           </Button>
-          {bounty.status === 'open' && (
+          {bounty.status === 'OPEN' && (
             <Button onClick={handleApplyClick} className="gradient-bg hover:opacity-90 text-white w-full sm:w-auto">
               <RocketIcon className="h-4 w-4 mr-2" />
               Apply for Bounty
             </Button>
           )}
+          {/* check progress of the issue */}
+          {/* {bounty.status === 'in progress' && ( */}
+          <Button onClick={handleCheckProgressClick} className="gradient-bg hover:opacity-90 text-white w-full sm:w-auto">
+            {/* add a progress icon */}
+            <Text className="h-4 w-4 mr-2" />
+            Check Progress
+          </Button>
+          {/* )} */}
         </CardFooter>
       </Card>
     </div>

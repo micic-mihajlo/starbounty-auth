@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { MainLayout } from '@/components/layout/main-layout'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { BountyCardItem } from '@/components/bounties/bounty-card-item' // Reusing for display
@@ -21,7 +21,7 @@ interface Bounty {
   status: 'open' | 'in progress' | 'closed' | 'applied' // Added 'applied' for developer context
   creatorUsername?: string
   // Developer-specific status for the dashboard might be needed
-  developerStatus?: 'applied' | 'working' | 'submitted' | 'completed' 
+  developerStatus?: 'applied' | 'working' | 'submitted' | 'completed'
 }
 
 // Mock data - simulating bounties associated with the current user
@@ -90,6 +90,24 @@ export default function DeveloperDashboardPage() {
     // Potentially route to /bounties/[id] or a specific work submission page
   }
 
+  const getBountiesOfUser = async () => {
+    const result = await fetch('/api/getuserbounties', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    const data = await result.json()
+    console.log(data)
+    if (data.bounties.length > 0) {
+      setUserBounties(data.bounties)
+    }
+  }
+
+  useEffect(() => {
+    getBountiesOfUser()
+  }, [])
+
   return (
     <MainLayout>
       <div className="container mx-auto px-4 py-8 pt-12 md:pt-16">
@@ -116,11 +134,11 @@ export default function DeveloperDashboardPage() {
             {activeBounties.length > 0 ? (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {activeBounties.map((bounty) => (
-                  <BountyCardItem 
-                    key={bounty.id} 
-                    bounty={bounty} 
+                  <BountyCardItem
+                    key={bounty.id}
+                    bounty={bounty}
                     // onViewDetails will likely need to be adapted for the dashboard context
-                    onViewDetails={() => handleViewBountyDetails(bounty)} 
+                    onViewDetails={() => handleViewBountyDetails(bounty)}
                   />
                 ))}
               </div>
@@ -143,9 +161,9 @@ export default function DeveloperDashboardPage() {
             {completedBounties.length > 0 ? (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {completedBounties.map((bounty) => (
-                  <BountyCardItem 
-                    key={bounty.id} 
-                    bounty={bounty} 
+                  <BountyCardItem
+                    key={bounty.id}
+                    bounty={bounty}
                     onViewDetails={() => handleViewBountyDetails(bounty)}
                   />
                 ))}
