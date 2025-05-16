@@ -20,7 +20,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "StarBounty",
+  title: "BOSS",
   description: "Decentralized bounty platform",
   generator: 'v0.dev'
 }

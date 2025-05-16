@@ -210,20 +210,21 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
       // Get transaction nonce from backend
       const nonceResponse = await fetch("/wallet/nonce", {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ xdr }),
       })
 
-      if (!nonceResponse.ok) {
-        throw new Error("Failed to get transaction nonce")
-      }
+      // if (!nonceResponse.ok) {
+      //   throw new Error("Failed to get transaction nonce")
+      // }
 
       const { sorobanTx, xdr: txXdr } = await nonceResponse.json()
 
       // Sign the transaction with passkey
-      const signedXdr = await passkeyKit.signAndSubmitTransaction(username, txXdr)
+      const signedXdr = await passkeyKit.signAndSubmitTransaction(username, "d8ec9b68780314ffdfdfc2194b1b35dd27d7303c3bceaef6447e31631a1419dc")
 
       // Send the signed transaction with Launchtube fee-bump
       const sendResponse = await fetch("/wallet/sendTx", {

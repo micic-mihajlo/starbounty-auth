@@ -75,7 +75,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center">
             <Image src="/bounty-logo.png" alt="StarBounty Logo" width={32} height={32} className="h-8 w-8" />
-            <span className="ml-2 text-2xl font-bold">StarBounty</span>
+            <span className="ml-2 text-2xl font-bold">BOSS</span>
           </Link>
           <div className="hidden md:flex items-center space-x-6">
             <SignedIn>

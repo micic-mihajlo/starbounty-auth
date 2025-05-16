@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Textarea } from '@/components/ui/textarea'
 import { GithubIcon, PlusIcon, AlertCircle } from 'lucide-react'
 import { RewardModal } from './reward-modal'
+import { useWallet } from '@/context/wallet-context'
 
 // Duplicating Bounty and BountyFormData for now
 interface Bounty {
@@ -72,6 +73,7 @@ export function AttachBountyFlow({ onBountySubmit, onCancel }: AttachBountyFlowP
   const [isFetching, setIsFetching] = useState(false)
   const [isRewardModalOpen, setIsRewardModalOpen] = useState(false) // New state for modal
   const [isSubmittingBounty, setIsSubmittingBounty] = useState(false); // For modal loading state
+  const { signAndSend } = useWallet();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -150,7 +152,7 @@ export function AttachBountyFlow({ onBountySubmit, onCancel }: AttachBountyFlowP
     // Potentially add form validation here before opening modal
     setIsRewardModalOpen(true)
   }
-  
+
   // This will be called by the RewardModal
   const handleFinalBountySubmit = async (rewardAmount: string) => {
     setIsSubmittingBounty(true); // Start loading
@@ -158,6 +160,9 @@ export function AttachBountyFlow({ onBountySubmit, onCancel }: AttachBountyFlowP
       ...formData,
       reward: rewardAmount
     }
+    // TODO
+    // const data = await signAndSend(JSON.stringify(fullBountyData))
+    // console.log("Data:", data)
     try {
       await onBountySubmit(fullBountyData) // Assuming onBountySubmit might be async
       // Reset form and state after successful submission through modal
@@ -219,8 +224,8 @@ export function AttachBountyFlow({ onBountySubmit, onCancel }: AttachBountyFlowP
               {fetchError}
             </div>
           )}
-          <Button 
-            onClick={handleFetchIssue} 
+          <Button
+            onClick={handleFetchIssue}
             disabled={!githubIssueUrlInput || isFetching}
             className="w-full gradient-bg hover:opacity-90 text-white"
           >
@@ -240,38 +245,38 @@ export function AttachBountyFlow({ onBountySubmit, onCancel }: AttachBountyFlowP
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-sm font-medium leading-none" htmlFor="title">Bounty Title</label>
-                <Input id="title" name="title" value={formData.title} onChange={handleInputChange} required className="border-border focus:ring-orange-500 focus:border-orange-500"/>
+                <Input id="title" name="title" value={formData.title} onChange={handleInputChange} required className="border-border focus:ring-orange-500 focus:border-orange-500" />
               </div>
               <div className="space-y-1">
                 <label className="text-sm font-medium leading-none" htmlFor="keywords">Keywords (comma-separated)</label>
-                <Input id="keywords" name="keywords" placeholder="e.g., react, bug, documentation" value={formData.keywords} onChange={handleInputChange} className="border-border focus:ring-orange-500 focus:border-orange-500"/>
+                <Input id="keywords" name="keywords" placeholder="e.g., react, bug, documentation" value={formData.keywords} onChange={handleInputChange} className="border-border focus:ring-orange-500 focus:border-orange-500" />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-sm font-medium leading-none" htmlFor="repository">Repository</label>
-                <Input id="repository" name="repository" value={formData.repository} onChange={handleInputChange} required readOnly className="border-border bg-muted/50 focus:ring-orange-500 focus:border-orange-500"/>
+                <Input id="repository" name="repository" value={formData.repository} onChange={handleInputChange} required readOnly className="border-border bg-muted/50 focus:ring-orange-500 focus:border-orange-500" />
               </div>
               <div className="space-y-1">
                 <label className="text-sm font-medium leading-none" htmlFor="issueNumber">Issue Number</label>
-                <Input id="issueNumber" name="issueNumber" type="number" value={formData.issueNumber} onChange={handleInputChange} required readOnly className="border-border bg-muted/50 focus:ring-orange-500 focus:border-orange-500"/>
+                <Input id="issueNumber" name="issueNumber" type="number" value={formData.issueNumber} onChange={handleInputChange} required readOnly className="border-border bg-muted/50 focus:ring-orange-500 focus:border-orange-500" />
               </div>
             </div>
 
             <div className="space-y-1">
               <label className="text-sm font-medium leading-none" htmlFor="githubLink">GitHub Issue URL</label>
-              <Input id="githubLink" name="githubLink" type="url" value={formData.githubLink} onChange={handleInputChange} required readOnly className="border-border bg-muted/50 focus:ring-orange-500 focus:border-orange-500"/>
+              <Input id="githubLink" name="githubLink" type="url" value={formData.githubLink} onChange={handleInputChange} required readOnly className="border-border bg-muted/50 focus:ring-orange-500 focus:border-orange-500" />
             </div>
 
             <div className="space-y-1">
               <label className="text-sm font-medium leading-none" htmlFor="description">Description</label>
-              <Textarea id="description" name="description" rows={4} value={formData.description} onChange={handleInputChange} required className="border-border focus:ring-orange-500 focus:border-orange-500"/>
+              <Textarea id="description" name="description" rows={4} value={formData.description} onChange={handleInputChange} required className="border-border focus:ring-orange-500 focus:border-orange-500" />
             </div>
 
             <div className="space-y-1">
               <label className="text-sm font-medium leading-none" htmlFor="requirements">Requirements (one per line)</label>
-              <Textarea id="requirements" name="requirements" placeholder="- Detailed requirement 1...\n- Detailed requirement 2..." rows={3} value={formData.requirements} onChange={handleInputChange} className="border-border focus:ring-orange-500 focus:border-orange-500"/>
+              <Textarea id="requirements" name="requirements" placeholder="- Detailed requirement 1...\n- Detailed requirement 2..." rows={3} value={formData.requirements} onChange={handleInputChange} className="border-border focus:ring-orange-500 focus:border-orange-500" />
             </div>
           </CardContent>
           <CardFooter className="flex justify-end gap-3 pt-4 p-0 mt-6">
@@ -283,9 +288,9 @@ export function AttachBountyFlow({ onBountySubmit, onCancel }: AttachBountyFlowP
               Attach Bounty
             </Button>
           </CardFooter>
-          <RewardModal 
-            isOpen={isRewardModalOpen} 
-            onClose={() => setIsRewardModalOpen(false)} 
+          <RewardModal
+            isOpen={isRewardModalOpen}
+            onClose={() => setIsRewardModalOpen(false)}
             onSubmit={handleFinalBountySubmit}
             isLoading={isSubmittingBounty}
             currentBountyTitle={formData.title}

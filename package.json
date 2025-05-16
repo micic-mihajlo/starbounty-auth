@@ -1,5 +1,5 @@
 {
-  "name": "starbounty",
+  "name": "BOSS",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -45,6 +45,7 @@
     "@simplewebauthn/browser": "^10.0.0",
     "@simplewebauthn/types": "^10.0.0",
     "@stellar/stellar-sdk": "^13.2.0",
+    "@types/stellar-sdk": "^0.11.1",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -65,6 +66,7 @@
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",
     "sonner": "^1.7.1",
+    "stellar-sdk": "^13.3.0",
     "svix": "^1.65.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
