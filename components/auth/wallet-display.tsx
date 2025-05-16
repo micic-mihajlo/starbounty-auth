@@ -158,7 +158,7 @@ export default function WalletDisplay() {
             {isFunding ? (
               <>
                 <LoaderIcon className="h-4 w-4 animate-spin" />
-                <span>Funding Wallet...</span>
+                <span>Funding Wallet....</span>
               </>
             ) : (
               <>
