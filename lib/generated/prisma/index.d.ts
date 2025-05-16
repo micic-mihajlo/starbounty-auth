@@ -18,6 +18,50 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
+ * Model Bounty
+ * 
+ */
+export type Bounty = $Result.DefaultSelection<Prisma.$BountyPayload>
+/**
+ * Model PullRequest
+ * 
+ */
+export type PullRequest = $Result.DefaultSelection<Prisma.$PullRequestPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const BountyStatus: {
+  OPEN: 'OPEN',
+  IN_PROGRESS: 'IN_PROGRESS',
+  PR_SUBMITTED: 'PR_SUBMITTED',
+  MERGED: 'MERGED',
+  PAID: 'PAID',
+  CLOSED: 'CLOSED'
+};
+
+export type BountyStatus = (typeof BountyStatus)[keyof typeof BountyStatus]
+
+
+export const PullRequestStatus: {
+  SUBMITTED: 'SUBMITTED',
+  MERGED: 'MERGED',
+  CLOSED: 'CLOSED'
+};
+
+export type PullRequestStatus = (typeof PullRequestStatus)[keyof typeof PullRequestStatus]
+
+}
+
+export type BountyStatus = $Enums.BountyStatus
+
+export const BountyStatus: typeof $Enums.BountyStatus
+
+export type PullRequestStatus = $Enums.PullRequestStatus
+
+export const PullRequestStatus: typeof $Enums.PullRequestStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -153,6 +197,26 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bounty`: Exposes CRUD operations for the **Bounty** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Bounties
+    * const bounties = await prisma.bounty.findMany()
+    * ```
+    */
+  get bounty(): Prisma.BountyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.pullRequest`: Exposes CRUD operations for the **PullRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PullRequests
+    * const pullRequests = await prisma.pullRequest.findMany()
+    * ```
+    */
+  get pullRequest(): Prisma.PullRequestDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -593,7 +657,9 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User'
+    User: 'User',
+    Bounty: 'Bounty',
+    PullRequest: 'PullRequest'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -612,7 +678,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user"
+      modelProps: "user" | "bounty" | "pullRequest"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -687,6 +753,154 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Bounty: {
+        payload: Prisma.$BountyPayload<ExtArgs>
+        fields: Prisma.BountyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BountyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BountyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload>
+          }
+          findFirst: {
+            args: Prisma.BountyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BountyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload>
+          }
+          findMany: {
+            args: Prisma.BountyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload>[]
+          }
+          create: {
+            args: Prisma.BountyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload>
+          }
+          createMany: {
+            args: Prisma.BountyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BountyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload>[]
+          }
+          delete: {
+            args: Prisma.BountyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload>
+          }
+          update: {
+            args: Prisma.BountyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload>
+          }
+          deleteMany: {
+            args: Prisma.BountyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BountyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BountyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload>[]
+          }
+          upsert: {
+            args: Prisma.BountyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BountyPayload>
+          }
+          aggregate: {
+            args: Prisma.BountyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBounty>
+          }
+          groupBy: {
+            args: Prisma.BountyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BountyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BountyCountArgs<ExtArgs>
+            result: $Utils.Optional<BountyCountAggregateOutputType> | number
+          }
+        }
+      }
+      PullRequest: {
+        payload: Prisma.$PullRequestPayload<ExtArgs>
+        fields: Prisma.PullRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PullRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PullRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.PullRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PullRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload>
+          }
+          findMany: {
+            args: Prisma.PullRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload>[]
+          }
+          create: {
+            args: Prisma.PullRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload>
+          }
+          createMany: {
+            args: Prisma.PullRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PullRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.PullRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload>
+          }
+          update: {
+            args: Prisma.PullRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.PullRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PullRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PullRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.PullRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PullRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.PullRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePullRequest>
+          }
+          groupBy: {
+            args: Prisma.PullRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PullRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PullRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<PullRequestCountAggregateOutputType> | number
           }
         }
       }
@@ -775,6 +989,8 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    bounty?: BountyOmit
+    pullRequest?: PullRequestOmit
   }
 
   /* Types for Logging */
@@ -863,6 +1079,76 @@ export namespace Prisma {
    * Count Types
    */
 
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    bountiesCreated: number
+    pullRequests: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bountiesCreated?: boolean | UserCountOutputTypeCountBountiesCreatedArgs
+    pullRequests?: boolean | UserCountOutputTypeCountPullRequestsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBountiesCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BountyWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPullRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PullRequestWhereInput
+  }
+
+
+  /**
+   * Count Type BountyCountOutputType
+   */
+
+  export type BountyCountOutputType = {
+    pullRequests: number
+  }
+
+  export type BountyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pullRequests?: boolean | BountyCountOutputTypeCountPullRequestsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BountyCountOutputType without action
+   */
+  export type BountyCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BountyCountOutputType
+     */
+    select?: BountyCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BountyCountOutputType without action
+   */
+  export type BountyCountOutputTypeCountPullRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PullRequestWhereInput
+  }
 
 
   /**
@@ -1053,6 +1339,9 @@ export namespace Prisma {
     walletAddress?: boolean
     updatedAt?: boolean
     imageUrl?: boolean
+    bountiesCreated?: boolean | User$bountiesCreatedArgs<ExtArgs>
+    pullRequests?: boolean | User$pullRequestsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1089,10 +1378,20 @@ export namespace Prisma {
   }
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkId" | "username" | "githubStats" | "createdAt" | "walletAddress" | "updatedAt" | "imageUrl", ExtArgs["result"]["user"]>
+  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bountiesCreated?: boolean | User$bountiesCreatedArgs<ExtArgs>
+    pullRequests?: boolean | User$pullRequestsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
-    objects: {}
+    objects: {
+      bountiesCreated: Prisma.$BountyPayload<ExtArgs>[]
+      pullRequests: Prisma.$PullRequestPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       clerkId: string
@@ -1496,6 +1795,8 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    bountiesCreated<T extends User$bountiesCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$bountiesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pullRequests<T extends User$pullRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$pullRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1550,6 +1851,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -1568,6 +1873,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -1585,6 +1894,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
@@ -1634,6 +1947,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where?: UserWhereInput
@@ -1682,6 +1999,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which Users to fetch.
      */
     where?: UserWhereInput
@@ -1724,6 +2045,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to create a User.
      */
@@ -1772,6 +2097,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to update a User.
      */
@@ -1839,6 +2168,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * The filter to search for the User to update in case it exists.
      */
     where: UserWhereUniqueInput
@@ -1865,6 +2198,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter which User to delete.
      */
     where: UserWhereUniqueInput
@@ -1885,6 +2222,54 @@ export namespace Prisma {
   }
 
   /**
+   * User.bountiesCreated
+   */
+  export type User$bountiesCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+    where?: BountyWhereInput
+    orderBy?: BountyOrderByWithRelationInput | BountyOrderByWithRelationInput[]
+    cursor?: BountyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BountyScalarFieldEnum | BountyScalarFieldEnum[]
+  }
+
+  /**
+   * User.pullRequests
+   */
+  export type User$pullRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    where?: PullRequestWhereInput
+    orderBy?: PullRequestOrderByWithRelationInput | PullRequestOrderByWithRelationInput[]
+    cursor?: PullRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PullRequestScalarFieldEnum | PullRequestScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1896,6 +2281,2393 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Bounty
+   */
+
+  export type AggregateBounty = {
+    _count: BountyCountAggregateOutputType | null
+    _avg: BountyAvgAggregateOutputType | null
+    _sum: BountySumAggregateOutputType | null
+    _min: BountyMinAggregateOutputType | null
+    _max: BountyMaxAggregateOutputType | null
+  }
+
+  export type BountyAvgAggregateOutputType = {
+    issueNumber: number | null
+  }
+
+  export type BountySumAggregateOutputType = {
+    issueNumber: number | null
+  }
+
+  export type BountyMinAggregateOutputType = {
+    id: string | null
+    issueUrl: string | null
+    title: string | null
+    description: string | null
+    repository: string | null
+    issueNumber: number | null
+    githubLink: string | null
+    reward: string | null
+    status: $Enums.BountyStatus | null
+    creatorId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BountyMaxAggregateOutputType = {
+    id: string | null
+    issueUrl: string | null
+    title: string | null
+    description: string | null
+    repository: string | null
+    issueNumber: number | null
+    githubLink: string | null
+    reward: string | null
+    status: $Enums.BountyStatus | null
+    creatorId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BountyCountAggregateOutputType = {
+    id: number
+    issueUrl: number
+    title: number
+    description: number
+    repository: number
+    issueNumber: number
+    githubLink: number
+    keywords: number
+    requirements: number
+    reward: number
+    status: number
+    creatorId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BountyAvgAggregateInputType = {
+    issueNumber?: true
+  }
+
+  export type BountySumAggregateInputType = {
+    issueNumber?: true
+  }
+
+  export type BountyMinAggregateInputType = {
+    id?: true
+    issueUrl?: true
+    title?: true
+    description?: true
+    repository?: true
+    issueNumber?: true
+    githubLink?: true
+    reward?: true
+    status?: true
+    creatorId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BountyMaxAggregateInputType = {
+    id?: true
+    issueUrl?: true
+    title?: true
+    description?: true
+    repository?: true
+    issueNumber?: true
+    githubLink?: true
+    reward?: true
+    status?: true
+    creatorId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BountyCountAggregateInputType = {
+    id?: true
+    issueUrl?: true
+    title?: true
+    description?: true
+    repository?: true
+    issueNumber?: true
+    githubLink?: true
+    keywords?: true
+    requirements?: true
+    reward?: true
+    status?: true
+    creatorId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BountyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Bounty to aggregate.
+     */
+    where?: BountyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bounties to fetch.
+     */
+    orderBy?: BountyOrderByWithRelationInput | BountyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BountyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bounties from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bounties.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Bounties
+    **/
+    _count?: true | BountyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BountyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BountySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BountyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BountyMaxAggregateInputType
+  }
+
+  export type GetBountyAggregateType<T extends BountyAggregateArgs> = {
+        [P in keyof T & keyof AggregateBounty]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBounty[P]>
+      : GetScalarType<T[P], AggregateBounty[P]>
+  }
+
+
+
+
+  export type BountyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BountyWhereInput
+    orderBy?: BountyOrderByWithAggregationInput | BountyOrderByWithAggregationInput[]
+    by: BountyScalarFieldEnum[] | BountyScalarFieldEnum
+    having?: BountyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BountyCountAggregateInputType | true
+    _avg?: BountyAvgAggregateInputType
+    _sum?: BountySumAggregateInputType
+    _min?: BountyMinAggregateInputType
+    _max?: BountyMaxAggregateInputType
+  }
+
+  export type BountyGroupByOutputType = {
+    id: string
+    issueUrl: string
+    title: string
+    description: string
+    repository: string
+    issueNumber: number
+    githubLink: string
+    keywords: JsonValue
+    requirements: JsonValue
+    reward: string
+    status: $Enums.BountyStatus
+    creatorId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: BountyCountAggregateOutputType | null
+    _avg: BountyAvgAggregateOutputType | null
+    _sum: BountySumAggregateOutputType | null
+    _min: BountyMinAggregateOutputType | null
+    _max: BountyMaxAggregateOutputType | null
+  }
+
+  type GetBountyGroupByPayload<T extends BountyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BountyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BountyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BountyGroupByOutputType[P]>
+            : GetScalarType<T[P], BountyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BountySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    issueUrl?: boolean
+    title?: boolean
+    description?: boolean
+    repository?: boolean
+    issueNumber?: boolean
+    githubLink?: boolean
+    keywords?: boolean
+    requirements?: boolean
+    reward?: boolean
+    status?: boolean
+    creatorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    pullRequests?: boolean | Bounty$pullRequestsArgs<ExtArgs>
+    _count?: boolean | BountyCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bounty"]>
+
+  export type BountySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    issueUrl?: boolean
+    title?: boolean
+    description?: boolean
+    repository?: boolean
+    issueNumber?: boolean
+    githubLink?: boolean
+    keywords?: boolean
+    requirements?: boolean
+    reward?: boolean
+    status?: boolean
+    creatorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bounty"]>
+
+  export type BountySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    issueUrl?: boolean
+    title?: boolean
+    description?: boolean
+    repository?: boolean
+    issueNumber?: boolean
+    githubLink?: boolean
+    keywords?: boolean
+    requirements?: boolean
+    reward?: boolean
+    status?: boolean
+    creatorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bounty"]>
+
+  export type BountySelectScalar = {
+    id?: boolean
+    issueUrl?: boolean
+    title?: boolean
+    description?: boolean
+    repository?: boolean
+    issueNumber?: boolean
+    githubLink?: boolean
+    keywords?: boolean
+    requirements?: boolean
+    reward?: boolean
+    status?: boolean
+    creatorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BountyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "issueUrl" | "title" | "description" | "repository" | "issueNumber" | "githubLink" | "keywords" | "requirements" | "reward" | "status" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["bounty"]>
+  export type BountyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    pullRequests?: boolean | Bounty$pullRequestsArgs<ExtArgs>
+    _count?: boolean | BountyCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BountyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BountyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $BountyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Bounty"
+    objects: {
+      creator: Prisma.$UserPayload<ExtArgs>
+      pullRequests: Prisma.$PullRequestPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      issueUrl: string
+      title: string
+      description: string
+      repository: string
+      issueNumber: number
+      githubLink: string
+      keywords: Prisma.JsonValue
+      requirements: Prisma.JsonValue
+      reward: string
+      status: $Enums.BountyStatus
+      creatorId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bounty"]>
+    composites: {}
+  }
+
+  type BountyGetPayload<S extends boolean | null | undefined | BountyDefaultArgs> = $Result.GetResult<Prisma.$BountyPayload, S>
+
+  type BountyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BountyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BountyCountAggregateInputType | true
+    }
+
+  export interface BountyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Bounty'], meta: { name: 'Bounty' } }
+    /**
+     * Find zero or one Bounty that matches the filter.
+     * @param {BountyFindUniqueArgs} args - Arguments to find a Bounty
+     * @example
+     * // Get one Bounty
+     * const bounty = await prisma.bounty.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BountyFindUniqueArgs>(args: SelectSubset<T, BountyFindUniqueArgs<ExtArgs>>): Prisma__BountyClient<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Bounty that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BountyFindUniqueOrThrowArgs} args - Arguments to find a Bounty
+     * @example
+     * // Get one Bounty
+     * const bounty = await prisma.bounty.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BountyFindUniqueOrThrowArgs>(args: SelectSubset<T, BountyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BountyClient<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Bounty that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BountyFindFirstArgs} args - Arguments to find a Bounty
+     * @example
+     * // Get one Bounty
+     * const bounty = await prisma.bounty.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BountyFindFirstArgs>(args?: SelectSubset<T, BountyFindFirstArgs<ExtArgs>>): Prisma__BountyClient<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Bounty that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BountyFindFirstOrThrowArgs} args - Arguments to find a Bounty
+     * @example
+     * // Get one Bounty
+     * const bounty = await prisma.bounty.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BountyFindFirstOrThrowArgs>(args?: SelectSubset<T, BountyFindFirstOrThrowArgs<ExtArgs>>): Prisma__BountyClient<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Bounties that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BountyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Bounties
+     * const bounties = await prisma.bounty.findMany()
+     * 
+     * // Get first 10 Bounties
+     * const bounties = await prisma.bounty.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bountyWithIdOnly = await prisma.bounty.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BountyFindManyArgs>(args?: SelectSubset<T, BountyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Bounty.
+     * @param {BountyCreateArgs} args - Arguments to create a Bounty.
+     * @example
+     * // Create one Bounty
+     * const Bounty = await prisma.bounty.create({
+     *   data: {
+     *     // ... data to create a Bounty
+     *   }
+     * })
+     * 
+     */
+    create<T extends BountyCreateArgs>(args: SelectSubset<T, BountyCreateArgs<ExtArgs>>): Prisma__BountyClient<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Bounties.
+     * @param {BountyCreateManyArgs} args - Arguments to create many Bounties.
+     * @example
+     * // Create many Bounties
+     * const bounty = await prisma.bounty.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BountyCreateManyArgs>(args?: SelectSubset<T, BountyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Bounties and returns the data saved in the database.
+     * @param {BountyCreateManyAndReturnArgs} args - Arguments to create many Bounties.
+     * @example
+     * // Create many Bounties
+     * const bounty = await prisma.bounty.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Bounties and only return the `id`
+     * const bountyWithIdOnly = await prisma.bounty.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BountyCreateManyAndReturnArgs>(args?: SelectSubset<T, BountyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Bounty.
+     * @param {BountyDeleteArgs} args - Arguments to delete one Bounty.
+     * @example
+     * // Delete one Bounty
+     * const Bounty = await prisma.bounty.delete({
+     *   where: {
+     *     // ... filter to delete one Bounty
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BountyDeleteArgs>(args: SelectSubset<T, BountyDeleteArgs<ExtArgs>>): Prisma__BountyClient<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Bounty.
+     * @param {BountyUpdateArgs} args - Arguments to update one Bounty.
+     * @example
+     * // Update one Bounty
+     * const bounty = await prisma.bounty.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BountyUpdateArgs>(args: SelectSubset<T, BountyUpdateArgs<ExtArgs>>): Prisma__BountyClient<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Bounties.
+     * @param {BountyDeleteManyArgs} args - Arguments to filter Bounties to delete.
+     * @example
+     * // Delete a few Bounties
+     * const { count } = await prisma.bounty.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BountyDeleteManyArgs>(args?: SelectSubset<T, BountyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Bounties.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BountyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Bounties
+     * const bounty = await prisma.bounty.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BountyUpdateManyArgs>(args: SelectSubset<T, BountyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Bounties and returns the data updated in the database.
+     * @param {BountyUpdateManyAndReturnArgs} args - Arguments to update many Bounties.
+     * @example
+     * // Update many Bounties
+     * const bounty = await prisma.bounty.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Bounties and only return the `id`
+     * const bountyWithIdOnly = await prisma.bounty.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BountyUpdateManyAndReturnArgs>(args: SelectSubset<T, BountyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Bounty.
+     * @param {BountyUpsertArgs} args - Arguments to update or create a Bounty.
+     * @example
+     * // Update or create a Bounty
+     * const bounty = await prisma.bounty.upsert({
+     *   create: {
+     *     // ... data to create a Bounty
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Bounty we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BountyUpsertArgs>(args: SelectSubset<T, BountyUpsertArgs<ExtArgs>>): Prisma__BountyClient<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Bounties.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BountyCountArgs} args - Arguments to filter Bounties to count.
+     * @example
+     * // Count the number of Bounties
+     * const count = await prisma.bounty.count({
+     *   where: {
+     *     // ... the filter for the Bounties we want to count
+     *   }
+     * })
+    **/
+    count<T extends BountyCountArgs>(
+      args?: Subset<T, BountyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BountyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Bounty.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BountyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BountyAggregateArgs>(args: Subset<T, BountyAggregateArgs>): Prisma.PrismaPromise<GetBountyAggregateType<T>>
+
+    /**
+     * Group by Bounty.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BountyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BountyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BountyGroupByArgs['orderBy'] }
+        : { orderBy?: BountyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BountyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBountyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Bounty model
+   */
+  readonly fields: BountyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Bounty.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BountyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    pullRequests<T extends Bounty$pullRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Bounty$pullRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Bounty model
+   */
+  interface BountyFieldRefs {
+    readonly id: FieldRef<"Bounty", 'String'>
+    readonly issueUrl: FieldRef<"Bounty", 'String'>
+    readonly title: FieldRef<"Bounty", 'String'>
+    readonly description: FieldRef<"Bounty", 'String'>
+    readonly repository: FieldRef<"Bounty", 'String'>
+    readonly issueNumber: FieldRef<"Bounty", 'Int'>
+    readonly githubLink: FieldRef<"Bounty", 'String'>
+    readonly keywords: FieldRef<"Bounty", 'Json'>
+    readonly requirements: FieldRef<"Bounty", 'Json'>
+    readonly reward: FieldRef<"Bounty", 'String'>
+    readonly status: FieldRef<"Bounty", 'BountyStatus'>
+    readonly creatorId: FieldRef<"Bounty", 'String'>
+    readonly createdAt: FieldRef<"Bounty", 'DateTime'>
+    readonly updatedAt: FieldRef<"Bounty", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Bounty findUnique
+   */
+  export type BountyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+    /**
+     * Filter, which Bounty to fetch.
+     */
+    where: BountyWhereUniqueInput
+  }
+
+  /**
+   * Bounty findUniqueOrThrow
+   */
+  export type BountyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+    /**
+     * Filter, which Bounty to fetch.
+     */
+    where: BountyWhereUniqueInput
+  }
+
+  /**
+   * Bounty findFirst
+   */
+  export type BountyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+    /**
+     * Filter, which Bounty to fetch.
+     */
+    where?: BountyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bounties to fetch.
+     */
+    orderBy?: BountyOrderByWithRelationInput | BountyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Bounties.
+     */
+    cursor?: BountyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bounties from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bounties.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Bounties.
+     */
+    distinct?: BountyScalarFieldEnum | BountyScalarFieldEnum[]
+  }
+
+  /**
+   * Bounty findFirstOrThrow
+   */
+  export type BountyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+    /**
+     * Filter, which Bounty to fetch.
+     */
+    where?: BountyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bounties to fetch.
+     */
+    orderBy?: BountyOrderByWithRelationInput | BountyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Bounties.
+     */
+    cursor?: BountyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bounties from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bounties.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Bounties.
+     */
+    distinct?: BountyScalarFieldEnum | BountyScalarFieldEnum[]
+  }
+
+  /**
+   * Bounty findMany
+   */
+  export type BountyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+    /**
+     * Filter, which Bounties to fetch.
+     */
+    where?: BountyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bounties to fetch.
+     */
+    orderBy?: BountyOrderByWithRelationInput | BountyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Bounties.
+     */
+    cursor?: BountyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bounties from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bounties.
+     */
+    skip?: number
+    distinct?: BountyScalarFieldEnum | BountyScalarFieldEnum[]
+  }
+
+  /**
+   * Bounty create
+   */
+  export type BountyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Bounty.
+     */
+    data: XOR<BountyCreateInput, BountyUncheckedCreateInput>
+  }
+
+  /**
+   * Bounty createMany
+   */
+  export type BountyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Bounties.
+     */
+    data: BountyCreateManyInput | BountyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Bounty createManyAndReturn
+   */
+  export type BountyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * The data used to create many Bounties.
+     */
+    data: BountyCreateManyInput | BountyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Bounty update
+   */
+  export type BountyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Bounty.
+     */
+    data: XOR<BountyUpdateInput, BountyUncheckedUpdateInput>
+    /**
+     * Choose, which Bounty to update.
+     */
+    where: BountyWhereUniqueInput
+  }
+
+  /**
+   * Bounty updateMany
+   */
+  export type BountyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Bounties.
+     */
+    data: XOR<BountyUpdateManyMutationInput, BountyUncheckedUpdateManyInput>
+    /**
+     * Filter which Bounties to update
+     */
+    where?: BountyWhereInput
+    /**
+     * Limit how many Bounties to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Bounty updateManyAndReturn
+   */
+  export type BountyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * The data used to update Bounties.
+     */
+    data: XOR<BountyUpdateManyMutationInput, BountyUncheckedUpdateManyInput>
+    /**
+     * Filter which Bounties to update
+     */
+    where?: BountyWhereInput
+    /**
+     * Limit how many Bounties to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Bounty upsert
+   */
+  export type BountyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Bounty to update in case it exists.
+     */
+    where: BountyWhereUniqueInput
+    /**
+     * In case the Bounty found by the `where` argument doesn't exist, create a new Bounty with this data.
+     */
+    create: XOR<BountyCreateInput, BountyUncheckedCreateInput>
+    /**
+     * In case the Bounty was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BountyUpdateInput, BountyUncheckedUpdateInput>
+  }
+
+  /**
+   * Bounty delete
+   */
+  export type BountyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+    /**
+     * Filter which Bounty to delete.
+     */
+    where: BountyWhereUniqueInput
+  }
+
+  /**
+   * Bounty deleteMany
+   */
+  export type BountyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Bounties to delete
+     */
+    where?: BountyWhereInput
+    /**
+     * Limit how many Bounties to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Bounty.pullRequests
+   */
+  export type Bounty$pullRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    where?: PullRequestWhereInput
+    orderBy?: PullRequestOrderByWithRelationInput | PullRequestOrderByWithRelationInput[]
+    cursor?: PullRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PullRequestScalarFieldEnum | PullRequestScalarFieldEnum[]
+  }
+
+  /**
+   * Bounty without action
+   */
+  export type BountyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bounty
+     */
+    select?: BountySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bounty
+     */
+    omit?: BountyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BountyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PullRequest
+   */
+
+  export type AggregatePullRequest = {
+    _count: PullRequestCountAggregateOutputType | null
+    _avg: PullRequestAvgAggregateOutputType | null
+    _sum: PullRequestSumAggregateOutputType | null
+    _min: PullRequestMinAggregateOutputType | null
+    _max: PullRequestMaxAggregateOutputType | null
+  }
+
+  export type PullRequestAvgAggregateOutputType = {
+    githubPrNumber: number | null
+  }
+
+  export type PullRequestSumAggregateOutputType = {
+    githubPrNumber: number | null
+  }
+
+  export type PullRequestMinAggregateOutputType = {
+    id: string | null
+    githubPrNumber: number | null
+    repo: string | null
+    bountyId: string | null
+    developerId: string | null
+    demoUrl: string | null
+    status: $Enums.PullRequestStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PullRequestMaxAggregateOutputType = {
+    id: string | null
+    githubPrNumber: number | null
+    repo: string | null
+    bountyId: string | null
+    developerId: string | null
+    demoUrl: string | null
+    status: $Enums.PullRequestStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PullRequestCountAggregateOutputType = {
+    id: number
+    githubPrNumber: number
+    repo: number
+    bountyId: number
+    developerId: number
+    demoUrl: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PullRequestAvgAggregateInputType = {
+    githubPrNumber?: true
+  }
+
+  export type PullRequestSumAggregateInputType = {
+    githubPrNumber?: true
+  }
+
+  export type PullRequestMinAggregateInputType = {
+    id?: true
+    githubPrNumber?: true
+    repo?: true
+    bountyId?: true
+    developerId?: true
+    demoUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PullRequestMaxAggregateInputType = {
+    id?: true
+    githubPrNumber?: true
+    repo?: true
+    bountyId?: true
+    developerId?: true
+    demoUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PullRequestCountAggregateInputType = {
+    id?: true
+    githubPrNumber?: true
+    repo?: true
+    bountyId?: true
+    developerId?: true
+    demoUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PullRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PullRequest to aggregate.
+     */
+    where?: PullRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PullRequests to fetch.
+     */
+    orderBy?: PullRequestOrderByWithRelationInput | PullRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PullRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PullRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PullRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PullRequests
+    **/
+    _count?: true | PullRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PullRequestAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PullRequestSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PullRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PullRequestMaxAggregateInputType
+  }
+
+  export type GetPullRequestAggregateType<T extends PullRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregatePullRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePullRequest[P]>
+      : GetScalarType<T[P], AggregatePullRequest[P]>
+  }
+
+
+
+
+  export type PullRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PullRequestWhereInput
+    orderBy?: PullRequestOrderByWithAggregationInput | PullRequestOrderByWithAggregationInput[]
+    by: PullRequestScalarFieldEnum[] | PullRequestScalarFieldEnum
+    having?: PullRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PullRequestCountAggregateInputType | true
+    _avg?: PullRequestAvgAggregateInputType
+    _sum?: PullRequestSumAggregateInputType
+    _min?: PullRequestMinAggregateInputType
+    _max?: PullRequestMaxAggregateInputType
+  }
+
+  export type PullRequestGroupByOutputType = {
+    id: string
+    githubPrNumber: number
+    repo: string
+    bountyId: string
+    developerId: string
+    demoUrl: string | null
+    status: $Enums.PullRequestStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: PullRequestCountAggregateOutputType | null
+    _avg: PullRequestAvgAggregateOutputType | null
+    _sum: PullRequestSumAggregateOutputType | null
+    _min: PullRequestMinAggregateOutputType | null
+    _max: PullRequestMaxAggregateOutputType | null
+  }
+
+  type GetPullRequestGroupByPayload<T extends PullRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PullRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PullRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PullRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], PullRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PullRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    githubPrNumber?: boolean
+    repo?: boolean
+    bountyId?: boolean
+    developerId?: boolean
+    demoUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    bounty?: boolean | BountyDefaultArgs<ExtArgs>
+    developer?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pullRequest"]>
+
+  export type PullRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    githubPrNumber?: boolean
+    repo?: boolean
+    bountyId?: boolean
+    developerId?: boolean
+    demoUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    bounty?: boolean | BountyDefaultArgs<ExtArgs>
+    developer?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pullRequest"]>
+
+  export type PullRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    githubPrNumber?: boolean
+    repo?: boolean
+    bountyId?: boolean
+    developerId?: boolean
+    demoUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    bounty?: boolean | BountyDefaultArgs<ExtArgs>
+    developer?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pullRequest"]>
+
+  export type PullRequestSelectScalar = {
+    id?: boolean
+    githubPrNumber?: boolean
+    repo?: boolean
+    bountyId?: boolean
+    developerId?: boolean
+    demoUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PullRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "githubPrNumber" | "repo" | "bountyId" | "developerId" | "demoUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["pullRequest"]>
+  export type PullRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bounty?: boolean | BountyDefaultArgs<ExtArgs>
+    developer?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PullRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bounty?: boolean | BountyDefaultArgs<ExtArgs>
+    developer?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PullRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bounty?: boolean | BountyDefaultArgs<ExtArgs>
+    developer?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PullRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PullRequest"
+    objects: {
+      bounty: Prisma.$BountyPayload<ExtArgs>
+      developer: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      githubPrNumber: number
+      repo: string
+      bountyId: string
+      developerId: string
+      demoUrl: string | null
+      status: $Enums.PullRequestStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["pullRequest"]>
+    composites: {}
+  }
+
+  type PullRequestGetPayload<S extends boolean | null | undefined | PullRequestDefaultArgs> = $Result.GetResult<Prisma.$PullRequestPayload, S>
+
+  type PullRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PullRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PullRequestCountAggregateInputType | true
+    }
+
+  export interface PullRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PullRequest'], meta: { name: 'PullRequest' } }
+    /**
+     * Find zero or one PullRequest that matches the filter.
+     * @param {PullRequestFindUniqueArgs} args - Arguments to find a PullRequest
+     * @example
+     * // Get one PullRequest
+     * const pullRequest = await prisma.pullRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PullRequestFindUniqueArgs>(args: SelectSubset<T, PullRequestFindUniqueArgs<ExtArgs>>): Prisma__PullRequestClient<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PullRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PullRequestFindUniqueOrThrowArgs} args - Arguments to find a PullRequest
+     * @example
+     * // Get one PullRequest
+     * const pullRequest = await prisma.pullRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PullRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, PullRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PullRequestClient<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PullRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PullRequestFindFirstArgs} args - Arguments to find a PullRequest
+     * @example
+     * // Get one PullRequest
+     * const pullRequest = await prisma.pullRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PullRequestFindFirstArgs>(args?: SelectSubset<T, PullRequestFindFirstArgs<ExtArgs>>): Prisma__PullRequestClient<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PullRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PullRequestFindFirstOrThrowArgs} args - Arguments to find a PullRequest
+     * @example
+     * // Get one PullRequest
+     * const pullRequest = await prisma.pullRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PullRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, PullRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__PullRequestClient<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PullRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PullRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PullRequests
+     * const pullRequests = await prisma.pullRequest.findMany()
+     * 
+     * // Get first 10 PullRequests
+     * const pullRequests = await prisma.pullRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pullRequestWithIdOnly = await prisma.pullRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PullRequestFindManyArgs>(args?: SelectSubset<T, PullRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PullRequest.
+     * @param {PullRequestCreateArgs} args - Arguments to create a PullRequest.
+     * @example
+     * // Create one PullRequest
+     * const PullRequest = await prisma.pullRequest.create({
+     *   data: {
+     *     // ... data to create a PullRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends PullRequestCreateArgs>(args: SelectSubset<T, PullRequestCreateArgs<ExtArgs>>): Prisma__PullRequestClient<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PullRequests.
+     * @param {PullRequestCreateManyArgs} args - Arguments to create many PullRequests.
+     * @example
+     * // Create many PullRequests
+     * const pullRequest = await prisma.pullRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PullRequestCreateManyArgs>(args?: SelectSubset<T, PullRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PullRequests and returns the data saved in the database.
+     * @param {PullRequestCreateManyAndReturnArgs} args - Arguments to create many PullRequests.
+     * @example
+     * // Create many PullRequests
+     * const pullRequest = await prisma.pullRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PullRequests and only return the `id`
+     * const pullRequestWithIdOnly = await prisma.pullRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PullRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, PullRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PullRequest.
+     * @param {PullRequestDeleteArgs} args - Arguments to delete one PullRequest.
+     * @example
+     * // Delete one PullRequest
+     * const PullRequest = await prisma.pullRequest.delete({
+     *   where: {
+     *     // ... filter to delete one PullRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PullRequestDeleteArgs>(args: SelectSubset<T, PullRequestDeleteArgs<ExtArgs>>): Prisma__PullRequestClient<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PullRequest.
+     * @param {PullRequestUpdateArgs} args - Arguments to update one PullRequest.
+     * @example
+     * // Update one PullRequest
+     * const pullRequest = await prisma.pullRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PullRequestUpdateArgs>(args: SelectSubset<T, PullRequestUpdateArgs<ExtArgs>>): Prisma__PullRequestClient<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PullRequests.
+     * @param {PullRequestDeleteManyArgs} args - Arguments to filter PullRequests to delete.
+     * @example
+     * // Delete a few PullRequests
+     * const { count } = await prisma.pullRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PullRequestDeleteManyArgs>(args?: SelectSubset<T, PullRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PullRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PullRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PullRequests
+     * const pullRequest = await prisma.pullRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PullRequestUpdateManyArgs>(args: SelectSubset<T, PullRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PullRequests and returns the data updated in the database.
+     * @param {PullRequestUpdateManyAndReturnArgs} args - Arguments to update many PullRequests.
+     * @example
+     * // Update many PullRequests
+     * const pullRequest = await prisma.pullRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PullRequests and only return the `id`
+     * const pullRequestWithIdOnly = await prisma.pullRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PullRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, PullRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PullRequest.
+     * @param {PullRequestUpsertArgs} args - Arguments to update or create a PullRequest.
+     * @example
+     * // Update or create a PullRequest
+     * const pullRequest = await prisma.pullRequest.upsert({
+     *   create: {
+     *     // ... data to create a PullRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PullRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PullRequestUpsertArgs>(args: SelectSubset<T, PullRequestUpsertArgs<ExtArgs>>): Prisma__PullRequestClient<$Result.GetResult<Prisma.$PullRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PullRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PullRequestCountArgs} args - Arguments to filter PullRequests to count.
+     * @example
+     * // Count the number of PullRequests
+     * const count = await prisma.pullRequest.count({
+     *   where: {
+     *     // ... the filter for the PullRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends PullRequestCountArgs>(
+      args?: Subset<T, PullRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PullRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PullRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PullRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PullRequestAggregateArgs>(args: Subset<T, PullRequestAggregateArgs>): Prisma.PrismaPromise<GetPullRequestAggregateType<T>>
+
+    /**
+     * Group by PullRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PullRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PullRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PullRequestGroupByArgs['orderBy'] }
+        : { orderBy?: PullRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PullRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPullRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PullRequest model
+   */
+  readonly fields: PullRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PullRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PullRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    bounty<T extends BountyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BountyDefaultArgs<ExtArgs>>): Prisma__BountyClient<$Result.GetResult<Prisma.$BountyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    developer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PullRequest model
+   */
+  interface PullRequestFieldRefs {
+    readonly id: FieldRef<"PullRequest", 'String'>
+    readonly githubPrNumber: FieldRef<"PullRequest", 'Int'>
+    readonly repo: FieldRef<"PullRequest", 'String'>
+    readonly bountyId: FieldRef<"PullRequest", 'String'>
+    readonly developerId: FieldRef<"PullRequest", 'String'>
+    readonly demoUrl: FieldRef<"PullRequest", 'String'>
+    readonly status: FieldRef<"PullRequest", 'PullRequestStatus'>
+    readonly createdAt: FieldRef<"PullRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"PullRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PullRequest findUnique
+   */
+  export type PullRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which PullRequest to fetch.
+     */
+    where: PullRequestWhereUniqueInput
+  }
+
+  /**
+   * PullRequest findUniqueOrThrow
+   */
+  export type PullRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which PullRequest to fetch.
+     */
+    where: PullRequestWhereUniqueInput
+  }
+
+  /**
+   * PullRequest findFirst
+   */
+  export type PullRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which PullRequest to fetch.
+     */
+    where?: PullRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PullRequests to fetch.
+     */
+    orderBy?: PullRequestOrderByWithRelationInput | PullRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PullRequests.
+     */
+    cursor?: PullRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PullRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PullRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PullRequests.
+     */
+    distinct?: PullRequestScalarFieldEnum | PullRequestScalarFieldEnum[]
+  }
+
+  /**
+   * PullRequest findFirstOrThrow
+   */
+  export type PullRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which PullRequest to fetch.
+     */
+    where?: PullRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PullRequests to fetch.
+     */
+    orderBy?: PullRequestOrderByWithRelationInput | PullRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PullRequests.
+     */
+    cursor?: PullRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PullRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PullRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PullRequests.
+     */
+    distinct?: PullRequestScalarFieldEnum | PullRequestScalarFieldEnum[]
+  }
+
+  /**
+   * PullRequest findMany
+   */
+  export type PullRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which PullRequests to fetch.
+     */
+    where?: PullRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PullRequests to fetch.
+     */
+    orderBy?: PullRequestOrderByWithRelationInput | PullRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PullRequests.
+     */
+    cursor?: PullRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PullRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PullRequests.
+     */
+    skip?: number
+    distinct?: PullRequestScalarFieldEnum | PullRequestScalarFieldEnum[]
+  }
+
+  /**
+   * PullRequest create
+   */
+  export type PullRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PullRequest.
+     */
+    data: XOR<PullRequestCreateInput, PullRequestUncheckedCreateInput>
+  }
+
+  /**
+   * PullRequest createMany
+   */
+  export type PullRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PullRequests.
+     */
+    data: PullRequestCreateManyInput | PullRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PullRequest createManyAndReturn
+   */
+  export type PullRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many PullRequests.
+     */
+    data: PullRequestCreateManyInput | PullRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PullRequest update
+   */
+  export type PullRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PullRequest.
+     */
+    data: XOR<PullRequestUpdateInput, PullRequestUncheckedUpdateInput>
+    /**
+     * Choose, which PullRequest to update.
+     */
+    where: PullRequestWhereUniqueInput
+  }
+
+  /**
+   * PullRequest updateMany
+   */
+  export type PullRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PullRequests.
+     */
+    data: XOR<PullRequestUpdateManyMutationInput, PullRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which PullRequests to update
+     */
+    where?: PullRequestWhereInput
+    /**
+     * Limit how many PullRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PullRequest updateManyAndReturn
+   */
+  export type PullRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update PullRequests.
+     */
+    data: XOR<PullRequestUpdateManyMutationInput, PullRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which PullRequests to update
+     */
+    where?: PullRequestWhereInput
+    /**
+     * Limit how many PullRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PullRequest upsert
+   */
+  export type PullRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PullRequest to update in case it exists.
+     */
+    where: PullRequestWhereUniqueInput
+    /**
+     * In case the PullRequest found by the `where` argument doesn't exist, create a new PullRequest with this data.
+     */
+    create: XOR<PullRequestCreateInput, PullRequestUncheckedCreateInput>
+    /**
+     * In case the PullRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PullRequestUpdateInput, PullRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * PullRequest delete
+   */
+  export type PullRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
+    /**
+     * Filter which PullRequest to delete.
+     */
+    where: PullRequestWhereUniqueInput
+  }
+
+  /**
+   * PullRequest deleteMany
+   */
+  export type PullRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PullRequests to delete
+     */
+    where?: PullRequestWhereInput
+    /**
+     * Limit how many PullRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PullRequest without action
+   */
+  export type PullRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PullRequest
+     */
+    select?: PullRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PullRequest
+     */
+    omit?: PullRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PullRequestInclude<ExtArgs> | null
   }
 
 
@@ -1925,6 +4697,41 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const BountyScalarFieldEnum: {
+    id: 'id',
+    issueUrl: 'issueUrl',
+    title: 'title',
+    description: 'description',
+    repository: 'repository',
+    issueNumber: 'issueNumber',
+    githubLink: 'githubLink',
+    keywords: 'keywords',
+    requirements: 'requirements',
+    reward: 'reward',
+    status: 'status',
+    creatorId: 'creatorId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BountyScalarFieldEnum = (typeof BountyScalarFieldEnum)[keyof typeof BountyScalarFieldEnum]
+
+
+  export const PullRequestScalarFieldEnum: {
+    id: 'id',
+    githubPrNumber: 'githubPrNumber',
+    repo: 'repo',
+    bountyId: 'bountyId',
+    developerId: 'developerId',
+    demoUrl: 'demoUrl',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PullRequestScalarFieldEnum = (typeof PullRequestScalarFieldEnum)[keyof typeof PullRequestScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -2026,6 +4833,48 @@ export namespace Prisma {
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
+
+
+  /**
+   * Reference to a field of type 'BountyStatus'
+   */
+  export type EnumBountyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BountyStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'BountyStatus[]'
+   */
+  export type ListEnumBountyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BountyStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'PullRequestStatus'
+   */
+  export type EnumPullRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PullRequestStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PullRequestStatus[]'
+   */
+  export type ListEnumPullRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PullRequestStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
   /**
    * Deep Input Types
    */
@@ -2043,6 +4892,8 @@ export namespace Prisma {
     walletAddress?: StringNullableFilter<"User"> | string | null
     updatedAt?: DateTimeFilter<"User"> | Date | string
     imageUrl?: StringNullableFilter<"User"> | string | null
+    bountiesCreated?: BountyListRelationFilter
+    pullRequests?: PullRequestListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -2054,21 +4905,25 @@ export namespace Prisma {
     walletAddress?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     imageUrl?: SortOrderInput | SortOrder
+    bountiesCreated?: BountyOrderByRelationAggregateInput
+    pullRequests?: PullRequestOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    clerkId?: string
     walletAddress?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    clerkId?: StringFilter<"User"> | string
     username?: StringNullableFilter<"User"> | string | null
     githubStats?: JsonFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     imageUrl?: StringNullableFilter<"User"> | string | null
-  }, "id" | "walletAddress">
+    bountiesCreated?: BountyListRelationFilter
+    pullRequests?: PullRequestListRelationFilter
+  }, "id" | "clerkId" | "walletAddress">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -2098,6 +4953,192 @@ export namespace Prisma {
     imageUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
+  export type BountyWhereInput = {
+    AND?: BountyWhereInput | BountyWhereInput[]
+    OR?: BountyWhereInput[]
+    NOT?: BountyWhereInput | BountyWhereInput[]
+    id?: StringFilter<"Bounty"> | string
+    issueUrl?: StringFilter<"Bounty"> | string
+    title?: StringFilter<"Bounty"> | string
+    description?: StringFilter<"Bounty"> | string
+    repository?: StringFilter<"Bounty"> | string
+    issueNumber?: IntFilter<"Bounty"> | number
+    githubLink?: StringFilter<"Bounty"> | string
+    keywords?: JsonFilter<"Bounty">
+    requirements?: JsonFilter<"Bounty">
+    reward?: StringFilter<"Bounty"> | string
+    status?: EnumBountyStatusFilter<"Bounty"> | $Enums.BountyStatus
+    creatorId?: StringFilter<"Bounty"> | string
+    createdAt?: DateTimeFilter<"Bounty"> | Date | string
+    updatedAt?: DateTimeFilter<"Bounty"> | Date | string
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    pullRequests?: PullRequestListRelationFilter
+  }
+
+  export type BountyOrderByWithRelationInput = {
+    id?: SortOrder
+    issueUrl?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    repository?: SortOrder
+    issueNumber?: SortOrder
+    githubLink?: SortOrder
+    keywords?: SortOrder
+    requirements?: SortOrder
+    reward?: SortOrder
+    status?: SortOrder
+    creatorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creator?: UserOrderByWithRelationInput
+    pullRequests?: PullRequestOrderByRelationAggregateInput
+  }
+
+  export type BountyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    issueUrl?: string
+    AND?: BountyWhereInput | BountyWhereInput[]
+    OR?: BountyWhereInput[]
+    NOT?: BountyWhereInput | BountyWhereInput[]
+    title?: StringFilter<"Bounty"> | string
+    description?: StringFilter<"Bounty"> | string
+    repository?: StringFilter<"Bounty"> | string
+    issueNumber?: IntFilter<"Bounty"> | number
+    githubLink?: StringFilter<"Bounty"> | string
+    keywords?: JsonFilter<"Bounty">
+    requirements?: JsonFilter<"Bounty">
+    reward?: StringFilter<"Bounty"> | string
+    status?: EnumBountyStatusFilter<"Bounty"> | $Enums.BountyStatus
+    creatorId?: StringFilter<"Bounty"> | string
+    createdAt?: DateTimeFilter<"Bounty"> | Date | string
+    updatedAt?: DateTimeFilter<"Bounty"> | Date | string
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    pullRequests?: PullRequestListRelationFilter
+  }, "id" | "issueUrl">
+
+  export type BountyOrderByWithAggregationInput = {
+    id?: SortOrder
+    issueUrl?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    repository?: SortOrder
+    issueNumber?: SortOrder
+    githubLink?: SortOrder
+    keywords?: SortOrder
+    requirements?: SortOrder
+    reward?: SortOrder
+    status?: SortOrder
+    creatorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BountyCountOrderByAggregateInput
+    _avg?: BountyAvgOrderByAggregateInput
+    _max?: BountyMaxOrderByAggregateInput
+    _min?: BountyMinOrderByAggregateInput
+    _sum?: BountySumOrderByAggregateInput
+  }
+
+  export type BountyScalarWhereWithAggregatesInput = {
+    AND?: BountyScalarWhereWithAggregatesInput | BountyScalarWhereWithAggregatesInput[]
+    OR?: BountyScalarWhereWithAggregatesInput[]
+    NOT?: BountyScalarWhereWithAggregatesInput | BountyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Bounty"> | string
+    issueUrl?: StringWithAggregatesFilter<"Bounty"> | string
+    title?: StringWithAggregatesFilter<"Bounty"> | string
+    description?: StringWithAggregatesFilter<"Bounty"> | string
+    repository?: StringWithAggregatesFilter<"Bounty"> | string
+    issueNumber?: IntWithAggregatesFilter<"Bounty"> | number
+    githubLink?: StringWithAggregatesFilter<"Bounty"> | string
+    keywords?: JsonWithAggregatesFilter<"Bounty">
+    requirements?: JsonWithAggregatesFilter<"Bounty">
+    reward?: StringWithAggregatesFilter<"Bounty"> | string
+    status?: EnumBountyStatusWithAggregatesFilter<"Bounty"> | $Enums.BountyStatus
+    creatorId?: StringWithAggregatesFilter<"Bounty"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Bounty"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Bounty"> | Date | string
+  }
+
+  export type PullRequestWhereInput = {
+    AND?: PullRequestWhereInput | PullRequestWhereInput[]
+    OR?: PullRequestWhereInput[]
+    NOT?: PullRequestWhereInput | PullRequestWhereInput[]
+    id?: StringFilter<"PullRequest"> | string
+    githubPrNumber?: IntFilter<"PullRequest"> | number
+    repo?: StringFilter<"PullRequest"> | string
+    bountyId?: StringFilter<"PullRequest"> | string
+    developerId?: StringFilter<"PullRequest"> | string
+    demoUrl?: StringNullableFilter<"PullRequest"> | string | null
+    status?: EnumPullRequestStatusFilter<"PullRequest"> | $Enums.PullRequestStatus
+    createdAt?: DateTimeFilter<"PullRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"PullRequest"> | Date | string
+    bounty?: XOR<BountyScalarRelationFilter, BountyWhereInput>
+    developer?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PullRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    githubPrNumber?: SortOrder
+    repo?: SortOrder
+    bountyId?: SortOrder
+    developerId?: SortOrder
+    demoUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    bounty?: BountyOrderByWithRelationInput
+    developer?: UserOrderByWithRelationInput
+  }
+
+  export type PullRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    githubPrNumber_repo?: PullRequestGithubPrNumber_repoCompoundUniqueInput
+    AND?: PullRequestWhereInput | PullRequestWhereInput[]
+    OR?: PullRequestWhereInput[]
+    NOT?: PullRequestWhereInput | PullRequestWhereInput[]
+    githubPrNumber?: IntFilter<"PullRequest"> | number
+    repo?: StringFilter<"PullRequest"> | string
+    bountyId?: StringFilter<"PullRequest"> | string
+    developerId?: StringFilter<"PullRequest"> | string
+    demoUrl?: StringNullableFilter<"PullRequest"> | string | null
+    status?: EnumPullRequestStatusFilter<"PullRequest"> | $Enums.PullRequestStatus
+    createdAt?: DateTimeFilter<"PullRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"PullRequest"> | Date | string
+    bounty?: XOR<BountyScalarRelationFilter, BountyWhereInput>
+    developer?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "githubPrNumber_repo">
+
+  export type PullRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    githubPrNumber?: SortOrder
+    repo?: SortOrder
+    bountyId?: SortOrder
+    developerId?: SortOrder
+    demoUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PullRequestCountOrderByAggregateInput
+    _avg?: PullRequestAvgOrderByAggregateInput
+    _max?: PullRequestMaxOrderByAggregateInput
+    _min?: PullRequestMinOrderByAggregateInput
+    _sum?: PullRequestSumOrderByAggregateInput
+  }
+
+  export type PullRequestScalarWhereWithAggregatesInput = {
+    AND?: PullRequestScalarWhereWithAggregatesInput | PullRequestScalarWhereWithAggregatesInput[]
+    OR?: PullRequestScalarWhereWithAggregatesInput[]
+    NOT?: PullRequestScalarWhereWithAggregatesInput | PullRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PullRequest"> | string
+    githubPrNumber?: IntWithAggregatesFilter<"PullRequest"> | number
+    repo?: StringWithAggregatesFilter<"PullRequest"> | string
+    bountyId?: StringWithAggregatesFilter<"PullRequest"> | string
+    developerId?: StringWithAggregatesFilter<"PullRequest"> | string
+    demoUrl?: StringNullableWithAggregatesFilter<"PullRequest"> | string | null
+    status?: EnumPullRequestStatusWithAggregatesFilter<"PullRequest"> | $Enums.PullRequestStatus
+    createdAt?: DateTimeWithAggregatesFilter<"PullRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PullRequest"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     clerkId: string
@@ -2107,6 +5148,8 @@ export namespace Prisma {
     walletAddress?: string | null
     updatedAt?: Date | string
     imageUrl?: string | null
+    bountiesCreated?: BountyCreateNestedManyWithoutCreatorInput
+    pullRequests?: PullRequestCreateNestedManyWithoutDeveloperInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -2118,6 +5161,8 @@ export namespace Prisma {
     walletAddress?: string | null
     updatedAt?: Date | string
     imageUrl?: string | null
+    bountiesCreated?: BountyUncheckedCreateNestedManyWithoutCreatorInput
+    pullRequests?: PullRequestUncheckedCreateNestedManyWithoutDeveloperInput
   }
 
   export type UserUpdateInput = {
@@ -2129,6 +5174,8 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bountiesCreated?: BountyUpdateManyWithoutCreatorNestedInput
+    pullRequests?: PullRequestUpdateManyWithoutDeveloperNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2140,6 +5187,8 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bountiesCreated?: BountyUncheckedUpdateManyWithoutCreatorNestedInput
+    pullRequests?: PullRequestUncheckedUpdateManyWithoutDeveloperNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -2173,6 +5222,210 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BountyCreateInput = {
+    id?: string
+    issueUrl: string
+    title: string
+    description: string
+    repository: string
+    issueNumber: number
+    githubLink: string
+    keywords: JsonNullValueInput | InputJsonValue
+    requirements: JsonNullValueInput | InputJsonValue
+    reward: string
+    status?: $Enums.BountyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator: UserCreateNestedOneWithoutBountiesCreatedInput
+    pullRequests?: PullRequestCreateNestedManyWithoutBountyInput
+  }
+
+  export type BountyUncheckedCreateInput = {
+    id?: string
+    issueUrl: string
+    title: string
+    description: string
+    repository: string
+    issueNumber: number
+    githubLink: string
+    keywords: JsonNullValueInput | InputJsonValue
+    requirements: JsonNullValueInput | InputJsonValue
+    reward: string
+    status?: $Enums.BountyStatus
+    creatorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pullRequests?: PullRequestUncheckedCreateNestedManyWithoutBountyInput
+  }
+
+  export type BountyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issueUrl?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    repository?: StringFieldUpdateOperationsInput | string
+    issueNumber?: IntFieldUpdateOperationsInput | number
+    githubLink?: StringFieldUpdateOperationsInput | string
+    keywords?: JsonNullValueInput | InputJsonValue
+    requirements?: JsonNullValueInput | InputJsonValue
+    reward?: StringFieldUpdateOperationsInput | string
+    status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutBountiesCreatedNestedInput
+    pullRequests?: PullRequestUpdateManyWithoutBountyNestedInput
+  }
+
+  export type BountyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issueUrl?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    repository?: StringFieldUpdateOperationsInput | string
+    issueNumber?: IntFieldUpdateOperationsInput | number
+    githubLink?: StringFieldUpdateOperationsInput | string
+    keywords?: JsonNullValueInput | InputJsonValue
+    requirements?: JsonNullValueInput | InputJsonValue
+    reward?: StringFieldUpdateOperationsInput | string
+    status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
+    creatorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pullRequests?: PullRequestUncheckedUpdateManyWithoutBountyNestedInput
+  }
+
+  export type BountyCreateManyInput = {
+    id?: string
+    issueUrl: string
+    title: string
+    description: string
+    repository: string
+    issueNumber: number
+    githubLink: string
+    keywords: JsonNullValueInput | InputJsonValue
+    requirements: JsonNullValueInput | InputJsonValue
+    reward: string
+    status?: $Enums.BountyStatus
+    creatorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BountyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issueUrl?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    repository?: StringFieldUpdateOperationsInput | string
+    issueNumber?: IntFieldUpdateOperationsInput | number
+    githubLink?: StringFieldUpdateOperationsInput | string
+    keywords?: JsonNullValueInput | InputJsonValue
+    requirements?: JsonNullValueInput | InputJsonValue
+    reward?: StringFieldUpdateOperationsInput | string
+    status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BountyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issueUrl?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    repository?: StringFieldUpdateOperationsInput | string
+    issueNumber?: IntFieldUpdateOperationsInput | number
+    githubLink?: StringFieldUpdateOperationsInput | string
+    keywords?: JsonNullValueInput | InputJsonValue
+    requirements?: JsonNullValueInput | InputJsonValue
+    reward?: StringFieldUpdateOperationsInput | string
+    status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
+    creatorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PullRequestCreateInput = {
+    id?: string
+    githubPrNumber: number
+    repo: string
+    demoUrl?: string | null
+    status?: $Enums.PullRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bounty: BountyCreateNestedOneWithoutPullRequestsInput
+    developer: UserCreateNestedOneWithoutPullRequestsInput
+  }
+
+  export type PullRequestUncheckedCreateInput = {
+    id?: string
+    githubPrNumber: number
+    repo: string
+    bountyId: string
+    developerId: string
+    demoUrl?: string | null
+    status?: $Enums.PullRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PullRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubPrNumber?: IntFieldUpdateOperationsInput | number
+    repo?: StringFieldUpdateOperationsInput | string
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPullRequestStatusFieldUpdateOperationsInput | $Enums.PullRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bounty?: BountyUpdateOneRequiredWithoutPullRequestsNestedInput
+    developer?: UserUpdateOneRequiredWithoutPullRequestsNestedInput
+  }
+
+  export type PullRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubPrNumber?: IntFieldUpdateOperationsInput | number
+    repo?: StringFieldUpdateOperationsInput | string
+    bountyId?: StringFieldUpdateOperationsInput | string
+    developerId?: StringFieldUpdateOperationsInput | string
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPullRequestStatusFieldUpdateOperationsInput | $Enums.PullRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PullRequestCreateManyInput = {
+    id?: string
+    githubPrNumber: number
+    repo: string
+    bountyId: string
+    developerId: string
+    demoUrl?: string | null
+    status?: $Enums.PullRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PullRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubPrNumber?: IntFieldUpdateOperationsInput | number
+    repo?: StringFieldUpdateOperationsInput | string
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPullRequestStatusFieldUpdateOperationsInput | $Enums.PullRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PullRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubPrNumber?: IntFieldUpdateOperationsInput | number
+    repo?: StringFieldUpdateOperationsInput | string
+    bountyId?: StringFieldUpdateOperationsInput | string
+    developerId?: StringFieldUpdateOperationsInput | string
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPullRequestStatusFieldUpdateOperationsInput | $Enums.PullRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2239,9 +5492,29 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type BountyListRelationFilter = {
+    every?: BountyWhereInput
+    some?: BountyWhereInput
+    none?: BountyWhereInput
+  }
+
+  export type PullRequestListRelationFilter = {
+    every?: PullRequestWhereInput
+    some?: PullRequestWhereInput
+    none?: PullRequestWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type BountyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PullRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -2351,6 +5624,209 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type EnumBountyStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BountyStatus | EnumBountyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BountyStatus[] | ListEnumBountyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BountyStatus[] | ListEnumBountyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBountyStatusFilter<$PrismaModel> | $Enums.BountyStatus
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type BountyCountOrderByAggregateInput = {
+    id?: SortOrder
+    issueUrl?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    repository?: SortOrder
+    issueNumber?: SortOrder
+    githubLink?: SortOrder
+    keywords?: SortOrder
+    requirements?: SortOrder
+    reward?: SortOrder
+    status?: SortOrder
+    creatorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BountyAvgOrderByAggregateInput = {
+    issueNumber?: SortOrder
+  }
+
+  export type BountyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    issueUrl?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    repository?: SortOrder
+    issueNumber?: SortOrder
+    githubLink?: SortOrder
+    reward?: SortOrder
+    status?: SortOrder
+    creatorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BountyMinOrderByAggregateInput = {
+    id?: SortOrder
+    issueUrl?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    repository?: SortOrder
+    issueNumber?: SortOrder
+    githubLink?: SortOrder
+    reward?: SortOrder
+    status?: SortOrder
+    creatorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BountySumOrderByAggregateInput = {
+    issueNumber?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumBountyStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BountyStatus | EnumBountyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BountyStatus[] | ListEnumBountyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BountyStatus[] | ListEnumBountyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBountyStatusWithAggregatesFilter<$PrismaModel> | $Enums.BountyStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBountyStatusFilter<$PrismaModel>
+    _max?: NestedEnumBountyStatusFilter<$PrismaModel>
+  }
+
+  export type EnumPullRequestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PullRequestStatus | EnumPullRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PullRequestStatus[] | ListEnumPullRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PullRequestStatus[] | ListEnumPullRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPullRequestStatusFilter<$PrismaModel> | $Enums.PullRequestStatus
+  }
+
+  export type BountyScalarRelationFilter = {
+    is?: BountyWhereInput
+    isNot?: BountyWhereInput
+  }
+
+  export type PullRequestGithubPrNumber_repoCompoundUniqueInput = {
+    githubPrNumber: number
+    repo: string
+  }
+
+  export type PullRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    githubPrNumber?: SortOrder
+    repo?: SortOrder
+    bountyId?: SortOrder
+    developerId?: SortOrder
+    demoUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PullRequestAvgOrderByAggregateInput = {
+    githubPrNumber?: SortOrder
+  }
+
+  export type PullRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    githubPrNumber?: SortOrder
+    repo?: SortOrder
+    bountyId?: SortOrder
+    developerId?: SortOrder
+    demoUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PullRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    githubPrNumber?: SortOrder
+    repo?: SortOrder
+    bountyId?: SortOrder
+    developerId?: SortOrder
+    demoUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PullRequestSumOrderByAggregateInput = {
+    githubPrNumber?: SortOrder
+  }
+
+  export type EnumPullRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PullRequestStatus | EnumPullRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PullRequestStatus[] | ListEnumPullRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PullRequestStatus[] | ListEnumPullRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPullRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.PullRequestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPullRequestStatusFilter<$PrismaModel>
+    _max?: NestedEnumPullRequestStatusFilter<$PrismaModel>
+  }
+
+  export type BountyCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<BountyCreateWithoutCreatorInput, BountyUncheckedCreateWithoutCreatorInput> | BountyCreateWithoutCreatorInput[] | BountyUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: BountyCreateOrConnectWithoutCreatorInput | BountyCreateOrConnectWithoutCreatorInput[]
+    createMany?: BountyCreateManyCreatorInputEnvelope
+    connect?: BountyWhereUniqueInput | BountyWhereUniqueInput[]
+  }
+
+  export type PullRequestCreateNestedManyWithoutDeveloperInput = {
+    create?: XOR<PullRequestCreateWithoutDeveloperInput, PullRequestUncheckedCreateWithoutDeveloperInput> | PullRequestCreateWithoutDeveloperInput[] | PullRequestUncheckedCreateWithoutDeveloperInput[]
+    connectOrCreate?: PullRequestCreateOrConnectWithoutDeveloperInput | PullRequestCreateOrConnectWithoutDeveloperInput[]
+    createMany?: PullRequestCreateManyDeveloperInputEnvelope
+    connect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+  }
+
+  export type BountyUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<BountyCreateWithoutCreatorInput, BountyUncheckedCreateWithoutCreatorInput> | BountyCreateWithoutCreatorInput[] | BountyUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: BountyCreateOrConnectWithoutCreatorInput | BountyCreateOrConnectWithoutCreatorInput[]
+    createMany?: BountyCreateManyCreatorInputEnvelope
+    connect?: BountyWhereUniqueInput | BountyWhereUniqueInput[]
+  }
+
+  export type PullRequestUncheckedCreateNestedManyWithoutDeveloperInput = {
+    create?: XOR<PullRequestCreateWithoutDeveloperInput, PullRequestUncheckedCreateWithoutDeveloperInput> | PullRequestCreateWithoutDeveloperInput[] | PullRequestUncheckedCreateWithoutDeveloperInput[]
+    connectOrCreate?: PullRequestCreateOrConnectWithoutDeveloperInput | PullRequestCreateOrConnectWithoutDeveloperInput[]
+    createMany?: PullRequestCreateManyDeveloperInputEnvelope
+    connect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2361,6 +5837,162 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type BountyUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<BountyCreateWithoutCreatorInput, BountyUncheckedCreateWithoutCreatorInput> | BountyCreateWithoutCreatorInput[] | BountyUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: BountyCreateOrConnectWithoutCreatorInput | BountyCreateOrConnectWithoutCreatorInput[]
+    upsert?: BountyUpsertWithWhereUniqueWithoutCreatorInput | BountyUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: BountyCreateManyCreatorInputEnvelope
+    set?: BountyWhereUniqueInput | BountyWhereUniqueInput[]
+    disconnect?: BountyWhereUniqueInput | BountyWhereUniqueInput[]
+    delete?: BountyWhereUniqueInput | BountyWhereUniqueInput[]
+    connect?: BountyWhereUniqueInput | BountyWhereUniqueInput[]
+    update?: BountyUpdateWithWhereUniqueWithoutCreatorInput | BountyUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: BountyUpdateManyWithWhereWithoutCreatorInput | BountyUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: BountyScalarWhereInput | BountyScalarWhereInput[]
+  }
+
+  export type PullRequestUpdateManyWithoutDeveloperNestedInput = {
+    create?: XOR<PullRequestCreateWithoutDeveloperInput, PullRequestUncheckedCreateWithoutDeveloperInput> | PullRequestCreateWithoutDeveloperInput[] | PullRequestUncheckedCreateWithoutDeveloperInput[]
+    connectOrCreate?: PullRequestCreateOrConnectWithoutDeveloperInput | PullRequestCreateOrConnectWithoutDeveloperInput[]
+    upsert?: PullRequestUpsertWithWhereUniqueWithoutDeveloperInput | PullRequestUpsertWithWhereUniqueWithoutDeveloperInput[]
+    createMany?: PullRequestCreateManyDeveloperInputEnvelope
+    set?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    disconnect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    delete?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    connect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    update?: PullRequestUpdateWithWhereUniqueWithoutDeveloperInput | PullRequestUpdateWithWhereUniqueWithoutDeveloperInput[]
+    updateMany?: PullRequestUpdateManyWithWhereWithoutDeveloperInput | PullRequestUpdateManyWithWhereWithoutDeveloperInput[]
+    deleteMany?: PullRequestScalarWhereInput | PullRequestScalarWhereInput[]
+  }
+
+  export type BountyUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<BountyCreateWithoutCreatorInput, BountyUncheckedCreateWithoutCreatorInput> | BountyCreateWithoutCreatorInput[] | BountyUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: BountyCreateOrConnectWithoutCreatorInput | BountyCreateOrConnectWithoutCreatorInput[]
+    upsert?: BountyUpsertWithWhereUniqueWithoutCreatorInput | BountyUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: BountyCreateManyCreatorInputEnvelope
+    set?: BountyWhereUniqueInput | BountyWhereUniqueInput[]
+    disconnect?: BountyWhereUniqueInput | BountyWhereUniqueInput[]
+    delete?: BountyWhereUniqueInput | BountyWhereUniqueInput[]
+    connect?: BountyWhereUniqueInput | BountyWhereUniqueInput[]
+    update?: BountyUpdateWithWhereUniqueWithoutCreatorInput | BountyUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: BountyUpdateManyWithWhereWithoutCreatorInput | BountyUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: BountyScalarWhereInput | BountyScalarWhereInput[]
+  }
+
+  export type PullRequestUncheckedUpdateManyWithoutDeveloperNestedInput = {
+    create?: XOR<PullRequestCreateWithoutDeveloperInput, PullRequestUncheckedCreateWithoutDeveloperInput> | PullRequestCreateWithoutDeveloperInput[] | PullRequestUncheckedCreateWithoutDeveloperInput[]
+    connectOrCreate?: PullRequestCreateOrConnectWithoutDeveloperInput | PullRequestCreateOrConnectWithoutDeveloperInput[]
+    upsert?: PullRequestUpsertWithWhereUniqueWithoutDeveloperInput | PullRequestUpsertWithWhereUniqueWithoutDeveloperInput[]
+    createMany?: PullRequestCreateManyDeveloperInputEnvelope
+    set?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    disconnect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    delete?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    connect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    update?: PullRequestUpdateWithWhereUniqueWithoutDeveloperInput | PullRequestUpdateWithWhereUniqueWithoutDeveloperInput[]
+    updateMany?: PullRequestUpdateManyWithWhereWithoutDeveloperInput | PullRequestUpdateManyWithWhereWithoutDeveloperInput[]
+    deleteMany?: PullRequestScalarWhereInput | PullRequestScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutBountiesCreatedInput = {
+    create?: XOR<UserCreateWithoutBountiesCreatedInput, UserUncheckedCreateWithoutBountiesCreatedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBountiesCreatedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PullRequestCreateNestedManyWithoutBountyInput = {
+    create?: XOR<PullRequestCreateWithoutBountyInput, PullRequestUncheckedCreateWithoutBountyInput> | PullRequestCreateWithoutBountyInput[] | PullRequestUncheckedCreateWithoutBountyInput[]
+    connectOrCreate?: PullRequestCreateOrConnectWithoutBountyInput | PullRequestCreateOrConnectWithoutBountyInput[]
+    createMany?: PullRequestCreateManyBountyInputEnvelope
+    connect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+  }
+
+  export type PullRequestUncheckedCreateNestedManyWithoutBountyInput = {
+    create?: XOR<PullRequestCreateWithoutBountyInput, PullRequestUncheckedCreateWithoutBountyInput> | PullRequestCreateWithoutBountyInput[] | PullRequestUncheckedCreateWithoutBountyInput[]
+    connectOrCreate?: PullRequestCreateOrConnectWithoutBountyInput | PullRequestCreateOrConnectWithoutBountyInput[]
+    createMany?: PullRequestCreateManyBountyInputEnvelope
+    connect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumBountyStatusFieldUpdateOperationsInput = {
+    set?: $Enums.BountyStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutBountiesCreatedNestedInput = {
+    create?: XOR<UserCreateWithoutBountiesCreatedInput, UserUncheckedCreateWithoutBountiesCreatedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBountiesCreatedInput
+    upsert?: UserUpsertWithoutBountiesCreatedInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBountiesCreatedInput, UserUpdateWithoutBountiesCreatedInput>, UserUncheckedUpdateWithoutBountiesCreatedInput>
+  }
+
+  export type PullRequestUpdateManyWithoutBountyNestedInput = {
+    create?: XOR<PullRequestCreateWithoutBountyInput, PullRequestUncheckedCreateWithoutBountyInput> | PullRequestCreateWithoutBountyInput[] | PullRequestUncheckedCreateWithoutBountyInput[]
+    connectOrCreate?: PullRequestCreateOrConnectWithoutBountyInput | PullRequestCreateOrConnectWithoutBountyInput[]
+    upsert?: PullRequestUpsertWithWhereUniqueWithoutBountyInput | PullRequestUpsertWithWhereUniqueWithoutBountyInput[]
+    createMany?: PullRequestCreateManyBountyInputEnvelope
+    set?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    disconnect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    delete?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    connect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    update?: PullRequestUpdateWithWhereUniqueWithoutBountyInput | PullRequestUpdateWithWhereUniqueWithoutBountyInput[]
+    updateMany?: PullRequestUpdateManyWithWhereWithoutBountyInput | PullRequestUpdateManyWithWhereWithoutBountyInput[]
+    deleteMany?: PullRequestScalarWhereInput | PullRequestScalarWhereInput[]
+  }
+
+  export type PullRequestUncheckedUpdateManyWithoutBountyNestedInput = {
+    create?: XOR<PullRequestCreateWithoutBountyInput, PullRequestUncheckedCreateWithoutBountyInput> | PullRequestCreateWithoutBountyInput[] | PullRequestUncheckedCreateWithoutBountyInput[]
+    connectOrCreate?: PullRequestCreateOrConnectWithoutBountyInput | PullRequestCreateOrConnectWithoutBountyInput[]
+    upsert?: PullRequestUpsertWithWhereUniqueWithoutBountyInput | PullRequestUpsertWithWhereUniqueWithoutBountyInput[]
+    createMany?: PullRequestCreateManyBountyInputEnvelope
+    set?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    disconnect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    delete?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    connect?: PullRequestWhereUniqueInput | PullRequestWhereUniqueInput[]
+    update?: PullRequestUpdateWithWhereUniqueWithoutBountyInput | PullRequestUpdateWithWhereUniqueWithoutBountyInput[]
+    updateMany?: PullRequestUpdateManyWithWhereWithoutBountyInput | PullRequestUpdateManyWithWhereWithoutBountyInput[]
+    deleteMany?: PullRequestScalarWhereInput | PullRequestScalarWhereInput[]
+  }
+
+  export type BountyCreateNestedOneWithoutPullRequestsInput = {
+    create?: XOR<BountyCreateWithoutPullRequestsInput, BountyUncheckedCreateWithoutPullRequestsInput>
+    connectOrCreate?: BountyCreateOrConnectWithoutPullRequestsInput
+    connect?: BountyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPullRequestsInput = {
+    create?: XOR<UserCreateWithoutPullRequestsInput, UserUncheckedCreateWithoutPullRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPullRequestsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumPullRequestStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PullRequestStatus
+  }
+
+  export type BountyUpdateOneRequiredWithoutPullRequestsNestedInput = {
+    create?: XOR<BountyCreateWithoutPullRequestsInput, BountyUncheckedCreateWithoutPullRequestsInput>
+    connectOrCreate?: BountyCreateOrConnectWithoutPullRequestsInput
+    upsert?: BountyUpsertWithoutPullRequestsInput
+    connect?: BountyWhereUniqueInput
+    update?: XOR<XOR<BountyUpdateToOneWithWhereWithoutPullRequestsInput, BountyUpdateWithoutPullRequestsInput>, BountyUncheckedUpdateWithoutPullRequestsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPullRequestsNestedInput = {
+    create?: XOR<UserCreateWithoutPullRequestsInput, UserUncheckedCreateWithoutPullRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPullRequestsInput
+    upsert?: UserUpsertWithoutPullRequestsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPullRequestsInput, UserUpdateWithoutPullRequestsInput>, UserUncheckedUpdateWithoutPullRequestsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2493,6 +6125,624 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBountyStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BountyStatus | EnumBountyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BountyStatus[] | ListEnumBountyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BountyStatus[] | ListEnumBountyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBountyStatusFilter<$PrismaModel> | $Enums.BountyStatus
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumBountyStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BountyStatus | EnumBountyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BountyStatus[] | ListEnumBountyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BountyStatus[] | ListEnumBountyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBountyStatusWithAggregatesFilter<$PrismaModel> | $Enums.BountyStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBountyStatusFilter<$PrismaModel>
+    _max?: NestedEnumBountyStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPullRequestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PullRequestStatus | EnumPullRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PullRequestStatus[] | ListEnumPullRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PullRequestStatus[] | ListEnumPullRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPullRequestStatusFilter<$PrismaModel> | $Enums.PullRequestStatus
+  }
+
+  export type NestedEnumPullRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PullRequestStatus | EnumPullRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PullRequestStatus[] | ListEnumPullRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PullRequestStatus[] | ListEnumPullRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPullRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.PullRequestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPullRequestStatusFilter<$PrismaModel>
+    _max?: NestedEnumPullRequestStatusFilter<$PrismaModel>
+  }
+
+  export type BountyCreateWithoutCreatorInput = {
+    id?: string
+    issueUrl: string
+    title: string
+    description: string
+    repository: string
+    issueNumber: number
+    githubLink: string
+    keywords: JsonNullValueInput | InputJsonValue
+    requirements: JsonNullValueInput | InputJsonValue
+    reward: string
+    status?: $Enums.BountyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pullRequests?: PullRequestCreateNestedManyWithoutBountyInput
+  }
+
+  export type BountyUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    issueUrl: string
+    title: string
+    description: string
+    repository: string
+    issueNumber: number
+    githubLink: string
+    keywords: JsonNullValueInput | InputJsonValue
+    requirements: JsonNullValueInput | InputJsonValue
+    reward: string
+    status?: $Enums.BountyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pullRequests?: PullRequestUncheckedCreateNestedManyWithoutBountyInput
+  }
+
+  export type BountyCreateOrConnectWithoutCreatorInput = {
+    where: BountyWhereUniqueInput
+    create: XOR<BountyCreateWithoutCreatorInput, BountyUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type BountyCreateManyCreatorInputEnvelope = {
+    data: BountyCreateManyCreatorInput | BountyCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PullRequestCreateWithoutDeveloperInput = {
+    id?: string
+    githubPrNumber: number
+    repo: string
+    demoUrl?: string | null
+    status?: $Enums.PullRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bounty: BountyCreateNestedOneWithoutPullRequestsInput
+  }
+
+  export type PullRequestUncheckedCreateWithoutDeveloperInput = {
+    id?: string
+    githubPrNumber: number
+    repo: string
+    bountyId: string
+    demoUrl?: string | null
+    status?: $Enums.PullRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PullRequestCreateOrConnectWithoutDeveloperInput = {
+    where: PullRequestWhereUniqueInput
+    create: XOR<PullRequestCreateWithoutDeveloperInput, PullRequestUncheckedCreateWithoutDeveloperInput>
+  }
+
+  export type PullRequestCreateManyDeveloperInputEnvelope = {
+    data: PullRequestCreateManyDeveloperInput | PullRequestCreateManyDeveloperInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BountyUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: BountyWhereUniqueInput
+    update: XOR<BountyUpdateWithoutCreatorInput, BountyUncheckedUpdateWithoutCreatorInput>
+    create: XOR<BountyCreateWithoutCreatorInput, BountyUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type BountyUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: BountyWhereUniqueInput
+    data: XOR<BountyUpdateWithoutCreatorInput, BountyUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type BountyUpdateManyWithWhereWithoutCreatorInput = {
+    where: BountyScalarWhereInput
+    data: XOR<BountyUpdateManyMutationInput, BountyUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type BountyScalarWhereInput = {
+    AND?: BountyScalarWhereInput | BountyScalarWhereInput[]
+    OR?: BountyScalarWhereInput[]
+    NOT?: BountyScalarWhereInput | BountyScalarWhereInput[]
+    id?: StringFilter<"Bounty"> | string
+    issueUrl?: StringFilter<"Bounty"> | string
+    title?: StringFilter<"Bounty"> | string
+    description?: StringFilter<"Bounty"> | string
+    repository?: StringFilter<"Bounty"> | string
+    issueNumber?: IntFilter<"Bounty"> | number
+    githubLink?: StringFilter<"Bounty"> | string
+    keywords?: JsonFilter<"Bounty">
+    requirements?: JsonFilter<"Bounty">
+    reward?: StringFilter<"Bounty"> | string
+    status?: EnumBountyStatusFilter<"Bounty"> | $Enums.BountyStatus
+    creatorId?: StringFilter<"Bounty"> | string
+    createdAt?: DateTimeFilter<"Bounty"> | Date | string
+    updatedAt?: DateTimeFilter<"Bounty"> | Date | string
+  }
+
+  export type PullRequestUpsertWithWhereUniqueWithoutDeveloperInput = {
+    where: PullRequestWhereUniqueInput
+    update: XOR<PullRequestUpdateWithoutDeveloperInput, PullRequestUncheckedUpdateWithoutDeveloperInput>
+    create: XOR<PullRequestCreateWithoutDeveloperInput, PullRequestUncheckedCreateWithoutDeveloperInput>
+  }
+
+  export type PullRequestUpdateWithWhereUniqueWithoutDeveloperInput = {
+    where: PullRequestWhereUniqueInput
+    data: XOR<PullRequestUpdateWithoutDeveloperInput, PullRequestUncheckedUpdateWithoutDeveloperInput>
+  }
+
+  export type PullRequestUpdateManyWithWhereWithoutDeveloperInput = {
+    where: PullRequestScalarWhereInput
+    data: XOR<PullRequestUpdateManyMutationInput, PullRequestUncheckedUpdateManyWithoutDeveloperInput>
+  }
+
+  export type PullRequestScalarWhereInput = {
+    AND?: PullRequestScalarWhereInput | PullRequestScalarWhereInput[]
+    OR?: PullRequestScalarWhereInput[]
+    NOT?: PullRequestScalarWhereInput | PullRequestScalarWhereInput[]
+    id?: StringFilter<"PullRequest"> | string
+    githubPrNumber?: IntFilter<"PullRequest"> | number
+    repo?: StringFilter<"PullRequest"> | string
+    bountyId?: StringFilter<"PullRequest"> | string
+    developerId?: StringFilter<"PullRequest"> | string
+    demoUrl?: StringNullableFilter<"PullRequest"> | string | null
+    status?: EnumPullRequestStatusFilter<"PullRequest"> | $Enums.PullRequestStatus
+    createdAt?: DateTimeFilter<"PullRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"PullRequest"> | Date | string
+  }
+
+  export type UserCreateWithoutBountiesCreatedInput = {
+    id?: string
+    clerkId: string
+    username?: string | null
+    githubStats: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    walletAddress?: string | null
+    updatedAt?: Date | string
+    imageUrl?: string | null
+    pullRequests?: PullRequestCreateNestedManyWithoutDeveloperInput
+  }
+
+  export type UserUncheckedCreateWithoutBountiesCreatedInput = {
+    id?: string
+    clerkId: string
+    username?: string | null
+    githubStats: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    walletAddress?: string | null
+    updatedAt?: Date | string
+    imageUrl?: string | null
+    pullRequests?: PullRequestUncheckedCreateNestedManyWithoutDeveloperInput
+  }
+
+  export type UserCreateOrConnectWithoutBountiesCreatedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBountiesCreatedInput, UserUncheckedCreateWithoutBountiesCreatedInput>
+  }
+
+  export type PullRequestCreateWithoutBountyInput = {
+    id?: string
+    githubPrNumber: number
+    repo: string
+    demoUrl?: string | null
+    status?: $Enums.PullRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    developer: UserCreateNestedOneWithoutPullRequestsInput
+  }
+
+  export type PullRequestUncheckedCreateWithoutBountyInput = {
+    id?: string
+    githubPrNumber: number
+    repo: string
+    developerId: string
+    demoUrl?: string | null
+    status?: $Enums.PullRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PullRequestCreateOrConnectWithoutBountyInput = {
+    where: PullRequestWhereUniqueInput
+    create: XOR<PullRequestCreateWithoutBountyInput, PullRequestUncheckedCreateWithoutBountyInput>
+  }
+
+  export type PullRequestCreateManyBountyInputEnvelope = {
+    data: PullRequestCreateManyBountyInput | PullRequestCreateManyBountyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutBountiesCreatedInput = {
+    update: XOR<UserUpdateWithoutBountiesCreatedInput, UserUncheckedUpdateWithoutBountiesCreatedInput>
+    create: XOR<UserCreateWithoutBountiesCreatedInput, UserUncheckedCreateWithoutBountiesCreatedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBountiesCreatedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBountiesCreatedInput, UserUncheckedUpdateWithoutBountiesCreatedInput>
+  }
+
+  export type UserUpdateWithoutBountiesCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    githubStats?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pullRequests?: PullRequestUpdateManyWithoutDeveloperNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBountiesCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    githubStats?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pullRequests?: PullRequestUncheckedUpdateManyWithoutDeveloperNestedInput
+  }
+
+  export type PullRequestUpsertWithWhereUniqueWithoutBountyInput = {
+    where: PullRequestWhereUniqueInput
+    update: XOR<PullRequestUpdateWithoutBountyInput, PullRequestUncheckedUpdateWithoutBountyInput>
+    create: XOR<PullRequestCreateWithoutBountyInput, PullRequestUncheckedCreateWithoutBountyInput>
+  }
+
+  export type PullRequestUpdateWithWhereUniqueWithoutBountyInput = {
+    where: PullRequestWhereUniqueInput
+    data: XOR<PullRequestUpdateWithoutBountyInput, PullRequestUncheckedUpdateWithoutBountyInput>
+  }
+
+  export type PullRequestUpdateManyWithWhereWithoutBountyInput = {
+    where: PullRequestScalarWhereInput
+    data: XOR<PullRequestUpdateManyMutationInput, PullRequestUncheckedUpdateManyWithoutBountyInput>
+  }
+
+  export type BountyCreateWithoutPullRequestsInput = {
+    id?: string
+    issueUrl: string
+    title: string
+    description: string
+    repository: string
+    issueNumber: number
+    githubLink: string
+    keywords: JsonNullValueInput | InputJsonValue
+    requirements: JsonNullValueInput | InputJsonValue
+    reward: string
+    status?: $Enums.BountyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator: UserCreateNestedOneWithoutBountiesCreatedInput
+  }
+
+  export type BountyUncheckedCreateWithoutPullRequestsInput = {
+    id?: string
+    issueUrl: string
+    title: string
+    description: string
+    repository: string
+    issueNumber: number
+    githubLink: string
+    keywords: JsonNullValueInput | InputJsonValue
+    requirements: JsonNullValueInput | InputJsonValue
+    reward: string
+    status?: $Enums.BountyStatus
+    creatorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BountyCreateOrConnectWithoutPullRequestsInput = {
+    where: BountyWhereUniqueInput
+    create: XOR<BountyCreateWithoutPullRequestsInput, BountyUncheckedCreateWithoutPullRequestsInput>
+  }
+
+  export type UserCreateWithoutPullRequestsInput = {
+    id?: string
+    clerkId: string
+    username?: string | null
+    githubStats: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    walletAddress?: string | null
+    updatedAt?: Date | string
+    imageUrl?: string | null
+    bountiesCreated?: BountyCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutPullRequestsInput = {
+    id?: string
+    clerkId: string
+    username?: string | null
+    githubStats: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    walletAddress?: string | null
+    updatedAt?: Date | string
+    imageUrl?: string | null
+    bountiesCreated?: BountyUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutPullRequestsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPullRequestsInput, UserUncheckedCreateWithoutPullRequestsInput>
+  }
+
+  export type BountyUpsertWithoutPullRequestsInput = {
+    update: XOR<BountyUpdateWithoutPullRequestsInput, BountyUncheckedUpdateWithoutPullRequestsInput>
+    create: XOR<BountyCreateWithoutPullRequestsInput, BountyUncheckedCreateWithoutPullRequestsInput>
+    where?: BountyWhereInput
+  }
+
+  export type BountyUpdateToOneWithWhereWithoutPullRequestsInput = {
+    where?: BountyWhereInput
+    data: XOR<BountyUpdateWithoutPullRequestsInput, BountyUncheckedUpdateWithoutPullRequestsInput>
+  }
+
+  export type BountyUpdateWithoutPullRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issueUrl?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    repository?: StringFieldUpdateOperationsInput | string
+    issueNumber?: IntFieldUpdateOperationsInput | number
+    githubLink?: StringFieldUpdateOperationsInput | string
+    keywords?: JsonNullValueInput | InputJsonValue
+    requirements?: JsonNullValueInput | InputJsonValue
+    reward?: StringFieldUpdateOperationsInput | string
+    status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutBountiesCreatedNestedInput
+  }
+
+  export type BountyUncheckedUpdateWithoutPullRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issueUrl?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    repository?: StringFieldUpdateOperationsInput | string
+    issueNumber?: IntFieldUpdateOperationsInput | number
+    githubLink?: StringFieldUpdateOperationsInput | string
+    keywords?: JsonNullValueInput | InputJsonValue
+    requirements?: JsonNullValueInput | InputJsonValue
+    reward?: StringFieldUpdateOperationsInput | string
+    status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
+    creatorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutPullRequestsInput = {
+    update: XOR<UserUpdateWithoutPullRequestsInput, UserUncheckedUpdateWithoutPullRequestsInput>
+    create: XOR<UserCreateWithoutPullRequestsInput, UserUncheckedCreateWithoutPullRequestsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPullRequestsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPullRequestsInput, UserUncheckedUpdateWithoutPullRequestsInput>
+  }
+
+  export type UserUpdateWithoutPullRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    githubStats?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bountiesCreated?: BountyUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPullRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    githubStats?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bountiesCreated?: BountyUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type BountyCreateManyCreatorInput = {
+    id?: string
+    issueUrl: string
+    title: string
+    description: string
+    repository: string
+    issueNumber: number
+    githubLink: string
+    keywords: JsonNullValueInput | InputJsonValue
+    requirements: JsonNullValueInput | InputJsonValue
+    reward: string
+    status?: $Enums.BountyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PullRequestCreateManyDeveloperInput = {
+    id?: string
+    githubPrNumber: number
+    repo: string
+    bountyId: string
+    demoUrl?: string | null
+    status?: $Enums.PullRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BountyUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issueUrl?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    repository?: StringFieldUpdateOperationsInput | string
+    issueNumber?: IntFieldUpdateOperationsInput | number
+    githubLink?: StringFieldUpdateOperationsInput | string
+    keywords?: JsonNullValueInput | InputJsonValue
+    requirements?: JsonNullValueInput | InputJsonValue
+    reward?: StringFieldUpdateOperationsInput | string
+    status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pullRequests?: PullRequestUpdateManyWithoutBountyNestedInput
+  }
+
+  export type BountyUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issueUrl?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    repository?: StringFieldUpdateOperationsInput | string
+    issueNumber?: IntFieldUpdateOperationsInput | number
+    githubLink?: StringFieldUpdateOperationsInput | string
+    keywords?: JsonNullValueInput | InputJsonValue
+    requirements?: JsonNullValueInput | InputJsonValue
+    reward?: StringFieldUpdateOperationsInput | string
+    status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pullRequests?: PullRequestUncheckedUpdateManyWithoutBountyNestedInput
+  }
+
+  export type BountyUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issueUrl?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    repository?: StringFieldUpdateOperationsInput | string
+    issueNumber?: IntFieldUpdateOperationsInput | number
+    githubLink?: StringFieldUpdateOperationsInput | string
+    keywords?: JsonNullValueInput | InputJsonValue
+    requirements?: JsonNullValueInput | InputJsonValue
+    reward?: StringFieldUpdateOperationsInput | string
+    status?: EnumBountyStatusFieldUpdateOperationsInput | $Enums.BountyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PullRequestUpdateWithoutDeveloperInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubPrNumber?: IntFieldUpdateOperationsInput | number
+    repo?: StringFieldUpdateOperationsInput | string
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPullRequestStatusFieldUpdateOperationsInput | $Enums.PullRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bounty?: BountyUpdateOneRequiredWithoutPullRequestsNestedInput
+  }
+
+  export type PullRequestUncheckedUpdateWithoutDeveloperInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubPrNumber?: IntFieldUpdateOperationsInput | number
+    repo?: StringFieldUpdateOperationsInput | string
+    bountyId?: StringFieldUpdateOperationsInput | string
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPullRequestStatusFieldUpdateOperationsInput | $Enums.PullRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PullRequestUncheckedUpdateManyWithoutDeveloperInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubPrNumber?: IntFieldUpdateOperationsInput | number
+    repo?: StringFieldUpdateOperationsInput | string
+    bountyId?: StringFieldUpdateOperationsInput | string
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPullRequestStatusFieldUpdateOperationsInput | $Enums.PullRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PullRequestCreateManyBountyInput = {
+    id?: string
+    githubPrNumber: number
+    repo: string
+    developerId: string
+    demoUrl?: string | null
+    status?: $Enums.PullRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PullRequestUpdateWithoutBountyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubPrNumber?: IntFieldUpdateOperationsInput | number
+    repo?: StringFieldUpdateOperationsInput | string
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPullRequestStatusFieldUpdateOperationsInput | $Enums.PullRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    developer?: UserUpdateOneRequiredWithoutPullRequestsNestedInput
+  }
+
+  export type PullRequestUncheckedUpdateWithoutBountyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubPrNumber?: IntFieldUpdateOperationsInput | number
+    repo?: StringFieldUpdateOperationsInput | string
+    developerId?: StringFieldUpdateOperationsInput | string
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPullRequestStatusFieldUpdateOperationsInput | $Enums.PullRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PullRequestUncheckedUpdateManyWithoutBountyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubPrNumber?: IntFieldUpdateOperationsInput | number
+    repo?: StringFieldUpdateOperationsInput | string
+    developerId?: StringFieldUpdateOperationsInput | string
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPullRequestStatusFieldUpdateOperationsInput | $Enums.PullRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
-import { MenuIcon, BriefcaseIcon, Wallet as WalletIcon, User as UserIcon } from "lucide-react"
+import { MenuIcon, BriefcaseIcon, Wallet as WalletIcon, User as UserIcon, LayoutDashboardIcon } from "lucide-react"
 import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut, useUser } from "@clerk/nextjs"
 
 import WalletDisplay from '@/components/auth/wallet-display'
@@ -82,6 +82,9 @@ export function Navbar() {
               <Link href="/bounties" className="text-zinc-600 hover:text-orange-500 transition-colors font-medium">
                 Bounties
               </Link>
+              <Link href="/dashboard" className="text-zinc-600 hover:text-orange-500 transition-colors font-medium">
+                Dashboard
+              </Link>
               <Link href="/profile" className="text-zinc-600 hover:text-orange-500 transition-colors font-medium">
                 Profile
               </Link>
@@ -106,7 +109,6 @@ export function Navbar() {
                 </SignedOut>
                 <SignedIn>
                   <UserButton afterSignOutUrl="/">
-                    {/* Custom Wallet Page for the UserProfile Modal */}
                     <UserButton.UserProfilePage label="Wallet" url="wallet" labelIcon={<WalletIcon className="h-4 w-4" />}>
                       <WalletProvider>
                         <div className="p-4 flex justify-center w-full">

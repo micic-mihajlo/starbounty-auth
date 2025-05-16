@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { SearchIcon } from 'lucide-react'
+import { SearchIcon, LayoutDashboardIcon } from 'lucide-react'
 import { MainLayout } from '@/components/layout/main-layout'
 
 // New Component Imports
@@ -22,10 +23,12 @@ interface Bounty {
   githubLink: string
   requirements: string[]
   reward: string
-  status: 'open' | 'in progress' | 'closed'
+  status: 'open' | 'in progress' | 'closed' | 'applied'
+  creatorUsername?: string
+  developerStatus?: 'applied' | 'working' | 'submitted' | 'completed'
 }
 
-interface BountyFormData {
+interface BountyFormDataFromFlow {
   title: string
   repository: string
   issueNumber: string
@@ -55,6 +58,7 @@ const mockBounties_DATA: Bounty[] = [
     ],
     reward: '500 USDC',
     status: 'open',
+    creatorUsername: 'starbountyadmin'
   },
   {
     id: '2',
@@ -73,6 +77,7 @@ const mockBounties_DATA: Bounty[] = [
     ],
     reward: '800 XLM',
     status: 'open',
+    creatorUsername: 'janedev'
   },
   {
     id: '3',
@@ -90,6 +95,7 @@ const mockBounties_DATA: Bounty[] = [
     ],
     reward: '350 USDC',
     status: 'in progress',
+    creatorUsername: 'projectlead'
   },
   {
     id: '4',
@@ -124,15 +130,41 @@ const mockBounties_DATA: Bounty[] = [
     ],
     reward: '600 USDC',
     status: 'open',
+    creatorUsername: 'designguru'
   }
 ]
 
 export default function BountiesPage() {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const activeTab = searchParams.get('tab') || 'browse'
+
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedBounty, setSelectedBounty] = useState<Bounty | null>(null)
-  const [activeTab, setActiveTab] = useState('browse')
-  // mockBounties state allows adding new bounties for demo purposes
   const [mockBounties, setMockBounties] = useState<Bounty[]>(mockBounties_DATA)
+
+  // Effect to handle dashboard redirect if ?tab=dashboard is in URL
+  useEffect(() => {
+    if (searchParams.get('tab') === 'dashboard') {
+      router.replace('/dashboard') // Use replace to avoid back button to the redirecting URL
+    }
+  }, [searchParams, router])
+
+  const handleTabChange = (value: string) => {
+    if (selectedBounty) {
+      setSelectedBounty(null) // Clear selected bounty if a tab is clicked
+    }
+
+    const newSearchParams = new URLSearchParams(searchParams.toString())
+    if (value === 'dashboard') {
+      router.push('/dashboard')
+    } else {
+      newSearchParams.set('tab', value)
+      router.push(`${pathname}?${newSearchParams.toString()}`, { scroll: false })
+    }
+  }
 
   const filteredBounties = useMemo(() => {
     return mockBounties.filter(bounty =>
@@ -143,32 +175,74 @@ export default function BountiesPage() {
     )
   }, [searchTerm, mockBounties])
 
-  const handleBountySubmitFromFlow = (formData: BountyFormData) => {
-    const newBounty: Bounty = {
-      id: Date.now().toString(),
-      title: formData.title,
-      repository: formData.repository,
-      issueNumber: parseInt(formData.issueNumber) || 0,
-      description: formData.description,
-      keywords: formData.keywords.split(',').map(k => k.trim()).filter(Boolean),
-      githubLink: formData.githubLink,
-      requirements: formData.requirements.split('\n').map(r => r.trim()).filter(Boolean),
-      reward: formData.reward,
-      status: 'open'
+  const handleBountySubmitFromFlow = async (formData: BountyFormDataFromFlow) => {
+    try {
+      const response = await fetch('/api/bounties', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+
+      if (!response.ok) {
+        const err = await response.json()
+        throw new Error(err.error || 'Failed to create bounty')
+      }
+
+      const { bounty } = await response.json()
+
+      const mappedBounty: Bounty = {
+        id: bounty.id,
+        title: bounty.title,
+        repository: bounty.repository,
+        issueNumber: bounty.issueNumber,
+        description: bounty.description,
+        keywords: bounty.keywords,
+        githubLink: bounty.githubLink,
+        requirements: bounty.requirements,
+        reward: bounty.reward,
+        status: bounty.status.toLowerCase(),
+        creatorUsername: 'you'
+      }
+
+      setMockBounties(prev => [mappedBounty, ...prev])
+      setSelectedBounty(mappedBounty)
+    } catch (error) {
+      console.error('Error creating bounty', error)
+      // TODO: display toast notification
     }
-    setMockBounties(prev => [newBounty, ...prev])
-    setSelectedBounty(newBounty) 
-    setActiveTab('browse')
   }
 
   const handleCancelAttach = () => {
-    setActiveTab('browse')
+    const newSearchParams = new URLSearchParams(searchParams.toString())
+    newSearchParams.set('tab', 'browse')
+    router.push(`${pathname}?${newSearchParams.toString()}`, { scroll: false })
+  }
+
+  const handleCloseSelectedBounty = () => {
+    setSelectedBounty(null)
+    const newSearchParams = new URLSearchParams(searchParams.toString())
+    if (newSearchParams.get('tab') !== 'browse') { 
+        newSearchParams.set('tab', 'browse');
+        router.push(`${pathname}?${newSearchParams.toString()}`, { scroll: false });
+    }
+  }
+  
+  // Early return for dashboard redirect to prevent flash of content
+  if (searchParams.get('tab') === 'dashboard') {
+      return (
+        <MainLayout>
+            <div className="flex justify-center items-center min-h-screen">
+                <p>Redirecting to dashboard...</p>
+                {/* Consider adding a spinner here */}
+            </div>
+        </MainLayout>
+      );
   }
 
   if (selectedBounty) {
     return (
       <MainLayout>
-        <SelectedBountyDetails bounty={selectedBounty} onClose={() => setSelectedBounty(null)} />
+        <SelectedBountyDetails bounty={selectedBounty} onClose={handleCloseSelectedBounty} />
       </MainLayout>
     )
   }
@@ -181,10 +255,13 @@ export default function BountiesPage() {
           <p className="text-muted-foreground">Find existing bounties or create your own by linking a GitHub issue.</p>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full max-w-4xl mx-auto">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full max-w-4xl mx-auto">
+          <TabsList className="grid w-full grid-cols-3 mb-6">
             <TabsTrigger value="browse">Browse Bounties</TabsTrigger>
             <TabsTrigger value="attach">Attach Bounty</TabsTrigger>
+            <TabsTrigger value="dashboard">
+              <LayoutDashboardIcon className="h-4 w-4 mr-2" /> My Dashboard
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="browse">
@@ -198,7 +275,6 @@ export default function BountiesPage() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-
             {filteredBounties.length > 0 ? (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
                 {filteredBounties.map((bounty) => (
@@ -216,6 +292,7 @@ export default function BountiesPage() {
               onCancel={handleCancelAttach} 
             />
           </TabsContent>
+          {/* No TabsContent for 'dashboard' as it navigates away */}
         </Tabs>
       </div>
     </MainLayout>
