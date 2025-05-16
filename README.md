@@ -43,8 +43,8 @@ BOSS powers decentralized projects with on-chain bounties, secured by passkeys a
   
 1. Clone the repository:  
 ```bash  
-git clone https://github.com/micic-mihajlo/BOSS-auth.git  
-cd BOSS-auth  
+git clone https://github.com/micic-mihajlo/starbounty-auth.git  
+cd starbounty-auth  
 ```  
   
 2. Install dependencies:  
