@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import PasskeyCreationFlow from '../auth/passkey-creation-flow'
 
 export function Navbar() {
-  const { address, isConnected, isLoading, createPasskeyWallet, connectPasskeyWallet } = useWallet();
+  const { address, isConnected, isLoading, createPasskeyWallet, connectPasskeyWallet, userProfile, setUserProfile } = useWallet();
   const [generateWallet, setGenerateWallet] = useState(false)
   const { user } = useUser();
   const [isGeneratingWallet, setIsGeneratingWallet] = useState(false)
@@ -26,7 +26,6 @@ export function Navbar() {
     })
 
     const data = await response.json()
-    console.log(data)
   }
 
   useEffect(() => {
@@ -50,6 +49,24 @@ export function Navbar() {
       generateWalletUsingUsername(user.username)
     }
   }, [generateWallet, user, user?.username, isLoading, address])
+
+  const getUserProfile = async () => {
+    const response = await fetch('/api/getuserprofile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    const data = await response.json()
+    setUserProfile(data.user)
+  }
+
+  useEffect(() => {
+    if (!userProfile) {
+      getUserProfile()
+    }
+  }, [])
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">

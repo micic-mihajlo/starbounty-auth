@@ -11,7 +11,7 @@ import { Navbar } from '@/components/layout/navbar'
 
 export default function ProfilePage() {
   const { user, logout } = useAuth() // Replace with your actual auth context/hook
-  const { address, balance, disconnectWallet } = useWallet() // Replace with your actual wallet context/hook
+  const { address, balance, disconnectWallet, userProfile, setUserProfile  } = useWallet() // Replace with your actual wallet context/hook
   const router = useRouter()
 
   // Mock GitHub data for now
@@ -72,6 +72,7 @@ export default function ProfilePage() {
     },
   } : null
 
+  console.log(userProfile)
 
 const handleLogout = async () => {
   await logout() // Auth context logout
@@ -152,22 +153,22 @@ return (
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
-          {githubUser ? (
+          {userProfile ? (
             <div className="space-y-4">
               {/* User Profile Section */}
               <div className="flex items-center space-x-4">
                 <Avatar className="h-16 w-16 ring-2 ring-orange-500 ring-offset-2">
-                  <AvatarImage src={githubUser.profile_image_url} alt={githubUser.username} />
-                  <AvatarFallback>{githubUser.username.substring(0, 2).toUpperCase()}</AvatarFallback>
+                  <AvatarImage src={userProfile.imageUrl} alt={userProfile.username} />
+                  <AvatarFallback>{userProfile.username.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="text-xl font-semibold text-zinc-800">{githubUser.username}</h3>
+                  <h3 className="text-xl font-semibold text-zinc-800">{userProfile.username}</h3>
                   <div className="flex items-center space-x-2">
                     <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                      {githubUser.githubStats.mostUsedLanguage}
+                      {userProfile.githubStats.mostUsedLanguage}
                     </span>
                     <a
-                      href={`https://github.com/${githubUser.username}`}
+                      href={`https://github.com/${userProfile.username}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm text-orange-600 hover:underline flex items-center"
@@ -182,7 +183,7 @@ return (
               <div className="mt-4">
                 <h4 className="text-sm font-medium text-zinc-500 mb-2">Language Distribution</h4>
                 <div className="space-y-2">
-                  {Object.entries(githubUser.githubStats.languageBreakdown)
+                  {Object.entries(userProfile.githubStats.languageBreakdown)
                     .sort(([, a], [, b]) => (b as number) - (a as number))
                     .slice(0, 5)
                     .map(([language, percentage]) => (
@@ -205,7 +206,7 @@ return (
               {/* GitHub Actions */}
               <div className="mt-4 flex space-x-2">
                 <a
-                  href={`https://github.com/${githubUser.username}?tab=repositories`}
+                  href={`https://github.com/${userProfile.username}?tab=repositories`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs px-3 py-1.5 bg-zinc-800 text-white rounded-md hover:bg-zinc-700 transition-colors inline-flex items-center"
@@ -213,7 +214,7 @@ return (
                   Repositories
                 </a>
                 <a
-                  href={`https://github.com/${githubUser.username}?tab=stars`}
+                  href={`https://github.com/${userProfile.username}?tab=stars`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs px-3 py-1.5 border border-zinc-300 rounded-md hover:bg-zinc-100 transition-colors inline-flex items-center"

@@ -18,6 +18,8 @@ interface WalletContextType {
   fundWalletTestnet: () => Promise<void>
   isFunding: boolean
   accountAddress: string | null
+  userProfile: any
+  setUserProfile: (userProfile: any) => void
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined)
@@ -33,6 +35,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [balance, setBalance] = useState<string | null>(null)
   const [username, setUsername] = useState<string | null>(null)
   const [accountAddress, setAccountAddress] = useState<string | null>(null)
+  const [userProfile, setUserProfile] = useState<any>(null)
   const { toast } = useToast()
   const passkeyKit = usePasskeyKit()
 
@@ -310,6 +313,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         fundWalletTestnet,
         accountAddress,
         isFunding,
+        userProfile,
+        setUserProfile,
       }}
     >
       {children}
