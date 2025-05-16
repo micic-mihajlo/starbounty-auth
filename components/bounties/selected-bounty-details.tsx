@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { XIcon, ExternalLinkIcon } from 'lucide-react'
+import { XIcon, ExternalLinkIcon, RocketIcon, UserIcon } from 'lucide-react'
 
 // Duplicating Bounty and getStatusColor for now, ideally these would be imported from a shared types/utils file
 interface Bounty {
@@ -18,6 +18,7 @@ interface Bounty {
   requirements: string[]
   reward: string
   status: 'open' | 'in progress' | 'closed'
+  creatorUsername?: string
 }
 
 function getStatusColor(status: Bounty['status']): string {
@@ -35,46 +36,62 @@ interface SelectedBountyDetailsProps {
 }
 
 export function SelectedBountyDetails({ bounty, onClose }: SelectedBountyDetailsProps) {
+  const handleApplyClick = () => {
+    console.log(`Applying for bounty: ${bounty.title} (ID: ${bounty.id})`);
+    // Future: Implement application logic (e.g., open a modal, call an API)
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
       <Button onClick={onClose} variant="outline" className="mb-6">
         <XIcon className="h-4 w-4 mr-2" /> Back to List
       </Button>
-      <Card className="shadow-md dark:bg-card">
-        <CardHeader>
-          <div className="flex justify-between items-start">
-            <div>
-              <CardTitle className="text-2xl md:text-3xl font-semibold text-foreground">{bounty.title}</CardTitle>
-              <CardDescription className="text-md text-muted-foreground">
-                {bounty.repository} #{bounty.issueNumber}
+      <Card className="shadow-lg dark:bg-card border-border overflow-hidden">
+        <CardHeader className="bg-muted/30 p-6">
+          <div className="flex justify-between items-start gap-4">
+            <div className="flex-grow">
+              <CardTitle className="text-2xl md:text-3xl font-bold text-foreground leading-tight">{bounty.title}</CardTitle>
+              <CardDescription className="text-md text-muted-foreground mt-1">
+                From repository: {bounty.repository} / Issue #{bounty.issueNumber}
               </CardDescription>
+              {bounty.creatorUsername && (
+                <div className="mt-2 text-sm text-muted-foreground flex items-center">
+                  <UserIcon className="h-4 w-4 mr-1.5" />
+                  Posted by: <span className="font-medium text-foreground/90 ml-1">{bounty.creatorUsername}</span>
+                </div>
+              )}
             </div>
-            <Badge className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(bounty.status)}`}>{bounty.status.toUpperCase()}</Badge>
+            <Badge className={`text-xs px-3 py-1.5 rounded-md font-semibold whitespace-nowrap self-start ${getStatusColor(bounty.status)}`}>
+              {bounty.status.toUpperCase()}
+            </Badge>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="p-6 space-y-6">
           <div>
-            <h3 className="text-lg font-medium mb-1 text-foreground/90">Description</h3>
+            <h3 className="text-xl font-semibold mb-2 text-foreground">Bounty Details</h3>
             <p className="text-foreground/80 leading-relaxed whitespace-pre-wrap">{bounty.description}</p>
           </div>
-          <div>
-            <h3 className="text-lg font-medium mb-1 text-foreground/90">Reward</h3>
-            <p className="text-foreground/80 font-semibold">{bounty.reward}</p>
-          </div>
-          {bounty.keywords.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="text-lg font-medium mb-1 text-foreground/90">Keywords</h3>
-              <div className="flex flex-wrap gap-2">
-                {bounty.keywords.map(keyword => (
-                  <Badge key={keyword} variant="secondary" className="text-xs">{keyword}</Badge>
-                ))}
-              </div>
+              <h3 className="text-lg font-semibold mb-2 text-foreground/90">Reward</h3>
+              <p className="text-xl font-bold gradient-text">{bounty.reward}</p>
             </div>
-          )}
+            {bounty.keywords.length > 0 && (
+              <div>
+                <h3 className="text-lg font-semibold mb-2 text-foreground/90">Tech Stack / Keywords</h3>
+                <div className="flex flex-wrap gap-2">
+                  {bounty.keywords.map(keyword => (
+                    <Badge key={keyword} variant="secondary" className="text-sm">{keyword}</Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
           {bounty.requirements.length > 0 && (
             <div>
-              <h3 className="text-lg font-medium mb-1 text-foreground/90">Requirements</h3>
-              <ul className="list-disc list-inside space-y-1 text-foreground/80 pl-2">
+              <h3 className="text-lg font-semibold mb-2 text-foreground/90">Requirements</h3>
+              <ul className="list-disc list-inside space-y-1.5 text-foreground/80 pl-2 bg-muted/30 p-4 rounded-md">
                 {bounty.requirements.map((req, index) => (
                   <li key={index}>{req}</li>
                 ))}
@@ -82,12 +99,19 @@ export function SelectedBountyDetails({ bounty, onClose }: SelectedBountyDetails
             </div>
           )}
         </CardContent>
-        <CardFooter className="flex justify-end">
-          <Button asChild className="gradient-bg hover:opacity-90 text-white">
+        <CardFooter className="bg-muted/30 p-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <Button asChild variant="outline" className="w-full sm:w-auto">
             <Link href={bounty.githubLink} target="_blank" rel="noopener noreferrer">
-              View on GitHub <ExternalLinkIcon className="h-4 w-4 ml-2" />
+              <ExternalLinkIcon className="h-4 w-4 mr-2" />
+              View Issue on GitHub
             </Link>
           </Button>
+          {bounty.status === 'open' && (
+            <Button onClick={handleApplyClick} className="gradient-bg hover:opacity-90 text-white w-full sm:w-auto">
+              <RocketIcon className="h-4 w-4 mr-2" />
+              Apply for Bounty
+            </Button>
+          )}
         </CardFooter>
       </Card>
     </div>

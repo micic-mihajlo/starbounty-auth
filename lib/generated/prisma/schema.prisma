@@ -15,12 +15,64 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(cuid())
-  clerkId       String
-  username      String?
-  githubStats   Json
-  createdAt     DateTime @default(now())
-  walletAddress String?  @unique
-  updatedAt     DateTime @updatedAt
-  imageUrl      String?
+  id              String        @id @default(cuid())
+  clerkId         String        @unique
+  username        String?
+  githubStats     Json
+  createdAt       DateTime      @default(now())
+  walletAddress   String?       @unique
+  updatedAt       DateTime      @updatedAt
+  imageUrl        String?
+  bountiesCreated Bounty[]
+  pullRequests    PullRequest[]
+}
+
+enum BountyStatus {
+  OPEN
+  IN_PROGRESS
+  PR_SUBMITTED
+  MERGED
+  PAID
+  CLOSED
+}
+
+enum PullRequestStatus {
+  SUBMITTED
+  MERGED
+  CLOSED
+}
+
+model Bounty {
+  id           String        @id @default(cuid())
+  issueUrl     String        @unique
+  title        String
+  description  String
+  repository   String
+  issueNumber  Int
+  githubLink   String
+  keywords     Json
+  requirements Json
+  reward       String
+  status       BountyStatus  @default(OPEN)
+  creator      User          @relation(fields: [creatorId], references: [id])
+  creatorId    String
+  pullRequests PullRequest[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model PullRequest {
+  id             String            @id @default(cuid())
+  githubPrNumber Int
+  repo           String
+  bounty         Bounty            @relation(fields: [bountyId], references: [id])
+  bountyId       String
+  developer      User              @relation(fields: [developerId], references: [id])
+  developerId    String
+  demoUrl        String?
+  status         PullRequestStatus @default(SUBMITTED)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([githubPrNumber, repo], name: "githubPrNumber_repo")
 }
